@@ -21,7 +21,9 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  mode: 'history',
 });
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
