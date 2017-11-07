@@ -1,33 +1,20 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Main from '@/components/Main';
-import Sales from '@/components/Sales';
-import Overview from '@/components/Overview';
-import Financial from '@/components/Financial';
-import SupplyChain from '@/components/SupplyChain';
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 import App from './App';
+import router from './router';
 
-Vue.use(VueRouter);
 
-const routes = [
-  { path: '/sales', component: Sales },
-  { path: '/overview', component: Overview },
-  { path: '/financial', component: Financial },
-  { path: '/supplyChain', component: SupplyChain },
-  { path: '/', component: Main },
-];
+Vue.config.productionTip = false;
 
-const router = new VueRouter({
-  routes,
-  mode: 'history',
-});
+Vue.use(Vuetify);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  render: h => h(App),
+  template: '<App/>',
+  components: { App },
 });
-
