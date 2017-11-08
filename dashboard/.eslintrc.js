@@ -24,7 +24,10 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
-     'semi': ["error", "never"],
+    'arrow-body-style': ["error", "never"],    
+    'arrow-body-style': 2,
+    'comma-dangle': ["error", "never"],
+    'semi': ["error", "never"],
     'linebreak-style': 0,
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {

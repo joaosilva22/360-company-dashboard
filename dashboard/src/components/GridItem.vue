@@ -10,8 +10,8 @@
    computed: {
      style() {
        return `grid-row: ${this.row} / span ${this.height}; grid-column: ${this.col} / span ${this.width};`
-     },
-   },
+     }
+   }
  }
 </script>
 

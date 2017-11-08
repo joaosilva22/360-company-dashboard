@@ -13,27 +13,27 @@ export default new Router({
     {
       path: '/',
       name: 'root',
-      component: Main,
+      component: Main
     },
     {
       path: '/financial',
       name: 'financial',
-      component: Financial,
+      component: Financial
     },
     {
       path: '/overview',
       name: 'overview',
-      component: Overview,
+      component: Overview
     },
     {
       path: '/sales',
       name: 'sales',
-      component: Sales,
+      component: Sales
     },
     {
       path: '/supplyChain',
       name: 'supplyChain',
-      component: SupplyChain,
-    },
-  ],
+      component: SupplyChain
+    }
+  ]
 })

@@ -10,8 +10,8 @@
    computed: {
      style() {
        return `grid-template: repeat(${this.rows}, 1fr) / repeat(${this.cols}, 1fr);`
-     },
-   },
+     }
+   }
  }
 </script>
 

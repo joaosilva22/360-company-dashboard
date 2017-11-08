@@ -17,7 +17,7 @@
  import GridItem from '@/components/GridItem'
  
  export default {
-   components: { Grid, GridItem },
+   components: { Grid, GridItem }
  }
 </script>
 
