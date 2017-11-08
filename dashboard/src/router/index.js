@@ -1,12 +1,12 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Main from '@/components/Main';
-import Financial from '@/components/Financial';
-import Overview from '@/components/Overview';
-import Sales from '@/components/Sales';
-import SupplyChain from '@/components/SupplyChain';
+import Vue from 'vue'
+import Router from 'vue-router'
+import Main from '@/components/Main'
+import Financial from '@/components/Financial'
+import Overview from '@/components/Overview'
+import Sales from '@/components/Sales'
+import SupplyChain from '@/components/SupplyChain'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   routes: [
@@ -36,4 +36,4 @@ export default new Router({
       component: SupplyChain,
     },
   ],
-});
+})
