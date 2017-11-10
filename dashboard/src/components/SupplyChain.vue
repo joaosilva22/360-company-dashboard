@@ -1,16 +1,11 @@
 <template>
   <div>
-      <h1>SupplyChain</h1>
+    <h1>SupplyChain</h1>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-
-    }
-  }
-}
+ export default {
+ };
 </script>
 

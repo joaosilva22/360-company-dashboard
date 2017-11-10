@@ -9,10 +9,10 @@
    props: ['rows', 'cols'],
    computed: {
      style() {
-       return `grid-template: repeat(${this.rows}, 1fr) / repeat(${this.cols}, 1fr);`
-     }
-   }
- }
+       return `grid-template: repeat(${this.rows}, 1fr) / repeat(${this.cols}, 1fr); grid-column-gap: 5px; grid-row-gap: 5px; padding: 5px;`;
+     },
+   },
+ };
 </script>
 
 <style scoped>

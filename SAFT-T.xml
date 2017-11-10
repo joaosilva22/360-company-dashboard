@@ -31,7 +31,7 @@
 			<Account>
 				<AccountID>11</AccountID>
 				<AccountDescription>Caixa</AccountDescription>
-				<OpeningDebitBalance>17665.92</OpeningDebitBalance>
+	 			<OpeningDebitBalance>17665.92</OpeningDebitBalance>
 				<OpeningCreditBalance>8842.92</OpeningCreditBalance>
 				<ClosingDebitBalance>19363.29</ClosingDebitBalance>
 				<ClosingCreditBalance>9402.92</ClosingCreditBalance>

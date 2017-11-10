@@ -1,32 +1,33 @@
 <template>
-  <div>
-      <h1>Sales</h1>
-  </div>
+  <grid rows="12" cols="12">
+    <grid-item row="1" height="4" col="1" width="4">
+      <total-sales></total-sales>
+    </grid-item>
+    <grid-item row="1" height="2" col="5" width="4">
+      <average-sale-value></average-sale-value>
+    </grid-item>
+    <grid-item row="1" height="2" col="9" width="4">
+      <average-sale-value></average-sale-value>
+    </grid-item>
+  </grid>
 </template>
 
 <script>
-import Sales from '@/services/Sales'
+ import Grid from '@/components/Grid';
+ import GridItem from '@/components/GridItem';
+ import TotalSales from '@/components/TotalSales';
+ import AverageSaleValue from '@/components/AverageSaleValue';
 
-export default {
-  data() {
-    return {
-      timeTo: '01-10-2017',
-      timeFrom: '01-11-2017'
-    }
-  },
-
-  methods: {
-    async salesBackloq() {
-      try {
-        await Sales.backloq({
-          timeTo: this.timeTo,
-          timeFrom: this.timeFrom
-        })
-      } catch (error) {
-        this.error = error.response.data.error
-      }
-    }
-  }
-}
+ export default {
+   components: {
+     Grid,
+     GridItem,
+     TotalSales,
+     AverageSaleValue,
+   },
+ };
 </script>
+
+<style scoped>
+</style>
 
