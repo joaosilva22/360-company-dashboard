@@ -19,7 +19,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double STKAtual
+        public double STKActual
         {
             get;
             set;
@@ -31,7 +31,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double Iva
+        public String Iva
         {
             get;
             set;
@@ -61,7 +61,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public Double QtdReservadaGPR
+        public Double QtReservadaGPR
         {
             get;
             set;
