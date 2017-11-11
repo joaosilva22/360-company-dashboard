@@ -25,5 +25,46 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public double PCMedio
+        {
+            get;
+            set;
+        }
+
+        public double Iva
+        {
+            get;
+            set;
+        }
+
+        public string UnidadeVenda
+        {
+            get;
+            set;
+        }
+
+        public string UnidadeCompra
+        {
+            get;
+            set;
+        }
+
+        public DateTime DataUltimaAtualizacao
+        {
+            get;
+            set;
+        }
+
+        public Double Desconto
+        {
+            get;
+            set;
+        }
+
+        public Double QtdReservadaGPR
+        {
+            get;
+            set;
+        }
     }
 }
