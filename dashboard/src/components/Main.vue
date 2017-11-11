@@ -13,12 +13,12 @@
 </template>
 
 <script>
- import Grid from '@/components/Grid'
- import GridItem from '@/components/GridItem'
+ import Grid from '@/components/Grid';
+ import GridItem from '@/components/GridItem';
  
  export default {
-   components: { Grid, GridItem }
- }
+   components: { Grid, GridItem },
+ };
 </script>
 
 <style scoped>
