@@ -1,12 +1,25 @@
 <template>
   <grid rows="12" cols="12">
-    <grid-item row="1" height="4" col="1" width="4">
+    <grid-item row="1" height="1" col="1" width="12">
+      <date-picker
+        start-year="2016"
+        start-month="6"
+        end-year="2020"
+        end-month="6"
+        @fromYear="updateFromYear"
+        @fromMonth="updateFromMonth"
+        @toYear="updateToYear"
+        @toMonth="updateToMonth"
+      >
+      </date-picker>
+    </grid-item>
+    <grid-item row="2" height="4" col="1" width="4">
       <total-sales></total-sales>
     </grid-item>
-    <grid-item row="1" height="2" col="5" width="4">
+    <grid-item row="2" height="3" col="5" width="4">
       <average-sale-value></average-sale-value>
     </grid-item>
-    <grid-item row="1" height="2" col="9" width="4">
+    <grid-item row="2" height="5" col="9" width="4">
       <average-sale-value></average-sale-value>
     </grid-item>
   </grid>
@@ -17,13 +30,37 @@
  import GridItem from '@/components/GridItem';
  import TotalSales from '@/components/TotalSales';
  import AverageSaleValue from '@/components/AverageSaleValue';
-
+ import DatePicker from '@/components/DatePicker';
+ 
  export default {
+   data() {
+     return {
+       fromYear: 0,
+       fromMonth: 0,
+       toYear: 0,
+       toMonth: 0,
+     };
+   },
    components: {
      Grid,
      GridItem,
      TotalSales,
      AverageSaleValue,
+     DatePicker,
+   },
+   methods: {
+     updateFromYear(value) {
+       this.fromYear = value;
+     },
+     updateFromMonth(value) {
+       this.fromMonth = value;
+     },
+     updateToYear(value) {
+       this.toYear = value;
+     },
+     updateToMonth(value) {
+       this.toMonth = value;
+     },
    },
  };
 </script>
