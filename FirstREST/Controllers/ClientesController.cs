@@ -36,6 +36,25 @@ namespace FirstREST.Controllers
             }
         }
 
+        // GET api/Clientes/top&initialDate=2015-03-12&finalDate=2017-03-12
+        public IEnumerable<Lib_Primavera.Model.Cliente> Get(string top, DateTime initialDate, DateTime finalDate)
+        {
+
+            IEnumerable<Lib_Primavera.Model.Cliente> clientes = null;
+            if(top.Equals("top"))
+                clientes = Lib_Primavera.PriIntegration.ListaClientesOrdenadoValor(initialDate, finalDate);
+            if (clientes == null)
+            {
+                throw new HttpResponseException(
+                        Request.CreateResponse(HttpStatusCode.NotFound));
+
+            }
+            else
+            {
+                return clientes;
+            }
+        }
+
 
         public HttpResponseMessage Post(Lib_Primavera.Model.Cliente cliente)
         {

@@ -47,6 +47,12 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public long valor
+        {
+            get;
+            set;
+        }
+
         public string Email
         {
             get;
