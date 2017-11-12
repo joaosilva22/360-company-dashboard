@@ -799,5 +799,47 @@ namespace FirstREST.Lib_Primavera
 
         #endregion DocsVenda
 
+
+        #region Financas
+
+        public static IEnumerable<Lib_Primavera.Model.Pagamento> getPagamentos(DateTime initialDate, DateTime finalDate)
+        {
+            StdBELista objList;
+            List<Model.Pagamento> listPays = new List<Model.Pagamento>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(
+                "SELECT CabecDoc.Id AS CabecDocId, CabecDoc.Nome AS CabecDocNome, CabecDoc.Entidade AS CabecDocEntidade, CabecDoc.Moeda AS CabecDocMoeda, CabecDoc.Data AS CabecDocData, " +
+                "LinhasDoc.Id AS LinhasDocId, LinhasDoc.PrecoLiquido AS LinhasDocPrecoLiquido " +
+                "FROM CabecDoc " +
+                "INNER JOIN LinhasDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                "INNER JOIN Artigo ON Artigo.Artigo = LinhasDoc.Artigo " +
+                "WHERE CabecDoc.Data >= '" + initialDate.ToString("yyyyMMdd") + "' AND CabecDoc.Data <= '" + finalDate.ToString("yyyyMMdd") + "' " +
+                "ORDER BY CabecDoc.Data"
+                    );
+
+                while (!objList.NoFim())
+                {
+
+                    listPays.Add(new Model.Pagamento
+                    {
+                        Nome = objList.Valor("CabecDocNome"),
+                        valor = objList.Valor("LinhasDocPrecoLiquido"),
+                        Moeda = objList.Valor("CabecDocMoeda"),
+                        Data = objList.Valor("CabecDocData"),
+                    });
+                    objList.Seguinte();
+
+
+                }
+
+                return listPays;
+            }
+            else return null;
+        }
+
+        #endregion Financas
     }
 }
