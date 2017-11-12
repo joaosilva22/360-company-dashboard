@@ -22,6 +22,10 @@
     <grid-item row="2" height="5" col="9" width="4">
       <average-sale-value></average-sale-value>
     </grid-item>
+
+    <grid-item row="7" height="6" col="1" width="8">
+      <latest-sales></latest-sales>
+    </grid-item>
   </grid>
 </template>
 
@@ -31,6 +35,7 @@
  import TotalSales from '@/components/TotalSales';
  import AverageSaleValue from '@/components/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
+ import LatestSales from '@/components/LatestSales';
  
  export default {
    data() {
@@ -47,6 +52,7 @@
      TotalSales,
      AverageSaleValue,
      DatePicker,
+     LatestSales,
    },
    methods: {
      updateFromYear(value) {

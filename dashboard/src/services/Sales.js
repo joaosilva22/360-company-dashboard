@@ -7,4 +7,7 @@ export default {
   averageSaleValue() {
     return axios.get('average-sale-value');
   },
+  salesInvoices() {
+    return axios.get('sales-invoices');
+  },
 };
