@@ -49,44 +49,7 @@ namespace FirstREST.Lib_Primavera
                 return null;
         }
 
-        public static List<Model.Cliente> ListaClientesOrdenadoValor(DateTime initialDate, DateTime finalDate)
-        {
-
-            List<Model.Cliente> clientes = new List<Model.Cliente>();
-
-            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
-                return clientes;
-
-            StdBELista queryClientes = PriEngine.Engine.Consulta(
-                "SELECT CabecDoc.Id AS CabecDocId, CabecDoc.Nome AS CabecDocNome, CabecDoc.Entidade AS CabecDocEntidade, CabecDoc.Moeda AS CabecDocMoeda, CabecDoc.TipoDoc AS CabecDocTipoDoc, CabecDoc.Data AS CabecDocData, " +
-                "SUM(LinhasDoc.PrecoLiquido) AS ValorCliente" +
-                "Iva.Taxa AS IvaTaxa " +
-                "FROM CabecDoc " +
-                "INNER JOIN LinhasDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
-                "INNER JOIN Artigo ON Artigo.Artigo = LinhasDoc.Artigo " +
-                "INNER JOIN Iva ON LinhasDoc.CodIva = Iva.Iva " +
-                "WHERE CabecDoc.Data >= '" + initialDate.ToString("yyyyMMdd") + "' AND CabecDoc.Data <= '" + finalDate.ToString("yyyyMMdd") + "' " +
-                "GROUP BY CabecDoc.Nome" +
-                "ORDER BY CabecDoc.Nome ASC"
-                );
-
-            while (!queryClientes.NoFim())
-            {
-                Model.Cliente cliente = new Model.Cliente();
-
-                cliente.NomeCliente = queryClientes.Valor("CabecDocNome");
-                cliente.valor = queryClientes.Valor("ValorCliente");
-                cliente.Moeda = queryClientes.Valor("CabecDocMoeda");
-
-                clientes.Add(cliente);
-
-                // Next item:
-                queryClientes.Seguinte();
-            }
-
-            return clientes;
-        }
-
+        
         public static Lib_Primavera.Model.Cliente GetCliente(string codCliente)
         {
 
@@ -836,5 +799,47 @@ namespace FirstREST.Lib_Primavera
 
         #endregion DocsVenda
 
+
+        #region Financas
+
+        public static IEnumerable<Lib_Primavera.Model.Pagamento> getPagamentos(DateTime initialDate, DateTime finalDate)
+        {
+            StdBELista objList;
+            List<Model.Pagamento> listPays = new List<Model.Pagamento>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(
+                "SELECT CabecDoc.Id AS CabecDocId, CabecDoc.Nome AS CabecDocNome, CabecDoc.Entidade AS CabecDocEntidade, CabecDoc.Moeda AS CabecDocMoeda, CabecDoc.Data AS CabecDocData, " +
+                "LinhasDoc.Id AS LinhasDocId, LinhasDoc.PrecoLiquido AS LinhasDocPrecoLiquido " +
+                "FROM CabecDoc " +
+                "INNER JOIN LinhasDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                "INNER JOIN Artigo ON Artigo.Artigo = LinhasDoc.Artigo " +
+                "WHERE CabecDoc.Data >= '" + initialDate.ToString("yyyyMMdd") + "' AND CabecDoc.Data <= '" + finalDate.ToString("yyyyMMdd") + "' " +
+                "ORDER BY CabecDoc.Data"
+                    );
+
+                while (!objList.NoFim())
+                {
+
+                    listPays.Add(new Model.Pagamento
+                    {
+                        Nome = objList.Valor("CabecDocNome"),
+                        valor = objList.Valor("LinhasDocPrecoLiquido"),
+                        Moeda = objList.Valor("CabecDocMoeda"),
+                        Data = objList.Valor("CabecDocData"),
+                    });
+                    objList.Seguinte();
+
+
+                }
+
+                return listPays;
+            }
+            else return null;
+        }
+
+        #endregion Financas
     }
 }
