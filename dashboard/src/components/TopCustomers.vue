@@ -74,6 +74,7 @@
      padding: 0;
      border-bottom: 1px solid black;
      overflow: hidden;
+     display: table;
  }
 
  .table {
