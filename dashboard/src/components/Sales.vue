@@ -13,14 +13,22 @@
       >
       </date-picker>
     </grid-item>
-    <grid-item row="2" height="4" col="1" width="4">
+    <grid-item row="2" height="2" col="1" width="3">
       <total-sales></total-sales>
     </grid-item>
-    <grid-item row="2" height="3" col="5" width="4">
+    <grid-item row="2" height="3" col="4" width="3">
       <average-sale-value></average-sale-value>
     </grid-item>
     <grid-item row="2" height="5" col="9" width="4">
       <average-sale-value></average-sale-value>
+    </grid-item>
+
+    <grid-item row="7" height="6" col="1" width="4">
+      <latest-sales></latest-sales>
+    </grid-item>
+
+    <grid-item row="7" height="6" col="5" width="4">
+      <top-customers></top-customers>
     </grid-item>
   </grid>
 </template>
@@ -31,6 +39,8 @@
  import TotalSales from '@/components/TotalSales';
  import AverageSaleValue from '@/components/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
+ import LatestSales from '@/components/LatestSales';
+ import TopCustomers from '@/components/TopCustomers';
  
  export default {
    data() {
@@ -47,6 +57,8 @@
      TotalSales,
      AverageSaleValue,
      DatePicker,
+     LatestSales,
+     TopCustomers,
    },
    methods: {
      updateFromYear(value) {

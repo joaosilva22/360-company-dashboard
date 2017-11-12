@@ -6,7 +6,7 @@
         <h1>Time Interval</h1>
       </div>
       
-      <div class="cell">
+      <div class="cell">        
         <select v-model="fromYear">
           <option v-for="n in range(startYear, endYear)" :value="n">
             {{ n }}
