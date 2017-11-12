@@ -55,13 +55,15 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public Double Desconto
+
+
+        public Double QtReservadaGPR
         {
             get;
             set;
         }
 
-        public Double QtReservadaGPR
+        public Double Desconto
         {
             get;
             set;

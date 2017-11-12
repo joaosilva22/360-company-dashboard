@@ -21,6 +21,11 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.ListaArtigos();
         }
 
+        public IEnumerable<Lib_Primavera.Model.Artigo> Get( DateTime dataDe, DateTime dataAte)
+        {
+            return Lib_Primavera.PriIntegration.ListaArtigosDate( dataDe, dataAte);
+        }
+
 
         // GET api/Artigos/5    
         public Artigo Get(string id)

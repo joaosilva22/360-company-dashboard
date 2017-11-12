@@ -36,7 +36,7 @@ namespace FirstREST.Controllers
             }
         }
 
-        // GET api/Clientes/top&initialDate=2015-03-12&finalDate=2017-03-12
+        // GET api/Clientes?top&initialDate=2015-03-12&finalDate=2017-03-12
         public IEnumerable<Lib_Primavera.Model.Cliente> Get(string top, DateTime initialDate, DateTime finalDate)
         {
 

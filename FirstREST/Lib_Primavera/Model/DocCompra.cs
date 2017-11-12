@@ -27,11 +27,7 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public int NumDoc
-        {
-            get;
-            set;
-        }
+
 
         public DateTime DataDoc
         {
@@ -45,11 +41,12 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public string Serie
+        public double TotalIva
         {
             get;
             set;
         }
+
 
         public string NomeFornecedor
         {
@@ -63,6 +60,20 @@ namespace FirstREST.Lib_Primavera.Model
             get;
             set;
         }
+
+        public double TotalOutros
+        {
+            get;
+            set;
+        }
+
+        public double TotalDocumento
+        {
+            get;
+            set;
+        }
+
+
 
         public List<Model.LinhaDocCompra> LinhasDoc
         {
