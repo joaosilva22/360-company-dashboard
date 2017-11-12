@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>All Sales</h1>
+    <h1>All Customers</h1>
     <div class="table">
       <v-data-table
         v-bind:headers="headers"
@@ -8,9 +8,8 @@
         hide-actions
       >
         <template slot="items" scope="props">
-          <td>{{ props.item.customer }}</td>
-          <td class="text-xs-right">{{ props.item.date }}</td>
-          <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+          <td>{{ props.item.customerName }}</td>
+          <td class="text-xs-right">{{ formatVal(props.item.netValue) }}</td>
         </template>
       </v-data-table>
     </div>
@@ -28,37 +27,35 @@
            text: 'Customer',
            align: 'left',
            sortable: false,
-           value: 'customer',
+           value: 'customerName',
          },
-         { text: 'Date', value: 'date' },
-         { text: 'Net Value (EUR)', value: 'net' },
+         { text: 'Net Value (EUR)', value: 'netValue' },
        ],
        items: [],
      };
    },
    created() {
-     this.salesInvoices().then((res) => {
-       res.data.forEach((invoice) => {
-         const customerId = invoice.CustomerID[0];
-         const date = invoice.InvoiceDate[0];
-         const net = invoice.DocumentTotals[0].NetTotal[0];
-         this.customer(customerId).then((res1) => {
-           const customer = res1.data.CompanyName[0];
+     this.customers().then((res) => {
+       const customers = res.data.customers;
+       customers.forEach((customer) => {
+         const customerId = customer.CustomerID[0];
+         const customerName = customer.CompanyName[0];
+         this.customerNetValue(customerId).then((res1) => {
+           const netValue = res1.data.netValue;
            this.items.push({
-             customer,
-             date,
-             net,
+             customerName,
+             netValue,
            });
          });
        });
      });
    },
    methods: {
-     salesInvoices() {
-       return Sales.salesInvoices();
+     customers() {
+       return Sales.customers();
      },
-     customer(customerId) {
-       return Sales.customer(customerId);
+     customerNetValue(customerId) {
+       return Sales.customerNetValue(customerId);
      },
      formatVal(value) {
        const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
@@ -83,7 +80,6 @@
  .table {
      max-height: 100%;
      border: 1px solid black;
-     border-bottom: none;
      overflow: scroll;
  }
 

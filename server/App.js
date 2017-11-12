@@ -41,6 +41,20 @@ app.get('/api/average-sale-value', (req, res) => {
   res.json(getAverageSaleValue(auditFile));
 });
 
+app.get('/api/customers', (req, res) => {
+  res.json(getCustomers(auditFile));
+});
+
+app.get('/api/customers/:id', (req, res) => {
+  const customerId = req.params.id;
+  res.json(getCustomer(auditFile, customerId));
+});
+
+app.get('/api/customers/:id/net-value', (req, res) => {
+  const customerId = req.params.id;
+  res.json(getCustomerNetValue(auditFile, customerId));
+});
+
 app.listen(3000, () => console.log('Server listening on port 3000...'));
 
 const getStartDate = (auditFile) => {
@@ -87,5 +101,35 @@ const getAverageSaleValue = (auditFile) => {
   const average = totalValue / totalNumber;
   return {
     average,
+  };
+}
+
+const getCustomer = (auditFile, customerId) => {
+  const masterFiles = auditFile.MasterFiles[0];
+  const customers = masterFiles.Customer;
+  return customers.filter((customer) => {
+    return customer.CustomerID[0] === customerId
+  })[0];
+}
+
+const getCustomers = (auditFile) => {
+  const masterFiles = auditFile.MasterFiles[0];
+  const customers = masterFiles.Customer;
+  return {
+    customers,
+  };
+}
+
+const getCustomerNetValue = (auditFile, customerId) => {
+  const invoices = getSalesInvoices(auditFile);
+  const relevantInvoices = invoices.filter((invoice) => {
+    return invoice.CustomerID[0] === customerId;
+  });
+  let netValue = 0;
+  relevantInvoices.forEach((invoice) => {
+    netValue += parseFloat(invoice.DocumentTotals[0].NetTotal[0], 10);
+  });
+  return {
+    netValue,
   };
 }
