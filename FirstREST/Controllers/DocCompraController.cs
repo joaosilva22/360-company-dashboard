@@ -18,11 +18,10 @@ namespace FirstREST.Controllers
           
         }
 
-       //get  api/DocCompra/VFA
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String tipoDoc)      
+       //get  api/DocCompra/Sociedade de Fornecimentos, Lda.
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String nomeFornecedor)      
         {
-            Console.WriteLine(tipoDoc);
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra =  Lib_Primavera.PriIntegration.ListTipoDoc(tipoDoc);
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra =  Lib_Primavera.PriIntegration.ListTipoDoc(nomeFornecedor);
             if (docCompra == null)
             {
                 throw new HttpResponseException(
@@ -34,13 +33,12 @@ namespace FirstREST.Controllers
                 return docCompra;
             }
         }
-
-
-        //get  api/DocCompra?VFA&dateDe=2015-03-12&dateAte=2017-03-12
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String tipoDoc, DateTime dataDe, DateTime dataAte)
+        
+        //get  api/DocCompra/Sociedade de Fornecimentos, Lda./2015-03-12/2017-03-12
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String nomeFornecedor, DateTime dataDe, DateTime dataAte)
         {
-            Console.WriteLine(tipoDoc);
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(tipoDoc, dataDe, dataAte);
+            Console.WriteLine(nomeFornecedor);
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(nomeFornecedor, dataDe, dataAte);
             if (docCompra == null)
             {
                 throw new HttpResponseException(
