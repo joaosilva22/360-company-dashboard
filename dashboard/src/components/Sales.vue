@@ -39,7 +39,7 @@
  import TotalSales from '@/components/TotalSales';
  import AverageSaleValue from '@/components/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
- import LatestSales from '@/components/LatestSales';
+ // import LatestSales from '@/components/LatestSales';
  // import TopCustomers from '@/components/TopCustomers';
  
  export default {
@@ -57,7 +57,7 @@
      TotalSales,
      AverageSaleValue,
      DatePicker,
-     LatestSales,
+     // LatestSales,
      // TopCustomers,
    },
    methods: {
