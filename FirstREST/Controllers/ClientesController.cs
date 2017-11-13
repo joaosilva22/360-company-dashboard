@@ -21,8 +21,9 @@ namespace FirstREST.Controllers
 
 
         // GET api/Clientes/5    
-        public Cliente Get(string id)
+        public Cliente Get(string arg1)
         {
+            string id = arg1;
             Lib_Primavera.Model.Cliente cliente = Lib_Primavera.PriIntegration.GetCliente(id);
             if (cliente == null)
             {
@@ -36,7 +37,7 @@ namespace FirstREST.Controllers
             }
         }
 
-
+        
         public HttpResponseMessage Post(Lib_Primavera.Model.Cliente cliente)
         {
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();

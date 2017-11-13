@@ -14,17 +14,17 @@ namespace FirstREST.Controllers
     public class ArtigosController : ApiController
     {
         //
-        // GET: /Artigos/
-
+        // GET: api/Artigos
         public IEnumerable<Lib_Primavera.Model.Artigo> Get()
         {
             return Lib_Primavera.PriIntegration.ListaArtigos();
         }
 
 
-        // GET api/Artigos/5    
-        public Artigo Get(string id)
+        // GET api/Artigos/A0001   
+        public Artigo Get(string arg1)
         {
+            string id = arg1;
             Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
             if (artigo == null)
             {
@@ -36,6 +36,20 @@ namespace FirstREST.Controllers
                 return artigo;
             }
         }
+
+
+        //GET: api/artigos/2014-12-12/2017-12-12
+        public IEnumerable<Lib_Primavera.Model.Artigo> Get( DateTime arg1, DateTime arg2)
+        {
+            DateTime dataDe = arg1;
+            DateTime dataAte = arg2;
+
+            return Lib_Primavera.PriIntegration.ListaArtigosDate(dataDe, dataAte);
+        }
+
+
+
+
 
     }
 }
