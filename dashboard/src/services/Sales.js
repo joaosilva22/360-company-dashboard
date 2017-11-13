@@ -1,22 +1,21 @@
-import axios from 'axios';
 
 export default {
   totalSales() {
-    return axios.get('total-sales');
+    return this.$axios.get('total-sales');
   },
   averageSaleValue() {
-    return axios.get('average-sale-value');
+    return this.$axios.get('average-sale-value');
   },
   salesInvoices() {
-    return axios.get('sales-invoices');
+    return this.$axios.get('sales-invoices');
   },
   customers() {
-    return axios.get('customers');
+    return this.$axios.get('customers');
   },
   customer(customerId) {
-    return axios.get(`customers/${customerId}`);
+    return this.$axios.get(`customers/${customerId}`);
   },
   customerNetValue(customerId) {
-    return axios.get(`customers/${customerId}/net-value`);
+    return this.$axios.get(`customers/${customerId}/net-value`);
   },
 };

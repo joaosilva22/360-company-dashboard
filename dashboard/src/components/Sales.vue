@@ -40,7 +40,7 @@
  import AverageSaleValue from '@/components/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
  import LatestSales from '@/components/LatestSales';
- import TopCustomers from '@/components/TopCustomers';
+ // import TopCustomers from '@/components/TopCustomers';
  
  export default {
    data() {
@@ -58,7 +58,7 @@
      AverageSaleValue,
      DatePicker,
      LatestSales,
-     TopCustomers,
+     // TopCustomers,
    },
    methods: {
      updateFromYear(value) {

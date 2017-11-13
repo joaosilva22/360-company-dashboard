@@ -13,6 +13,12 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
 axios.defaults.baseURL = 'http://localhost:3000/api/';
+Vue.use(axios);
+
+const Primavera = axios.create();
+Primavera.defaults.baseURL = 'http://localhost:49822/api';
+Vue.use(Primavera);
+
 
 /* eslint-disable no-new */
 new Vue({

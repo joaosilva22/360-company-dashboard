@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Main from '@/components/Main';
-import Financial from '@/components/Financial';
-import Overview from '@/components/Overview';
+import Financial from '@/components/Financial/Financial';
+import Overview from '@/components/Overview/Overview';
 import Sales from '@/components/Sales';
-import SupplyChain from '@/components/SupplyChain';
+import SupplyChain from '@/components/SupplyChain/SupplyChain';
 
 Vue.use(Router);
 
