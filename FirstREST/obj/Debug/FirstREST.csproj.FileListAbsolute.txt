@@ -96,3 +96,7 @@ C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\System.Web.WebPages.xm
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\System.Web.WebPages.Deployment.xml
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\System.Web.WebPages.Razor.xml
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\obj\Debug\FirstREST.pdb
+C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.dll
+C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.dll
+C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.xml
+C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.xml
