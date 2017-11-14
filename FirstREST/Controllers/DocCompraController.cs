@@ -37,7 +37,7 @@ namespace FirstREST.Controllers
             }
         }
 
-        //encomenda tipoDoc= ECF
+    
         //fatura tipoDoc = VFA
 
         //get  api/DocCompra/VFA/2015-03-12/2017-03-12

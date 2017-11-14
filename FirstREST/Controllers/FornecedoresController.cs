@@ -19,12 +19,30 @@ namespace FirstREST.Controllers
 
         }
 
-        //get  api/DocCompra/VFA/2015-03-12/017-03-12
+        //get  api/Fornecedores/nomeFornecedor
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1)
+        {
+            String nomeFornecedor = arg1;
+
+            IEnumerable<Lib_Primavera.Model.DocCompra> fornecedores = Lib_Primavera.PriIntegration.ListFornecedor(nomeFornecedor);
+            if (fornecedores == null)
+            {
+                throw new HttpResponseException(
+                        Request.CreateResponse(HttpStatusCode.NotFound));
+
+            }
+            else
+            {
+                return fornecedores;
+            }
+        }
+
+        //get  api/Fornecedores/VFA/2015-03-12/2017-03-12
         public IEnumerable<Lib_Primavera.Model.Fornecedor> Get(String arg1, DateTime arg2, DateTime arg3)
         {
             String tipoDoc = arg1;
-            DateTime dateDe = arg2;
-            DateTime dateAte = arg3;
+            DateTime dataDe = arg2;
+            DateTime dataAte = arg3;
 
             IEnumerable<Lib_Primavera.Model.Fornecedor> fornecedores = Lib_Primavera.PriIntegration.ListFornecedoresTipoDocData(tipoDoc, dataDe, dataAte);
             if (fornecedores == null)

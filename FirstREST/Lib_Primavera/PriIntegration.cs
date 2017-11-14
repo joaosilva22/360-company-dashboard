@@ -806,20 +806,27 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
-        public static List<Model.Fornecedor> ListForecedorTipoDoc(string tipoDoc)
+        public static List<Model.DocCompra> ListFornecedor(String nomeFornecedor)
         {
             StdBELista objListCab;
-            Model.Fornecedor dc = new Model.Fornecedor();
-            List<Model.Fornecedor> listdc = new List<Model.Fornecedor>();
+            Model.DocCompra dc = new Model.DocCompra();
+            List<Model.DocCompra> listdc = new List<Model.DocCompra>();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT  Nome N1, TipoDoc T1 from CabecCompras C1 inner join (select   Distinct Nome N2 from CabecCompras) C2 on C2.N2 = C1.Nome where TipoDoc=' " + tipoDoc + "' group by Nome, TipoDoc");
+                objListCab = PriEngine.Engine.Consulta("SELECT id, TipoDoc, DataDoc, TotalMerc, TotalIva, TotalDesc,  TotalOutros, TotalDocumento,  Nome  From CabecCompras where Nome='"+ nomeFornecedor +"'");
                 while (!objListCab.NoFim())
                 {
-                    dc = new Model.Fornecedor();
-                    dc.NomeFornecedor = objListCab.Valor("Nome");
+                    dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
+                    dc.DataDoc = objListCab.Valor("DataDoc");
+                    dc.TotalMerc = objListCab.Valor("TotalMerc");
+                    dc.TotalIva = objListCab.Valor("TotalIva");
+                    dc.TotalDesc = objListCab.Valor("TotalDesc");
+                    dc.TotalOutros = objListCab.Valor("TotalOutros");
+                    dc.TotalDocumento = objListCab.Valor("TotalDocumento");
+                    dc.NomeFornecedor = objListCab.Valor("Nome");
 
                     listdc.Add(dc);
                     objListCab.Seguinte();
@@ -828,22 +835,33 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
-        public static List<Model.Fornecedor> ListFornecedoresTipoDocData(string tipoDoc, DateTime dataDe, DateTime dataAte)
+        public static List<Model.Fornecedor> ListFornecedoresTipoDocData(String tipoDoc, DateTime dataDe, DateTime dataAte)
         {
             StdBELista objListCab;
+            StdBELista objListForne;
             Model.Fornecedor dc = new Model.Fornecedor();
             List<Model.Fornecedor> listdc = new List<Model.Fornecedor>();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT  Distinct Nome From CabecCompras where TipoDoc=' " + tipoDoc + "' AND DataDoc >=' " + dataDe + "'AND DataDoc <=' " + dataAte + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT distinct Nome From CabecCompras where TipoDoc='" + tipoDoc + "' AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'"); // 
                 while (!objListCab.NoFim())
                 {
+                    String fornecedor = objListCab.Valor("Nome");
+                    Double mercadoria = 0;
+                    objListForne = PriEngine.Engine.Consulta("SELECT  TotalMerc From CabecCompras where Nome ='" + fornecedor + "'AND TipoDoc='" + tipoDoc + "' AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'");// 
+
+                    while (!objListForne.NoFim())
+                    {
+                        mercadoria += objListForne.Valor("TotalMerc");
+
+                        objListForne.Seguinte();
+                    }
+                    
                     dc = new Model.Fornecedor();
                     dc.NomeFornecedor = objListCab.Valor("Nome");
-                    dc.TipoDoc = objListCab.Valor("TipoDoc");
-                    dc.DataDoc = objListCab.Valor("DataDoc");
-
+                    dc.TipoDoc = tipoDoc;
+                    dc.TotalMerc = mercadoria;
 
                     listdc.Add(dc);
                     objListCab.Seguinte();
