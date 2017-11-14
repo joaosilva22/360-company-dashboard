@@ -243,9 +243,11 @@
     <Compile Include="Models\CompanyAddress.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentTotals.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Header.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
+    <Compile Include="Models\MasterFiles.cs" />
     <Compile Include="Models\SalesInvoices.cs" />
     <Compile Include="Models\ShipFrom.cs" />
     <Compile Include="Models\ShipTo.cs" />

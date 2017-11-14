@@ -194,6 +194,49 @@ namespace FirstREST.Controllers
 
                 #endregion                
 
+                #region MasterFiles
+
+                XElement MasterFilesElement = Doc.Root.Element(ns + "MasterFiles");
+                AuditFile.MasterFiles = new MasterFiles
+                {
+                    Customers = new List<Customer>(),
+                };
+
+                IEnumerable<XElement> CustomerElements = MasterFilesElement.Elements(ns + "Customer");
+                foreach (var CustomerElement in CustomerElements)
+                {
+                    Customer Customer = new Customer
+                    {
+                        AccountID = CustomerElement.Element(ns + "AccountID").Value,
+                        CompanyName = CustomerElement.Element(ns + "CompanyName").Value,
+                        CustomerID = CustomerElement.Element(ns + "CustomerID").Value,
+                        CustomerTaxID = CustomerElement.Element(ns + "CustomerTaxID").Value,
+                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,                                               
+                    };
+
+                    XElement BillingAddressElement = CustomerElement.Element(ns + "BillingAddress");
+                    Customer.BillingAddress = new Address
+                    {
+                        AddressDetail = BillingAddressElement.Element(ns + "AddressDetail").Value,
+                        City = BillingAddressElement.Element(ns + "City").Value,
+                        Country = BillingAddressElement.Element(ns + "Country").Value,
+                        PostalCode = BillingAddressElement.Element(ns + "PostalCode").Value,
+                    };
+
+                    XElement ShipToAddressElement = CustomerElement.Element(ns + "ShipToAddress");
+                    Customer.ShipToAddress = new Address
+                    {
+                        AddressDetail = ShipToAddressElement.Element(ns + "AddressDetail").Value,
+                        City = ShipToAddressElement.Element(ns + "City").Value,
+                        Country = ShipToAddressElement.Element(ns + "Country").Value,
+                        PostalCode = ShipToAddressElement.Element(ns + "PostalCode").Value,
+                    };
+
+                    AuditFile.MasterFiles.Customers.Add(Customer);
+                }
+
+                #endregion
+
                 Context.AuditFile.Add(AuditFile);           
                 Context.SaveChanges();
 
