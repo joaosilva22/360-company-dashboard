@@ -9,9 +9,21 @@ namespace FirstREST.Models
 {
     public class AuditFile
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id
+        [Key, ForeignKey("Header"), Column(Order=0)]
+        public int CompanyID
+        {
+            get;
+            set;
+        }
+
+        [Key, ForeignKey("Header"), Column(Order = 1)]
+        public int FiscalYear
+        {
+            get;
+            set;
+        }
+
+        public Header Header
         {
             get;
             set;

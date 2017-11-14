@@ -240,8 +240,10 @@
     <Compile Include="Lib_Primavera\PriEngine.cs" />
     <Compile Include="Models\AuditFile.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\CompanyAddress.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentTotals.cs" />
+    <Compile Include="Models\Header.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
     <Compile Include="Models\SalesInvoices.cs" />
@@ -332,6 +334,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="SAFT.xml" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

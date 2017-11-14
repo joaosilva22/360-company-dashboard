@@ -17,7 +17,7 @@ namespace FirstREST.Models
             set;
         }
 
-        public string WithholdingTaxAmount
+        public float WithholdingTaxAmount
         {
             get;
             set;

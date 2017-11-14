@@ -9,10 +9,9 @@ namespace FirstREST.Context
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext() : base("DefaultConnection") 
+        public DatabaseContext() : base("DefaultConnection")
         {
-            Database.SetInitializer<DatabaseContext>(new DropCreateDatabaseIfModelChanges<DatabaseContext>());
-        
+            Database.SetInitializer<DatabaseContext>(new DropCreateDatabaseIfModelChanges<DatabaseContext>());        
         }
 
         public DbSet<Address> Address { get; set; }
