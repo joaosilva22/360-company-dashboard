@@ -12,16 +12,19 @@ namespace FirstREST.Controllers
 {
     public class DocCompraController : ApiController
     {
-       public IEnumerable<Lib_Primavera.Model.DocCompra> Get()
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get()
         {
-                return Lib_Primavera.PriIntegration.List();
-          
+            return Lib_Primavera.PriIntegration.List();
+
         }
 
-       //get  api/DocCompra/Sociedade de Fornecimentos, Lda.
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String nomeFornecedor)      
+
+        //get  api/DocCompra/VFA
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1)
         {
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra =  Lib_Primavera.PriIntegration.ListTipoDoc(nomeFornecedor);
+            string id = arg1;
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDoc(id);
+
             if (docCompra == null)
             {
                 throw new HttpResponseException(
@@ -33,12 +36,19 @@ namespace FirstREST.Controllers
                 return docCompra;
             }
         }
-        
-        //get  api/DocCompra/Sociedade de Fornecimentos, Lda./2015-03-12/2017-03-12
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String nomeFornecedor, DateTime dataDe, DateTime dataAte)
+
+        //encomenda tipoDoc= ECF
+        //fatura tipoDoc = VFA
+
+        //get  api/DocCompra/VFA/2015-03-12/2017-03-12
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1, DateTime arg2, DateTime arg3)
         {
-            Console.WriteLine(nomeFornecedor);
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(nomeFornecedor, dataDe, dataAte);
+            string id = arg1;
+            DateTime dataDe = arg2;
+            DateTime dataAte = arg3;
+
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(id, dataDe, dataAte);
+
             if (docCompra == null)
             {
                 throw new HttpResponseException(

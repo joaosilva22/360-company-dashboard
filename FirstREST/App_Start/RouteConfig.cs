@@ -15,8 +15,8 @@ namespace FirstREST
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}/{dataDe}/{dataAte}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, dataDe = UrlParameter.Optional, dataAte = UrlParameter.Optional }
+                url: "{controller}/{action}/{arg1}/{arg2}/{arg3}",
+                defaults: new { controller = "Home", action = "Index", arg1 = UrlParameter.Optional, arg2 = UrlParameter.Optional, arg3 = UrlParameter.Optional }
             );
         }
     }

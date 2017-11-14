@@ -11,8 +11,8 @@ namespace FirstREST
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{arg1}/{arg2}/{arg3}",
+                defaults: new { arg1 = RouteParameter.Optional, arg2 = RouteParameter.Optional, arg3 = RouteParameter.Optional }
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
