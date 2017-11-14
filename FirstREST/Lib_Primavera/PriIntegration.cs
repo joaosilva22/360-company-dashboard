@@ -247,7 +247,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, UnidadeCompra, UnidadeVenda,  DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO");
+                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva,   DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO");
 
 
 
@@ -263,8 +263,6 @@ namespace FirstREST.Lib_Primavera
                     art.STKActual = objList.Valor("STKActual");
                     art.PCMedio = objList.Valor("PCMedio");
                     art.Iva = objList.Valor("Iva");
-                    art.UnidadeVenda = objList.Valor("UnidadeVenda");
-                    art.UnidadeCompra = objList.Valor("UnidadeCompra");
                     art.DataUltimaAtualizacao = objList.Valor("DataUltimaActualizacao");
                     art.Desconto = objList.Valor("Desconto");
                     art.QtReservadaGPR = objList.Valor("QtReservadaGPR");
@@ -293,7 +291,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, UnidadeCompra, UnidadeVenda,  DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO");
+                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva,   DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO");
 
                 while (!objList.NoFim())
                 {
@@ -306,8 +304,6 @@ namespace FirstREST.Lib_Primavera
                         PCMedio = objList.Valor("PCMedio"),
                         Iva = objList.Valor("Iva"),
                         Desconto = objList.Valor("Desconto"),
-                        UnidadeVenda = objList.Valor("UnidadeVenda"),
-                        UnidadeCompra = objList.Valor("UnidadeCompra"),
                         DataUltimaAtualizacao = objList.Valor("DataUltimaActualizacao"),
 
                         QtReservadaGPR = objList.Valor("QtReservadaGPR"),
@@ -345,7 +341,7 @@ namespace FirstREST.Lib_Primavera
                 Console.Write(dataDe);
                 Console.Write(dataAte);
 
-                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, UnidadeCompra, UnidadeVenda,  DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO WHERE DataUltimaActualizacao >='" + dataDe + "'AND DataUltimaActualizacao <=' " + dataAte + "'");
+                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO WHERE DataUltimaActualizacao >='" + dataDe + "'AND DataUltimaActualizacao <=' " + dataAte + "'");
 
                 while (!objList.NoFim())
                 {
@@ -358,8 +354,6 @@ namespace FirstREST.Lib_Primavera
                         STKActual = objList.Valor("STKActual"),
                         PCMedio = objList.Valor("PCMedio"),
                         Iva = objList.Valor("Iva"),
-                        UnidadeVenda = objList.Valor("UnidadeVenda"),
-                        UnidadeCompra = objList.Valor("UnidadeCompra"),
                         DataUltimaAtualizacao = objList.Valor("DataUltimaActualizacao"),
                         Desconto = objList.Valor("Desconto"),
                         QtReservadaGPR = objList.Valor("QtReservadaGPR"),
@@ -814,7 +808,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT id, TipoDoc, DataDoc, TotalMerc, TotalIva, TotalDesc,  TotalOutros, TotalDocumento,  Nome  From CabecCompras where Nome='"+ nomeFornecedor +"'");
+                objListCab = PriEngine.Engine.Consulta("SELECT id, TipoDoc, DataDoc, TotalMerc, TotalIva, TotalDesc,  TotalOutros, TotalDocumento,  Nome  From CabecCompras where Nome='" + nomeFornecedor + "'");
                 while (!objListCab.NoFim())
                 {
                     dc = new Model.DocCompra();
@@ -857,7 +851,7 @@ namespace FirstREST.Lib_Primavera
 
                         objListForne.Seguinte();
                     }
-                    
+
                     dc = new Model.Fornecedor();
                     dc.NomeFornecedor = objListCab.Valor("Nome");
                     dc.TipoDoc = tipoDoc;
@@ -871,5 +865,127 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion Fornecedor
+
+
+        #region Compras
+
+        public static Lib_Primavera.Model.Compras TotalCompras()
+        {
+            StdBELista objList;
+
+
+            Model.Compras art = new Model.Compras();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT TotalMerc FROM CabecCompras");
+                Double totalValor = 0;
+
+
+                while (!objList.NoFim())
+                {
+                    totalValor += objList.Valor("TotalMerc");
+                    objList.Seguinte();
+
+                }
+
+                art.TotalCompras = objList.NumLinhas();
+                art.TotalValor = totalValor;
+
+                return art;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
+        public static Lib_Primavera.Model.Compras TotalComprasTipoDoc(String tipoDoc)
+        {
+            StdBELista objList;
+
+
+            Model.Compras art = new Model.Compras();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT TotalMerc FROM CabecCompras where TipoDoc='" + tipoDoc + "'");
+                Double totalValor = 0;
+
+
+                while (!objList.NoFim())
+                {
+                    totalValor += objList.Valor("TotalMerc");
+                    objList.Seguinte();
+
+                }
+
+                art.TotalCompras = objList.NumLinhas();
+                art.TotalValor = totalValor;
+                art.TipoCompras = tipoDoc;
+
+                return art;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+        #endregion Compras
+
+        #region Inventario
+
+        public static Double InventarioValor()
+        {
+            StdBELista objList;
+            Double totalValor = 0;
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT PCMedio, Iva, Desconto  FROM Artigo");
+             
+
+
+                while (!objList.NoFim())
+                {
+                    Double valorArt = objList.Valor("PCMedio");
+
+                    Double desconto = (100 - objList.Valor("Desconto"))/100;
+                    valorArt *= desconto;
+
+                    Double Iva = (100 + Double.Parse(objList.Valor("Iva")))/100;
+
+                    valorArt *= Iva;
+
+                    totalValor += valorArt;
+
+                    objList.Seguinte();
+
+                }              
+
+                return totalValor;
+
+            }
+            else
+            {
+                return 0;
+
+            }
+            
+                 
+
+        }
+        #endregion Inventario
     }
 }

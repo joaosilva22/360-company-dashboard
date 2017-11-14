@@ -5,16 +5,22 @@ using System.Web;
 
 namespace FirstREST.Lib_Primavera.Model
 {
-    public class RespostaErro
+    public class Compras
     {
 
-        public int Erro
+        public string TipoCompras
         {
             get;
             set;
         }
 
-        public string Descricao
+        public double TotalCompras
+        {
+            get;
+            set;
+        }
+
+        public double TotalValor
         {
             get;
             set;

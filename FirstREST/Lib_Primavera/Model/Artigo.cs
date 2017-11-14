@@ -37,25 +37,11 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public string UnidadeVenda
-        {
-            get;
-            set;
-        }
-
-        public string UnidadeCompra
-        {
-            get;
-            set;
-        }
-
         public DateTime DataUltimaAtualizacao
         {
             get;
             set;
         }
-
-
 
         public Double QtReservadaGPR
         {

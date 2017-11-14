@@ -21,9 +21,9 @@ namespace FirstREST.Controllers
         }
 
         // GET api/Artigos/A0001   
-        public Artigo Get(string arg1)
+        public Artigo Get(String arg1)
         {
-            string id = arg1;
+            String id = arg1;
             Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
             if (artigo == null)
             {
