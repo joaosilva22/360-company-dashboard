@@ -9,9 +9,14 @@ namespace FirstREST.Controllers
 {
     public class FinancasController : ApiController
     {
-        // GET /api/Financas?action=[acao]&initialDate=[date]&finalDate=[date]
-        public IEnumerable<Lib_Primavera.Model.Pagamento> Get(string action, DateTime initialDate, DateTime finalDate)
+        // GET /api/Financas/[acao]/[date]/[date]
+        public IEnumerable<Lib_Primavera.Model.Pagamento> Get(string arg1, DateTime arg2, DateTime arg3)
         {
+            string action = arg1;
+            DateTime initialDate = arg2;
+            DateTime finalDate = arg3;
+
+
             if(action.Equals("payments"))
                 return Lib_Primavera.PriIntegration.getPagamentos(initialDate, finalDate);
 
