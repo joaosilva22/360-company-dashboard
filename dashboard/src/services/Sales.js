@@ -1,21 +1,19 @@
+import axios from 'axios';
 
 export default {
-  totalSales() {
-    return this.$axios.get('total-sales');
-  },
-  averageSaleValue() {
-    return this.$axios.get('average-sale-value');
+  totalSales(fiscalYear) {
+    return axios.get(`AuditFile/DocumentTotals?FiscalYear=${fiscalYear}`);
   },
   salesInvoices() {
-    return this.$axios.get('sales-invoices');
+    // return this.$axios.get('sales-invoices');
   },
   customers() {
-    return this.$axios.get('customers');
+    // return this.$axios.get('customers');
   },
-  customer(customerId) {
-    return this.$axios.get(`customers/${customerId}`);
+  customer() {
+    // return this.$axios.get(`customers/${customerId}`);
   },
-  customerNetValue(customerId) {
-    return this.$axios.get(`customers/${customerId}/net-value`);
+  customerNetValue() {
+    // return this.$axios.get(`customers/${customerId}/net-value`);
   },
 };

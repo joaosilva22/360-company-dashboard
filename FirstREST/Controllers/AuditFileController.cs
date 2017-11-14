@@ -267,9 +267,8 @@ namespace FirstREST.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
                 }
-
-                string Result = Json.Encode(SalesInvoices);
-                return Request.CreateResponse(HttpStatusCode.OK, Result);
+                
+                return Request.CreateResponse(HttpStatusCode.OK, SalesInvoices);
             }
         }
     
@@ -297,8 +296,7 @@ namespace FirstREST.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
                 }
 
-                string Result = Json.Encode(SalesInvoices.Invoices);
-                return Request.CreateResponse(HttpStatusCode.OK, Result);
+                return Request.CreateResponse(HttpStatusCode.OK, SalesInvoices);
             }                      
         }
 
@@ -326,8 +324,7 @@ namespace FirstREST.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Customers not found.");
                 }
 
-                var Result = Json.Encode(Customers);
-                return Request.CreateResponse(HttpStatusCode.OK, Result);
+                return Request.CreateResponse(HttpStatusCode.OK, Customers);
             }
         }
 
@@ -360,9 +357,8 @@ namespace FirstREST.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found.");
                 }
-
-                var Result = Json.Encode(Customer);
-                return Request.CreateResponse(HttpStatusCode.OK, Result);
+                
+                return Request.CreateResponse(HttpStatusCode.OK, Customer);
             }
         }
     }
