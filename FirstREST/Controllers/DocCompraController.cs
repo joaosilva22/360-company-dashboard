@@ -18,13 +18,11 @@ namespace FirstREST.Controllers
 
         }
 
-
         //get  api/DocCompra/VFA
         public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1)
         {
             string id = arg1;
             IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDoc(id);
-
             if (docCompra == null)
             {
                 throw new HttpResponseException(
@@ -48,7 +46,6 @@ namespace FirstREST.Controllers
             DateTime dataAte = arg3;
 
             IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(id, dataDe, dataAte);
-
             if (docCompra == null)
             {
                 throw new HttpResponseException(
