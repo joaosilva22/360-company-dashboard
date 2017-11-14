@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Xml.Linq;
 using System.Linq;
-using System.Data.Entity;
 using System.Net.Http;
 using System.Net;
+using System.Web.Helpers;
 
 namespace FirstREST.Controllers
 {
     public class AuditFileController : ApiController
     {
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public HttpResponseMessage Index()
         {
             using (var Context = new DatabaseContext())
@@ -241,6 +241,128 @@ namespace FirstREST.Controllers
                 Context.SaveChanges();
 
                 return Request.CreateResponse(HttpStatusCode.Created, "Created audit file.");
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage DocumentTotals([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                string Result = Json.Encode(SalesInvoices);
+                return Request.CreateResponse(HttpStatusCode.OK, Result);
+            }
+        }
+    
+        [HttpGet]
+        public HttpResponseMessage SalesInvoices([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.DocumentTotals");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                string Result = Json.Encode(SalesInvoices.Invoices);
+                return Request.CreateResponse(HttpStatusCode.OK, Result);
+            }                      
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Customers([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.Customers");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var Customers = MasterFiles.Customers;
+                if (Customers == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customers not found.");
+                }
+
+                var Result = Json.Encode(Customers);
+                return Request.CreateResponse(HttpStatusCode.OK, Result);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Customers([FromUri] int FiscalYear, [FromUri] string CustomerID)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.Customers");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var Customers = MasterFiles.Customers;
+                if (Customers == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customers not found.");
+                }
+
+                var Customer = (from c in Customers where c.CustomerID == CustomerID select c).FirstOrDefault();
+                if (Customer == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+
+                var Result = Json.Encode(Customer);
+                return Request.CreateResponse(HttpStatusCode.OK, Result);
             }
         }
     }
