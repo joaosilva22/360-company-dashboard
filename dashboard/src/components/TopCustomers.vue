@@ -1,19 +1,31 @@
 <template>
-  <div class="container">
-    <h1>All Customers</h1>
-    <div class="table">
-      <v-data-table
+ <v-card>
+    <v-card-title>
+      <h3 class="headline">All Customers</h3>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
         v-bind:headers="headers"
-        :items="items"
-        hide-actions
+        v-bind:items="items"
+        v-bind:search="search"
       >
-        <template slot="items" scope="props">
-          <td>{{ props.item.customerName }}</td>
-          <td class="text-xs-right">{{ formatVal(props.item.netValue) }}</td>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.customer }}</td>
+        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </td>
+      </template>
+      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -29,33 +41,38 @@
            sortable: false,
            value: 'customerName',
          },
-         { text: 'Net Value (EUR)', value: 'netValue' },
+         { text: 'Net Total (EUR)', value: 'net' },
        ],
        items: [],
+       max25chars: v => v.length <= 25 || 'Input too long!',
+       tmp: '',
+       search: '',
+       pagination: {},
      };
    },
+   props: ['year'],
    created() {
-     this.customers().then((res) => {
-       const customers = res.data.customers;
-       customers.forEach((customer) => {
-         const customerId = customer.CustomerID[0];
-         const customerName = customer.CompanyName[0];
-         this.customerNetValue(customerId).then((res1) => {
-           const netValue = res1.data.netValue;
+     this.customers(this.year).then((res) => {
+       const customers = res.data;
+       customers.forEach((instance) => {
+         const customer = instance.CompanyName;
+         const customerId = instance.CustomerID;
+         this.customerNetTotal(this.year, customerId).then((res1) => {
+           const net = res1.data;
            this.items.push({
-             customerName,
-             netValue,
+             customer,
+             net,
            });
          });
        });
      });
    },
    methods: {
-     customers() {
-       return Sales.customers();
+     customers(fiscalYear) {
+       return Sales.customers(fiscalYear);
      },
-     customerNetValue(customerId) {
-       return Sales.customerNetValue(customerId);
+     customerNetTotal(fiscalYear, customerId) {
+       return Sales.customerNetTotal(fiscalYear, customerId);
      },
      formatVal(value) {
        const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
@@ -66,26 +83,4 @@
 </script>
 
 <style scoped>
- .container {
-     max-width: 100%;
-     max-height: 100%;
-     height: 100%;
-     margin: 0;
-     padding: 0;
-     border-bottom: 1px solid black;
-     overflow: hidden;
-     display: table;
- }
-
- .table {
-     max-height: 100%;
-     border: 1px solid black;
-     overflow: scroll;
- }
-
- h1 {
-     margin: 0;
-     padding: 0;
-     font-size: 3vw;
- }
 </style>

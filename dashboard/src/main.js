@@ -12,13 +12,12 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
-axios.defaults.baseURL = 'http://localhost:3000/api/';
-Vue.use(axios);
+axios.defaults.baseURL = 'http://localhost:49822/api/';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 const Primavera = axios.create();
-Primavera.defaults.baseURL = 'http://localhost:49822/api';
+Primavera.defaults.baseURL = 'http://localhost:49822';
 Vue.use(Primavera);
-
 
 /* eslint-disable no-new */
 new Vue({

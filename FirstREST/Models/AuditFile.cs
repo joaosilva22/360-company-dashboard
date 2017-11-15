@@ -29,6 +29,12 @@ namespace FirstREST.Models
             set;
         }
 
+        public MasterFiles MasterFiles
+        {
+            get;
+            set;
+        }
+
         public SourceDocuments SourceDocuments
         {
             get;

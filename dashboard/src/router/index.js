@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Main from '@/components/Main';
 import Financial from '@/components/Financial/Financial';
 import Overview from '@/components/Overview/Overview';
 import Sales from '@/components/Sales';
@@ -13,17 +12,12 @@ export default new Router({
     {
       path: '/',
       name: 'root',
-      component: Main,
+      component: Overview,
     },
     {
       path: '/financial',
       name: 'financial',
       component: Financial,
-    },
-    {
-      path: '/overview',
-      name: 'overview',
-      component: Overview,
     },
     {
       path: '/sales',

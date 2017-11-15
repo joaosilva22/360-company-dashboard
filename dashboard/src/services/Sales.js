@@ -1,21 +1,19 @@
+import axios from 'axios';
 
 export default {
-  totalSales() {
-    return this.$axios.get('total-sales');
+  totalSales(fiscalYear) {
+    return axios.get(`AuditFile/DocumentTotals?FiscalYear=${fiscalYear}`);
   },
-  averageSaleValue() {
-    return this.$axios.get('average-sale-value');
+  salesInvoices(fiscalYear) {
+    return axios.get(`AuditFile/SalesInvoices?FiscalYear=${fiscalYear}`);
   },
-  salesInvoices() {
-    return this.$axios.get('sales-invoices');
+  customers(fiscalYear) {
+    return axios.get(`AuditFile/Customers?FiscalYear=${fiscalYear}`);
   },
-  customers() {
-    return this.$axios.get('customers');
+  customer(fiscalYear, customerId) {
+    return axios.get(`AuditFile/Customers?FiscalYear=${fiscalYear}&CustomerID=${customerId}`);
   },
-  customer(customerId) {
-    return this.$axios.get(`customers/${customerId}`);
-  },
-  customerNetValue(customerId) {
-    return this.$axios.get(`customers/${customerId}/net-value`);
+  customerNetTotal(fiscalYear, customerId) {
+    return axios.get(`AuditFile/NetTotal?FiscalYear=${fiscalYear}&CustomerID=${customerId}`);
   },
 };

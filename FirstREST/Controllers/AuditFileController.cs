@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Web.Http;
 using System.Xml.Linq;
 using System.Linq;
-using System.Data.Entity;
 using System.Net.Http;
 using System.Net;
+using System.Web.Helpers;
 
 namespace FirstREST.Controllers
 {
     public class AuditFileController : ApiController
     {
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public HttpResponseMessage Index()
         {
             using (var Context = new DatabaseContext())
@@ -194,10 +194,200 @@ namespace FirstREST.Controllers
 
                 #endregion                
 
+                #region MasterFiles
+
+                XElement MasterFilesElement = Doc.Root.Element(ns + "MasterFiles");
+                AuditFile.MasterFiles = new MasterFiles
+                {
+                    Customers = new List<Customer>(),
+                };
+
+                IEnumerable<XElement> CustomerElements = MasterFilesElement.Elements(ns + "Customer");
+                foreach (var CustomerElement in CustomerElements)
+                {
+                    Customer Customer = new Customer
+                    {
+                        AccountID = CustomerElement.Element(ns + "AccountID").Value,
+                        CompanyName = CustomerElement.Element(ns + "CompanyName").Value,
+                        CustomerID = CustomerElement.Element(ns + "CustomerID").Value,
+                        CustomerTaxID = CustomerElement.Element(ns + "CustomerTaxID").Value,
+                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,                                               
+                    };
+
+                    XElement BillingAddressElement = CustomerElement.Element(ns + "BillingAddress");
+                    Customer.BillingAddress = new Address
+                    {
+                        AddressDetail = BillingAddressElement.Element(ns + "AddressDetail").Value,
+                        City = BillingAddressElement.Element(ns + "City").Value,
+                        Country = BillingAddressElement.Element(ns + "Country").Value,
+                        PostalCode = BillingAddressElement.Element(ns + "PostalCode").Value,
+                    };
+
+                    XElement ShipToAddressElement = CustomerElement.Element(ns + "ShipToAddress");
+                    Customer.ShipToAddress = new Address
+                    {
+                        AddressDetail = ShipToAddressElement.Element(ns + "AddressDetail").Value,
+                        City = ShipToAddressElement.Element(ns + "City").Value,
+                        Country = ShipToAddressElement.Element(ns + "Country").Value,
+                        PostalCode = ShipToAddressElement.Element(ns + "PostalCode").Value,
+                    };
+
+                    AuditFile.MasterFiles.Customers.Add(Customer);
+                }
+
+                #endregion
+
                 Context.AuditFile.Add(AuditFile);           
                 Context.SaveChanges();
 
                 return Request.CreateResponse(HttpStatusCode.Created, "Created audit file.");
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage DocumentTotals([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+                
+                return Request.CreateResponse(HttpStatusCode.OK, SalesInvoices);
+            }
+        }
+    
+        [HttpGet]
+        public HttpResponseMessage SalesInvoices([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.DocumentTotals");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, SalesInvoices);
+            }                      
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Customers([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.Customers");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var Customers = MasterFiles.Customers;
+                if (Customers == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customers not found.");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, Customers);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Customers([FromUri] int FiscalYear, [FromUri] string CustomerID)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.Customers");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var Customers = MasterFiles.Customers;
+                if (Customers == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customers not found.");
+                }
+
+                var Customer = (from c in Customers where c.CustomerID == CustomerID select c).FirstOrDefault();
+                if (Customer == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found.");
+                }
+                
+                return Request.CreateResponse(HttpStatusCode.OK, Customer);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage NetTotal([FromUri] int FiscalYear, [FromUri] string CustomerID)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.DocumentTotals");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+                
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                var RelevantInvoices = (from i in SalesInvoices.Invoices where i.CustomerID == CustomerID select i.DocumentTotals.NetTotal);                
+                return Request.CreateResponse(HttpStatusCode.OK, RelevantInvoices.Sum());
             }
         }
     }
