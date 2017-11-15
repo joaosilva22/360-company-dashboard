@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export default {
-  topSuppliers(fiscalYear, endDate) {
-    return axios.get(`fornecedores/${fiscalYear}/${endDate}`);
+  topSuppliers() {
+    return axios.get('fornecedores');
   },
   inventoryValue() {
     return axios.get('inventario');

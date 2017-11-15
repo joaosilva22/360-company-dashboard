@@ -18,7 +18,7 @@
       >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.supplier }}</td>
-        <td class="text-xs-right">{{ props.item.date }}</td>
+        <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
         <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
         </td>
       </template>
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-const endDate = this.year + 1;
+import Purchases from '@/services/Purchases';
+
 export default {
   data() {
     return {
@@ -53,15 +54,15 @@ export default {
   },
   props: ['year'],
   created() {
-    this.purchasesInvoices(this.year, endDate).then((res) => {
-      const invoices = res.data.Invoices;
+    this.purchasesInvoices().then((res) => {
+      const invoices = res.data;
       invoices.forEach((invoice) => {
         const date = invoice.DataDoc;
         const merchandise = invoice.TotalMerc;
         const discount = invoice.TotalDesc;
         const others = invoice.TotalOutros;
         const net = (merchandise + others) - discount;
-        const supplier = invoice.Entidade;
+        const supplier = invoice.NomeFornecedor;
         this.items.push({
           supplier,
           date,
@@ -71,6 +72,9 @@ export default {
     });
   },
   methods: {
+    purchasesInvoices() {
+      return Purchases.purchasesInvoices();
+    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

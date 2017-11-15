@@ -29,7 +29,8 @@
 </template>
 
 <script>
-const endDate = this.year + 1;
+import Supplier from '@/services/Supplier';
+
 export default {
   data() {
     return {
@@ -51,8 +52,8 @@ export default {
   },
   props: ['year'],
   created() {
-    this.topSuppliers(this.year, endDate).then((res) => {
-      const invoices = res.data.Invoices;
+    this.topSuppliers().then((res) => {
+      const invoices = res.data;
       invoices.forEach((invoice) => {
         const net = invoice.TotalMerc;
         const supplier = invoice.NomeFornecedor;
@@ -64,6 +65,9 @@ export default {
     });
   },
   methods: {
+    topSuppliers() {
+      return Supplier.topSuppliers();
+    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
