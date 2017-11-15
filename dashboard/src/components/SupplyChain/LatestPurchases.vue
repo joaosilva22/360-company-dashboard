@@ -30,6 +30,7 @@
 </template>
 
 <script>
+const endDate = this.year + 1;
 export default {
   data() {
     return {
@@ -52,7 +53,7 @@ export default {
   },
   props: ['year'],
   created() {
-    this.purchasesInvoices(this.year, this.endDate).then((res) => {
+    this.purchasesInvoices(this.year, endDate).then((res) => {
       const invoices = res.data.Invoices;
       invoices.forEach((invoice) => {
         const date = invoice.DataDoc;

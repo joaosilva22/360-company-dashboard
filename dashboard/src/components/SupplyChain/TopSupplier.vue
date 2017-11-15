@@ -18,7 +18,6 @@
       >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.supplier }}</td>
-        <td class="text-xs-right">{{ props.item.date }}</td>
         <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
         </td>
       </template>
@@ -30,59 +29,47 @@
 </template>
 
 <script>
- // import Purchases from '@/services/Purchases';
- 
- export default {
-   data() {
-     return {
-       headers: [
-         {
-           text: 'Supplier',
-           align: 'left',
-           sortable: false,
-           value: 'supplierName',
-         },
-         { text: 'Net Value (EUR)', value: 'netValue' },
-       ],
-       items: [],
-       max25chars: v => v.length <= 25 || 'Input too long!',
-       tmp: '',
-       search: '',
-       pagination: {},
-     };
-   },
-   props: ['year'],  /*
-   created() {
-    this.supplier().then((res) => {
-       const suppliers = res.data.supplier;
-       suppliers.forEach((supplier) => {
-         const customerId = customer.CustomerID[0];
-         const customerName = customer.CompanyName[0];
-         this.customerNetValue(customerId).then((res1) => {
-           const netValue = res1.data.netValue;
-           this.items.push({
-             supplierName,
-             netValue,
-           });
-         });
-       });
-     });
-   }, */
-   methods: {
-       /*
-     suppliers() {
-       return Purchases.suppliers();
-     },
-     suppliweNetValue(supplierId) {
-       return Purchases.supplierNetValue(supplierId);
-     },
-    */
-     formatVal(value) {
-       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-     },
-   },
- };
+const endDate = this.year + 1;
+export default {
+  data() {
+    return {
+      headers: [
+        {
+          text: 'Supplier',
+          align: 'left',
+          sortable: false,
+          value: 'supplier',
+        },
+        { text: 'Net Value (EUR)', value: 'net' },
+      ],
+      items: [],
+      max25chars: v => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+    };
+  },
+  props: ['year'],
+  created() {
+    this.topSuppliers(this.year, endDate).then((res) => {
+      const invoices = res.data.Invoices;
+      invoices.forEach((invoice) => {
+        const net = invoice.TotalMerc;
+        const supplier = invoice.NomeFornecedor;
+        this.items.push({
+          supplier,
+          net,
+        });
+      });
+    });
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+  },
+};
 </script>
 
 <style scoped>
