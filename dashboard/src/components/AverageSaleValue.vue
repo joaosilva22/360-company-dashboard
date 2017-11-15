@@ -12,15 +12,22 @@
        items: [],
      };
    },
+   props: ['year'],
    created() {
-     this.averageSaleValue().then((res) => {
-       const average = res.data.average;
-       this.items = [{ name: '', value: average }];
+     this.totalSales(this.year).then((res) => {
+       const totalValue = res.data.TotalCredit;
+       const totalNumber = res.data.NumberOfEntries;
+       const average = totalValue / totalNumber;
+       this.items = [{ name: 'Value', value: `${this.formatVal(average)} EUR` }];
      });
    },
    methods: {
-     averageSaleValue() {
-       return Sales.averageSaleValue();
+     totalSales(fiscalYear) {
+       return Sales.totalSales(fiscalYear);
+     },
+     formatVal(value) {
+       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
      },
    },
    components: {
