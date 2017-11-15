@@ -1,36 +1,34 @@
 <template>
-  <v-container fluid grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <date-picker
+  <grid rows="7" cols="12">
+     <grid-item row="1" height="1" col="1" width="12">
+       <date-picker
         start="2016"
         end="2016"
         @year="updateYear"
         >
-        </date-picker>
-      </v-flex>
-
-      <v-flex xs6>
+       </date-picker>
+     </grid-item>
+     <grid-item row="2" height="3" col="1" width="9">
         <latest-sales year="2016"></latest-sales>
-      </v-flex>
-
-      <v-flex xs6>
-        <top-customers year="2016"></top-customers>
-      </v-flex>
-
-      <v-flex xs6>
-        <total-sales year="2016"></total-sales>
-      </v-flex>
-
-      <v-flex xs6 id="averageSaleValue">
-        <average-sale-value year="2016"></average-sale-value>
-      </v-flex>
-    </v-layout>
-  </v-container>
+     </grid-item>
+    <grid-item row="2" height="1" col="10" width="3">
+       <total-sales year="2016"></total-sales>
+     </grid-item>
+     <grid-item row="3" height="1" col="10" width="3">
+       <average-sale-value year="2016"></average-sale-value>
+     </grid-item>
+     <grid-item row="5" height="3" col="1" width="9">
+       <top-customers year="2016"></top-customers>
+     </grid-item>
+   </grid>
 </template>
 
 
+
+
 <script>
+import Grid from '@/components/Grid';
+import GridItem from '@/components/GridItem';
 import TotalSales from '@/components/TotalSales';
 import AverageSaleValue from '@/components/AverageSaleValue';
 import DatePicker from '@/components/DatePicker';
@@ -44,6 +42,8 @@ export default {
     };
   },
   components: {
+    Grid,
+    GridItem,
     TotalSales,
     AverageSaleValue,
     DatePicker,
@@ -59,6 +59,5 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-  <grid rows="7" cols="12">
+  <grid rows="10" cols="12">
      <grid-item row="1" height="1" col="1" width="12">
        <date-picker
         start="2016"
@@ -8,7 +8,7 @@
         >
        </date-picker>
      </grid-item>
-     <grid-item row="2" height="2" col="1" width="9">
+     <grid-item row="2" height="3" col="1" width="9">
         <latest-purchases></latest-purchases>
      </grid-item>
     <grid-item row="2" height="1" col="10" width="3">
@@ -17,11 +17,11 @@
      <grid-item row="3" height="1" col="10" width="3">
        <inventory-value></inventory-value>
      </grid-item>
-     <grid-item row="4" height="2" col="1" width="9">
+     <grid-item row="5" height="3" col="1" width="9">
        <accounts-payable></accounts-payable>
      </grid-item>
  
-    <grid-item row="6" height="2" col="1" width="9">
+    <grid-item row="8" height="3" col="1" width="9">
        <top-supplier></top-supplier>
      </grid-item> 
    </grid>
@@ -65,3 +65,5 @@ export default {
 };
 </script>
 
+<style scoped>
+</style>
