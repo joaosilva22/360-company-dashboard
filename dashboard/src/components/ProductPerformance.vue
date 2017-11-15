@@ -78,15 +78,15 @@
        const o = Math.round;
        const r = Math.random;
        const s = 255;
-       return `rgba(0,${o(r() * s)},${o(r()*s)},1)`;
+       return `rgba(0,${o(r() * s)},${o(r() * s)},1)`;
      },
      top3(data, labels) {
-       var outp = [];
-       for (var i = 0; i < data.length; i += 1) {
+       const outp = [];
+       for (let i = 0; i < data.length; i += 1) {
          outp.push(i);
          if (outp.length > 3) {
-             outp.sort((a, b) => data[b] - data[a]);
-             outp.pop();
+           outp.sort((a, b) => data[b] - data[a]);
+           outp.pop();
          }
        }
        const ret = [];
@@ -97,7 +97,7 @@
          });
        });
        return ret;
-     }
+     },
    },
  };
 </script>
