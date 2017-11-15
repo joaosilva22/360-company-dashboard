@@ -32,6 +32,10 @@
       <v-flex xs3>
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
+      
+      <v-flex xs6>
+        <product-performance year="2016"></product-performance>
+      </v-flex xs6>
     </v-layout>
   </v-container>
 </template>
@@ -46,6 +50,7 @@
  import LatestSales from '@/components/LatestSales';
  import TopCustomers from '@/components/TopCustomers';
  import SalesBacklog from '@/components/SalesBacklog';
+ import ProductPerformance from '@/components/ProductPerformance';
  
  export default {
    data() {
@@ -60,6 +65,7 @@
      LatestSales,
      TopCustomers,
      SalesBacklog,
+     ProductPerformance,
    },
    methods: {
      updateYear(value) {
