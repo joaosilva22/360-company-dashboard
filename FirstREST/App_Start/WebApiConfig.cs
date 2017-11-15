@@ -11,6 +11,11 @@ namespace FirstREST
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+                name: "AuditFile",
+                routeTemplate: "api/AuditFile/{action}",
+                defaults: new { controller = "AuditFile", auction = "" }
+            );
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{arg1}/{arg2}/{arg3}",
                 defaults: new { arg1 = RouteParameter.Optional, arg2 = RouteParameter.Optional, arg3 = RouteParameter.Optional }
