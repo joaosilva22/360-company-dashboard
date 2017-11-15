@@ -31,57 +31,51 @@
 
 <script>
 export default {
-   data() {
-     return {
-       headers: [
-         {
-           text: 'Supplier',
-           align: 'left',
-           sortable: false,
-           value: 'supplier',
-         },
-         { text: 'Date', value: 'date' },
-         { text: 'Net Value (EUR)', value: 'net' },
-       ],
-       items: [],
-       max25chars: v => v.length <= 25 || 'Input too long!',
-       tmp: '',
-       search: '',
-       pagination: {},
-     };
-   },
-   props: ['year'],
-   created() {
-     this.purchasesInvoices(this.year).then((res) => {
-       const invoices = res.data.Invoices;
-       invoices.forEach((invoice) => {
-         const date = invoice.InvoiceDate;
-         const net = invoice.DocumentTotals.NetTotal;
-         const customerId = invoice.CustomerID;
-         this.customer(this.year, customerId).then((res1) => {
-           const customer = res1.data.CompanyName;
-           this.items.push({
-             customer,
-             date,
-             net,
-           });
-         });
-       });
-     });
-   },
-   methods: {
-     salesInvoices(fiscalYear) {
-       return Sales.salesInvoices(fiscalYear);
-     },
-     customer(fiscalYear, customerId) {
-       return Sales.customer(fiscalYear, customerId);
-     },
-     formatVal(value) {
-       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-     },
-   },
- };
+  data() {
+    return {
+      headers: [
+        {
+          text: 'Supplier',
+          align: 'left',
+          sortable: false,
+          value: 'supplier',
+        },
+        { text: 'Date', value: 'date' },
+        { text: 'Net Value (EUR)', value: 'net' },
+      ],
+      items: [],
+      max25chars: v => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+    };
+  },
+  props: ['year'],
+  created() {
+    this.purchasesInvoices(this.year, this.endDate).then((res) => {
+      const invoices = res.data.Invoices;
+      invoices.forEach((invoice) => {
+        const date = invoice.DataDoc;
+        const merchandise = invoice.TotalMerc;
+        const discount = invoice.TotalDesc;
+        const others = invoice.TotalOutros;
+        const net = (merchandise + others) - discount;
+        const supplier = invoice.Entidade;
+        this.items.push({
+          supplier,
+          date,
+          net,
+        });
+      });
+    });
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+  },
+};
 </script>
 <style scoped>
  .container {
