@@ -16,4 +16,7 @@ export default {
   customerNetTotal(fiscalYear, customerId) {
     return axios.get(`AuditFile/NetTotal?FiscalYear=${fiscalYear}&CustomerID=${customerId}`);
   },
+  salesBacklog() {
+    return axios.get('DocVenda');
+  },
 };

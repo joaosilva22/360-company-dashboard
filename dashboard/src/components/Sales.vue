@@ -18,11 +18,15 @@
         <top-customers year="2016"></top-customers>
       </v-flex>
 
-      <v-flex xs4>
+	  <v-flex xs6>
+        <sales-backlog></sales-backlog>
+      </v-flex>
+	  
+      <v-flex xs3>
         <total-sales year="2016"></total-sales>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex xs3>
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
     </v-layout>
@@ -35,6 +39,7 @@
  import DatePicker from '@/components/DatePicker';
  import LatestSales from '@/components/LatestSales';
  import TopCustomers from '@/components/TopCustomers';
+ import SalesBacklog from '@/components/SalesBacklog';
  
  export default {
    data() {
@@ -48,6 +53,7 @@
      DatePicker,
      LatestSales,
      TopCustomers,
+     SalesBacklog,
    },
    methods: {
      updateYear(value) {
