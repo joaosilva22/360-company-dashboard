@@ -17,6 +17,10 @@
       <v-flex xs3>
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
+
+      <v-flex xs6>
+        <latest-sales year="2016"></latest-sales>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>

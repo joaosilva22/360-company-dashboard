@@ -4,7 +4,7 @@
       <v-container fluid>
         <v-layout row wrap>
           <v-flex xs6>
-            <h3 class="headline" style="margin-top: 20px">Time Interval</h3>
+            <h3 class="headline" style="margin-top: 20px">Fiscal Year</h3>
           </v-flex>
           <v-flex xs6>
             <v-select
