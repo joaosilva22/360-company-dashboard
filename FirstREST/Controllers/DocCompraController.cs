@@ -12,17 +12,11 @@ namespace FirstREST.Controllers
 {
     public class DocCompraController : ApiController
     {
+
+        //get  api/DocCompra
         public IEnumerable<Lib_Primavera.Model.DocCompra> Get()
         {
-            return Lib_Primavera.PriIntegration.List();
-
-        }
-
-        //get  api/DocCompra/VFA
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1)
-        {
-            string id = arg1;
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDoc(id);
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListDocCompra();
             if (docCompra == null)
             {
                 throw new HttpResponseException(
@@ -36,49 +30,47 @@ namespace FirstREST.Controllers
         }
 
     
-        //fatura tipoDoc = VFA
+  
+        //get  api/DocCompra/2015-03-12/2017-03-12
+        /* public IEnumerable<Lib_Primavera.Model.DocCompra> Get(DateTime arg1, DateTime arg2)
+       {
+           DateTime dataDe = arg1;
+           DateTime dataAte = arg2;
 
-        //get  api/DocCompra/VFA/2015-03-12/2017-03-12
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1, DateTime arg2, DateTime arg3)
-        {
-            string id = arg1;
-            DateTime dataDe = arg2;
-            DateTime dataAte = arg3;
+           IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListDocCompraData( dataDe, dataAte);
+           if (docCompra == null)
+           {
+               throw new HttpResponseException(
+                       Request.CreateResponse(HttpStatusCode.NotFound));
 
-            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListTipoDocData(id, dataDe, dataAte);
-            if (docCompra == null)
-            {
-                throw new HttpResponseException(
-                        Request.CreateResponse(HttpStatusCode.NotFound));
+           }
+           else
+           {
+               return docCompra;
+           }
+       }
 
-            }
-            else
-            {
-                return docCompra;
-            }
-        }
+      
+       public HttpResponseMessage Post(Lib_Primavera.Model.DocCompra dc)
+       {
+           Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
+           erro = Lib_Primavera.PriIntegration.VGR_New(dc);
 
+           if (erro.Erro == 0)
+           {
+               var response = Request.CreateResponse(
+                  HttpStatusCode.Created, dc.id);
+               string uri = Url.Link("DefaultApi");
+               response.Headers.Location = new Uri(uri);
+               return response;
+           }
 
-        public HttpResponseMessage Post(Lib_Primavera.Model.DocCompra dc)
-        {
-            Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
-            erro = Lib_Primavera.PriIntegration.VGR_New(dc);
+           else
+           {
+               return Request.CreateResponse(HttpStatusCode.BadReque);
+           }
 
-            if (erro.Erro == 0)
-            {
-                var response = Request.CreateResponse(
-                   HttpStatusCode.Created, dc.id);
-                string uri = Url.Link("DefaultApi", new { DocId = dc.id });
-                response.Headers.Location = new Uri(uri);
-                return response;
-            }
-
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-
-        }
+       }*/
 
     }
 }

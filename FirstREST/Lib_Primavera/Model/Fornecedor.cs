@@ -8,7 +8,7 @@ namespace FirstREST.Lib_Primavera.Model
     public class Fornecedor
     {
 
-        public String NomeFornecedor
+        public String Entidade
         {
             get;
             set;
@@ -30,5 +30,7 @@ namespace FirstREST.Lib_Primavera.Model
             get;
             set;
         }
+
+
     }
 }
