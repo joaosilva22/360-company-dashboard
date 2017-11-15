@@ -1,66 +1,83 @@
 <template>
-  <div class="container">
-    <h1>Accounts Payable</h1>
-    <div class="table">
-      <v-data-table
+  <v-card>
+    <v-card-title>
+      <h3 class="headline">Accounts Payable</h3>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
         v-bind:headers="headers"
-        :items="items"
-        hide-actions
+        v-bind:items="items"
+        v-bind:search="search"
       >
-        <template slot="items" scope="props">
-          <td>{{ props.item.supplier }}</td>
-          <td class="text-xs-right">{{ props.item.date }}</td>
-          <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+      <template slot="items" slot-scope="props">
+        <td>{{props.item.supplier }}</td>
+        <td class="text-xs-right">{{props.item.date | formatDate }}</td>
+        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </td>
+      </template>
+      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
- import Purchases from '@/services/Purchases';
- 
- export default {
-   data() {
-     return {
-       headers: [
-         {
-           text: 'Supplier',
-           align: 'left',
-           sortable: false,
-           value: 'supplier',
-         },
-         { text: 'Date', value: 'date' },
-         { text: 'Net Value (EUR)', value: 'net' },
-       ],
-       items: [],
-     };
-   },
-   methods: {
-     async accountsPayable(initialDate, endDate) {
-       try {
-         const response = Purchases.accountsPayable(initialDate, endDate);
-         response.data.forEach((Doc) => {
-           const supplier = Doc.NomeFornecedor[0];
-           const date = Doc.DataDoc[0];
-           const net = Doc.TotalDocumento[0];
-           this.items.push({
-             supplier,
-             date,
-             net,
-           });
-         });
-       } catch (error) {
-         this.error = error;
-       }
-     },
+import Purchases from '@/services/Purchases';
 
-     formatVal(value) {
-       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-     },
-   },
- };
+export default {
+  data() {
+    return {
+      headers: [
+        {
+          text: 'Supplier',
+          align: 'left',
+          sortable: false,
+          value: 'supplier',
+        },
+        { text: 'Date', value: 'date' },
+        { text: 'Net Value (EUR)', value: 'net' },
+      ],
+      items: [],
+      max25chars: v => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+    };
+  },
+  props: ['year'],
+  created() {
+    this.accountsPayable().then((res) => {
+      const invoices = res.data;
+      invoices.forEach((invoice) => {
+        const net = invoice.TotalMerc;
+        const date = invoice.DataDoc;
+        const supplier = invoice.NomeFornecedor;
+        this.items.push({
+          supplier,
+          date,
+          net,
+        });
+      });
+    });
+  },
+  methods: {
+    accountsPayable() {
+      return Purchases.accountsPayable();
+    },
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+  },
+};
 </script>
 
 <style scoped>

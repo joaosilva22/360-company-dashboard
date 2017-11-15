@@ -19,13 +19,13 @@ namespace FirstREST.Controllers
 
         }
 
-        //get  api/Fornecedores/nomeFornecedor
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(String arg1)
+        //get  api/Fornecedores/F0001
+        public Fornecedor Get(String arg1)
         {
             String nomeFornecedor = arg1;
 
-            IEnumerable<Lib_Primavera.Model.DocCompra> fornecedores = Lib_Primavera.PriIntegration.ListFornecedor(nomeFornecedor);
-            if (fornecedores == null)
+           Fornecedor fornecedore = Lib_Primavera.PriIntegration.ListFornecedor(nomeFornecedor);
+            if (fornecedore == null)
             {
                 throw new HttpResponseException(
                         Request.CreateResponse(HttpStatusCode.NotFound));
@@ -33,18 +33,17 @@ namespace FirstREST.Controllers
             }
             else
             {
-                return fornecedores;
+                return fornecedore;
             }
         }
 
-        //get  api/Fornecedores/VFA/2015-03-12/2017-03-12
-        public IEnumerable<Lib_Primavera.Model.Fornecedor> Get(String arg1, DateTime arg2, DateTime arg3)
+        //get  api/Fornecedores/2015-03-12/2017-03-12
+        public IEnumerable<Lib_Primavera.Model.Fornecedor> Get( DateTime arg1, DateTime arg2)
         {
-            String tipoDoc = arg1;
-            DateTime dataDe = arg2;
-            DateTime dataAte = arg3;
+            DateTime dataDe = arg1;
+            DateTime dataAte = arg2;
 
-            IEnumerable<Lib_Primavera.Model.Fornecedor> fornecedores = Lib_Primavera.PriIntegration.ListFornecedoresTipoDocData(tipoDoc, dataDe, dataAte);
+            IEnumerable<Lib_Primavera.Model.Fornecedor> fornecedores = Lib_Primavera.PriIntegration.ListFornecedoresData( dataDe, dataAte);
             if (fornecedores == null)
             {
                 throw new HttpResponseException(

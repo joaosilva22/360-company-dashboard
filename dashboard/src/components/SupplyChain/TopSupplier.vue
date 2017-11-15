@@ -1,70 +1,79 @@
 <template>
-  <div class="container">
-    <h1>All Supplier</h1>
-    <div class="table">
-      <v-data-table
+  <v-card>
+    <v-card-title>
+      <h3 class="headline">All Suppliers</h3>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
         v-bind:headers="headers"
-        :items="items"
-        hide-actions
+        v-bind:items="items"
+        v-bind:search="search"
       >
-        <template slot="items" scope="props">
-          <td>{{ props.item.supplierName }}</td>
-          <td class="text-xs-right">{{ formatVal(props.item.netValue) }}</td>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.supplier }}</td>
+        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </td>
+      </template>
+      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
- // import Purchases from '@/services/Purchases';
- 
- export default {
-   data() {
-     return {
-       headers: [
-         {
-           text: 'Supplier',
-           align: 'left',
-           sortable: false,
-           value: 'supplierName',
-         },
-         { text: 'Net Value (EUR)', value: 'netValue' },
-       ],
-       items: [],
-     };
-   },  /*
-   created() {
-    this.supplier().then((res) => {
-       const suppliers = res.data.supplier;
-       suppliers.forEach((supplier) => {
-         const customerId = customer.CustomerID[0];
-         const customerName = customer.CompanyName[0];
-         this.customerNetValue(customerId).then((res1) => {
-           const netValue = res1.data.netValue;
-           this.items.push({
-             supplierName,
-             netValue,
-           });
-         });
-       });
-     });
-   }, */
-   methods: {
-       /*
-     suppliers() {
-       return Purchases.suppliers();
-     },
-     suppliweNetValue(supplierId) {
-       return Purchases.supplierNetValue(supplierId);
-     },
-    */
-     formatVal(value) {
-       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-     },
-   },
- };
+import Supplier from '@/services/Supplier';
+
+export default {
+  data() {
+    return {
+      headers: [
+        {
+          text: 'Supplier',
+          align: 'left',
+          sortable: false,
+          value: 'supplier',
+        },
+        { text: 'Net Value (EUR)', value: 'net' },
+      ],
+      items: [],
+      max25chars: v => v.length <= 25 || 'Input too long!',
+      tmp: '',
+      search: '',
+      pagination: {},
+    };
+  },
+  props: ['year'],
+  created() {
+    this.topSuppliers().then((res) => {
+      const invoices = res.data;
+      invoices.forEach((invoice) => {
+        const net = invoice.TotalMerc;
+        const supplier = invoice.NomeFornecedor;
+        this.items.push({
+          supplier,
+          net,
+        });
+      });
+    });
+  },
+  methods: {
+    topSuppliers() {
+      return Supplier.topSuppliers();
+    },
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+  },
+};
 </script>
 
 <style scoped>

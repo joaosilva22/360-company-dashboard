@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list-md>
+   <v-container fluid grid-list-md>
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
@@ -9,52 +9,58 @@
         >
         </date-picker>
       </v-flex>
-
-      <v-flex xs6>
+      
+      <v-flex xs12>
+          <top-customers year="2016"></top-customers>
+      </v-flex>
+      <v-flex xs12>
         <latest-sales year="2016"></latest-sales>
       </v-flex>
 
-      <v-flex xs6>
-        <top-customers year="2016"></top-customers>
-      </v-flex>
-
-      <v-flex xs4>
-        <total-sales year="2016"></total-sales>
-      </v-flex>
-
-      <v-flex xs4>
+      <v-flex >
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
+      <v-flex>
+         <total-sales year="2016"></total-sales>
+      </v-flex>
+
     </v-layout>
   </v-container>
 </template>
 
+
+
+
 <script>
- import TotalSales from '@/components/TotalSales';
- import AverageSaleValue from '@/components/AverageSaleValue';
- import DatePicker from '@/components/DatePicker';
- import LatestSales from '@/components/LatestSales';
- import TopCustomers from '@/components/TopCustomers';
- 
- export default {
-   data() {
-     return {
-       year: 0,
-     };
-   },
-   components: {
-     TotalSales,
-     AverageSaleValue,
-     DatePicker,
-     LatestSales,
-     TopCustomers,
-   },
-   methods: {
-     updateYear(value) {
-       this.year = value;
-     },
-   },
- };
+import Grid from '@/components/Grid';
+import GridItem from '@/components/GridItem';
+import TotalSales from '@/components/TotalSales';
+import AverageSaleValue from '@/components/AverageSaleValue';
+import DatePicker from '@/components/DatePicker';
+import LatestSales from '@/components/LatestSales';
+import TopCustomers from '@/components/TopCustomers';
+
+export default {
+  data() {
+    return {
+      year: 0,
+    };
+  },
+  components: {
+    Grid,
+    GridItem,
+    TotalSales,
+    AverageSaleValue,
+    DatePicker,
+    LatestSales,
+    TopCustomers,
+  },
+  methods: {
+    updateYear(value) {
+      this.year = value;
+    },
+  },
+};
 </script>
 
 <style scoped>
