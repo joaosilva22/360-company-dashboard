@@ -7,13 +7,13 @@ export default {
   salesInvoices(fiscalYear) {
     return axios.get(`AuditFile/SalesInvoices?FiscalYear=${fiscalYear}`);
   },
-  customers() {
-    // return this.$axios.get('customers');
+  customers(fiscalYear) {
+    return axios.get(`AuditFile/Customers?FiscalYear=${fiscalYear}`);
   },
   customer(fiscalYear, customerId) {
     return axios.get(`AuditFile/Customers?FiscalYear=${fiscalYear}&CustomerID=${customerId}`);
   },
-  customerNetValue() {
-    // return this.$axios.get(`customers/${customerId}/net-value`);
+  customerNetTotal(fiscalYear, customerId) {
+    return axios.get(`AuditFile/NetTotal?FiscalYear=${fiscalYear}&CustomerID=${customerId}`);
   },
 };

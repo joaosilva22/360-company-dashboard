@@ -46,6 +46,10 @@
          { text: 'Net Value (EUR)', value: 'net' },
        ],
        items: [],
+       max25chars: v => v.length <= 25 || 'Input too long!',
+       tmp: '',
+       search: '',
+       pagination: {},
      };
    },
    props: ['year'],

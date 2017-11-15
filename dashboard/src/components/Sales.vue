@@ -10,16 +10,20 @@
         </date-picker>
       </v-flex>
 
-      <v-flex align-center justify-center xs3>
-        <total-sales year="2016"></total-sales>
-      </v-flex>
-
-      <v-flex xs3>
-        <average-sale-value year="2016"></average-sale-value>
+      <v-flex xs6>
+        <latest-sales year="2016"></latest-sales>
       </v-flex>
 
       <v-flex xs6>
-        <latest-sales year="2016"></latest-sales>
+        <top-customers year="2016"></top-customers>
+      </v-flex>
+
+      <v-flex xs4>
+        <total-sales year="2016"></total-sales>
+      </v-flex>
+
+      <v-flex xs4>
+        <average-sale-value year="2016"></average-sale-value>
       </v-flex>
     </v-layout>
   </v-container>
@@ -30,7 +34,7 @@
  import AverageSaleValue from '@/components/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
  import LatestSales from '@/components/LatestSales';
- // import TopCustomers from '@/components/TopCustomers';
+ import TopCustomers from '@/components/TopCustomers';
  
  export default {
    data() {
@@ -43,7 +47,7 @@
      AverageSaleValue,
      DatePicker,
      LatestSales,
-     // TopCustomers,
+     TopCustomers,
    },
    methods: {
      updateYear(value) {

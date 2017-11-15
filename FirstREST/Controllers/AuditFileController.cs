@@ -361,5 +361,34 @@ namespace FirstREST.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, Customer);
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage NetTotal([FromUri] int FiscalYear, [FromUri] string CustomerID)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.DocumentTotals");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+                
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                var RelevantInvoices = (from i in SalesInvoices.Invoices where i.CustomerID == CustomerID select i.DocumentTotals.NetTotal);                
+                return Request.CreateResponse(HttpStatusCode.OK, RelevantInvoices.Sum());
+            }
+        }
     }
 }
