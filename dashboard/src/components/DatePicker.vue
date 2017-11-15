@@ -1,56 +1,35 @@
 <template>
-  <div class="container">
-    <div class="content">
-      
-      <div class="title">
-        <h1>Time Interval</h1>
-      </div>
-      
-      <div class="cell">        
-        <select v-model="fromYear">
-          <option v-for="n in range(startYear, endYear)" :value="n">
-            {{ n }}
-          </option>
-        </select>
-
-        <select v-model="fromMonth">
-          <option v-for="n in months(fromYear)" :value="n">
-            {{ n }}
-          </option>
-        </select>
-
-        <select v-model="toYear">
-          <option v-for="n in range(fromYear, endYear)" :value="n">
-            {{ n }}
-          </option>
-        </select>
-
-        <select v-model="toMonth">
-          <option v-for="n in months(toYear)" :value="n">
-            {{ n }}
-          </option>
-        </select>
-      </div>
-      
-    </div>
-  </div>
+<v-card>
+    <v-card-text style="padding: 0">
+      <v-container fluid>
+        <v-layout row wrap>
+          <v-flex xs6>
+            <h3 class="headline" style="margin-top: 20px">Time Interval</h3>
+          </v-flex>
+          <v-flex xs6>
+            <v-select
+              v-bind:items="range(start, end)"
+              v-model="year"
+              label="Select"
+              single-line
+              bottom
+            ></v-select>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
  export default {
    data() {
      return {
-       fromYear: '',
-       fromMonth: '',
-       toYear: '',
-       toMonth: '',
+       year: '',
      };
    },
    created() {
-     this.fromYear = this.startYear;
-     this.fromMonth = this.startMonth;
-     this.toYear = this.endYear;
-     this.toMonth = this.endMonth;
+     this.year = this.start;
    },
    methods: {
      range(min, max) {
@@ -62,77 +41,15 @@
        }
        return arr;
      },
-     months(year) {
-       let range = [];
-       switch (year) {
-         case this.endYear:
-           range = this.range(1, this.endMonth);
-           break;
-         case this.startYear:
-           range = this.range(this.startMonth, 12);
-           break;
-         default:
-           range = this.range(1, 12);
-           break;
-       }
-       return range;
-     },
    },
-   props: ['startYear', 'startMonth', 'endYear', 'endMonth'],
+   props: ['start', 'end'],
    watch: {
-     fromYear() {
-       this.$emit('fromYear', this.fromYear);
-     },
-     fromMonth() {
-       this.$emit('fromMonth', this.fromMonth);
-     },
-     toYear() {
-       this.$emit('toYear', this.toYear);
-     },
-     toMonth() {
-       this.$emit('toMonth', this.toMonth);
+     year() {
+       this.$emit('year', this.year);
      },
    },
  };
 </script>
 
 <style scoped>
- .container {
-     max-width: 100%;
-     max-height: 100%;
-     margin: 0;
-     display: table;
-     border-collapse: collapse;
- }
-
- .content {
-     border: 1px solid black;
-     display: table-row;
-     height: 100%;
- }
-
- .title {
-     text-align: left;
-     vertical-align: middle;
-     display: table-cell;
- }
-
- .cell {
-     text-align: right;
-     vertical-align: middle;
-     display: table-cell;
- }
- 
- h1 {
-     margin: 0;
-     padding: 0;
-     font-size: 2vw;
-     padding-left: 10px;
- }
-
- select {
-     font-size: 1.4vw;
-     margin-right: 10px;
- }
-
 </style>

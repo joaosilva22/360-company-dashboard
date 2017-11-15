@@ -18,7 +18,7 @@
        const totalValue = res.data.TotalCredit;
        const totalNumber = res.data.NumberOfEntries;
        const average = totalValue / totalNumber;
-       this.items = [{ name: '', value: this.formatVal(average) }];
+       this.items = [{ name: 'Value', value: this.formatVal(average) }];
      });
    },
    methods: {
