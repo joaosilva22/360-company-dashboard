@@ -1,43 +1,36 @@
 <template>
-  <v-container fluid grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <date-picker
+  <grid rows="7" cols="12">
+     <grid-item row="1" height="1" col="1" width="12">
+       <date-picker
         start="2016"
         end="2016"
         @year="updateYear"
         >
-        </date-picker>
-      </v-flex>
-
-      <v-flex xs8>
-         <top-supplier></top-supplier>
-      </v-flex>
-
-      <v-flex s4>
-        <inventory-value></inventory-value>
-        <total-purchases></total-purchases>
-      </v-flex>
-
-      <v-flex xs8>
-        <accounts-payable></accounts-payable>
-      </v-flex>
-
-      <v-flex xs4>
-        
-      </v-flex>
-
-      <v-flex xs8>
+       </date-picker>
+     </grid-item>
+     <grid-item row="2" height="2" col="1" width="9">
         <latest-purchases></latest-purchases>
-      </v-flex>
-
-    </v-layout>
-  </v-container>
-</div>
+     </grid-item>
+    <grid-item row="2" height="1" col="10" width="3">
+       <total-purchases></total-purchases>
+     </grid-item>
+     <grid-item row="3" height="1" col="10" width="3">
+       <inventory-value></inventory-value>
+     </grid-item>
+     <grid-item row="4" height="2" col="1" width="9">
+       <accounts-payable></accounts-payable>
+     </grid-item>
+ 
+    <grid-item row="6" height="2" col="1" width="9">
+       <top-supplier></top-supplier>
+     </grid-item> 
+   </grid>
 </template>
 
 
 <script>
+import Grid from '@/components/Grid';
+import GridItem from '@/components/GridItem';
 import DatePicker from '@/components/DatePicker';
 import LatestPurchases from '@/components/SupplyChain/LatestPurchases';
 import TopSupplier from '@/components/SupplyChain/TopSupplier';
@@ -55,6 +48,8 @@ export default {
     };
   },
   components: {
+    Grid,
+    GridItem,
     DatePicker,
     LatestPurchases,
     TopSupplier,
