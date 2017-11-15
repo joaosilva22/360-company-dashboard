@@ -18,7 +18,7 @@
       >
       <template slot="items" slot-scope="props">
         <td>{{ props.item.customer }}</td>
-        <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
+        <td class="text-xs-right">{{ props.item.date }}</td>
         <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
         </td>
       </template>
