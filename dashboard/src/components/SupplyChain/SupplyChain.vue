@@ -14,12 +14,17 @@
          <top-supplier></top-supplier>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex s4>
         <inventory-value></inventory-value>
+        <total-purchases></total-purchases>
       </v-flex>
 
       <v-flex xs8>
         <accounts-payable></accounts-payable>
+      </v-flex>
+
+      <v-flex xs4>
+        
       </v-flex>
 
       <v-flex xs8>
@@ -28,6 +33,7 @@
 
     </v-layout>
   </v-container>
+</div>
 </template>
 
 
@@ -37,6 +43,7 @@ import LatestPurchases from '@/components/SupplyChain/LatestPurchases';
 import TopSupplier from '@/components/SupplyChain/TopSupplier';
 import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import InventoryValue from '@/components/SupplyChain/InventoryValue';
+import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
 
 export default {
   data() {
@@ -53,6 +60,7 @@ export default {
     TopSupplier,
     AccountsPayable,
     InventoryValue,
+    TotalPurchases,
   },
   methods: {
     updateYear(value) {

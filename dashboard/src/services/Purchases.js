@@ -8,4 +8,7 @@ export default {
   accountsPayable(initialDate, endDate) {
     return axios.get(`docCompra/VFA/${initialDate}/${endDate}`);
   },
+  totalPurchases() {
+    return axios.get('compras');
+  },
 };
