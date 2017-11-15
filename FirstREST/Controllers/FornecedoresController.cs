@@ -19,7 +19,7 @@ namespace FirstREST.Controllers
 
         }
 
-        //get  api/Fornecedores/nomeFornecedor
+        //get  api/Fornecedores/F0001
         public Fornecedor Get(String arg1)
         {
             String nomeFornecedor = arg1;

@@ -786,11 +786,12 @@ namespace FirstREST.Lib_Primavera
                     totalMerc += objListCab.Valor("TotalMerc");
                     totalDesc += objListCab.Valor("TotalDesc");
                     totalOutros += objListCab.Valor("TotalOutros");
+                    dc.Entidade = objListCab.Valor("Entidade");
 
                     objListCab.Seguinte();
                 }
 
-                dc.Entidade = objListCab.Valor("Entidade");
+                
                 dc.TotalDesc = totalDesc;
                 dc.TotalMerc = totalMerc;
                 dc.TotalOutros = totalOutros;
@@ -808,14 +809,14 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT distinct Entidade From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'"); // 
+                objListCab = PriEngine.Engine.Consulta("SELECT distinct Entidade From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR' AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'"); // 
                 while (!objListCab.NoFim())
                 {
                     String entidade = objListCab.Valor("Entidade");
                     Double totalMerc = 0;
                     Double totalDesc = 0;
                     Double totalOutros = 0;
-                    objListForne = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc TotalOutros From CabecCompras where Entidade ='" + entidade + "'AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'");
+                    objListForne = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalOutros From CabecCompras where Entidade ='" + entidade + "'AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'");
 
                     while (!objListForne.NoFim())
                     {

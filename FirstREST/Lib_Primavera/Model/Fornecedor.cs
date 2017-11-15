@@ -14,21 +14,24 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public String TipoDoc
+        public double TotalMerc
         {
             get;
             set;
         }
 
-        public DateTime DataDoc
+        public double TotalDesc
         {
-            get;
+
             set;
+            get;
         }
-        public double TotalMerc
+
+        public double TotalOutros
         {
-            get;
+
             set;
+            get;
         }
 
 
