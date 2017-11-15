@@ -10,24 +10,23 @@
         </date-picker>
       </v-flex>
       
-      <v-flex xs9>
+      <v-flex xs6>
          <top-supplier></top-supplier>
       </v-flex>
 
       <v-flex xs3>
-        <v-flex>
-          <inventory-value></inventory-value>
-        </v-flex>
-        <v-flex>
-          <total-purchases></total-purchases>
-        </v-flex>
+        <inventory-value></inventory-value>
+      </v-flex>
+      
+      <v-flex>
+        <total-purchases></total-purchases>
       </v-flex>
 
-      <v-flex xs12>
+      <v-flex xs6>
         <accounts-payable></accounts-payable>
       </v-flex>
 
-      <v-flex xs12>
+      <v-flex xs6>
         <latest-purchases></latest-purchases>
       </v-flex>
 
@@ -49,10 +48,7 @@ import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
 export default {
   data() {
     return {
-      fromYear: 0,
-      fromMonth: 0,
-      toYear: 0,
-      toMonth: 0,
+      year: '0',
     };
   },
   components: {
