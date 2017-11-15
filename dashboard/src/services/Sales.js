@@ -19,4 +19,7 @@ export default {
   salesBacklog() {
     return axios.get('DocVenda');
   },
+  invoiceLines(fiscalYear) {
+    return axios.get(`AuditFile/InvoiceLines?FiscalYear=${fiscalYear}`);
+  },
 };
