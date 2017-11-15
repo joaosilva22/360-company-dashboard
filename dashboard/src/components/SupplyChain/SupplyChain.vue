@@ -10,15 +10,19 @@
         </date-picker>
       </v-flex>
 
-      <v-flex xs7>
+      <v-flex xs8>
          <top-supplier></top-supplier>
       </v-flex>
 
-      <v-flex xs7>
+      <v-flex xs4>
+        <inventory-value></inventory-value>
+      </v-flex>
+
+      <v-flex xs8>
         <accounts-payable></accounts-payable>
       </v-flex>
 
-      <v-flex xs7>
+      <v-flex xs8>
         <latest-purchases></latest-purchases>
       </v-flex>
 
@@ -32,6 +36,7 @@ import DatePicker from '@/components/DatePicker';
 import LatestPurchases from '@/components/SupplyChain/LatestPurchases';
 import TopSupplier from '@/components/SupplyChain/TopSupplier';
 import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
+import InventoryValue from '@/components/SupplyChain/InventoryValue';
 
 export default {
   data() {
@@ -47,6 +52,7 @@ export default {
     LatestPurchases,
     TopSupplier,
     AccountsPayable,
+    InventoryValue,
   },
   methods: {
     updateYear(value) {
