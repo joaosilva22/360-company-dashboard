@@ -1,26 +1,31 @@
 <template>
-  <grid rows="7" cols="12">
-     <grid-item row="1" height="1" col="1" width="12">
-       <date-picker
+   <v-container fluid grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <date-picker
         start="2016"
         end="2016"
         @year="updateYear"
         >
-       </date-picker>
-     </grid-item>
-     <grid-item row="2" height="3" col="1" width="9">
+        </date-picker>
+      </v-flex>
+      
+      <v-flex xs12>
+          <top-customers year="2016"></top-customers>
+      </v-flex>
+      <v-flex xs12>
         <latest-sales year="2016"></latest-sales>
-     </grid-item>
-    <grid-item row="2" height="1" col="10" width="3">
-       <total-sales year="2016"></total-sales>
-     </grid-item>
-     <grid-item row="3" height="1" col="10" width="3">
-       <average-sale-value year="2016"></average-sale-value>
-     </grid-item>
-     <grid-item row="5" height="3" col="1" width="9">
-       <top-customers year="2016"></top-customers>
-     </grid-item>
-   </grid>
+      </v-flex>
+
+      <v-flex >
+        <average-sale-value year="2016"></average-sale-value>
+      </v-flex>
+      <v-flex>
+         <total-sales year="2016"></total-sales>
+      </v-flex>
+
+    </v-layout>
+  </v-container>
 </template>
 
 

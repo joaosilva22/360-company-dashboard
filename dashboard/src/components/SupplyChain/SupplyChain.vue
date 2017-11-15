@@ -1,30 +1,38 @@
 <template>
-  <grid rows="10" cols="12">
-     <grid-item row="1" height="1" col="1" width="12">
-       <date-picker
+<v-container fluid grid-list-md>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <date-picker
         start="2016"
         end="2016"
         @year="updateYear"
         >
-       </date-picker>
-     </grid-item>
-     <grid-item row="2" height="3" col="1" width="9">
+        </date-picker>
+      </v-flex>
+      
+      <v-flex xs9>
+         <top-supplier></top-supplier>
+      </v-flex>
+
+      <v-flex xs3>
+        <v-flex>
+          <inventory-value></inventory-value>
+        </v-flex>
+        <v-flex>
+          <total-purchases></total-purchases>
+        </v-flex>
+      </v-flex>
+
+      <v-flex xs12>
+        <accounts-payable></accounts-payable>
+      </v-flex>
+
+      <v-flex xs12>
         <latest-purchases></latest-purchases>
-     </grid-item>
-    <grid-item row="2" height="1" col="10" width="3">
-       <total-purchases></total-purchases>
-     </grid-item>
-     <grid-item row="3" height="1" col="10" width="3">
-       <inventory-value></inventory-value>
-     </grid-item>
-     <grid-item row="5" height="3" col="1" width="9">
-       <accounts-payable></accounts-payable>
-     </grid-item>
- 
-    <grid-item row="8" height="3" col="1" width="9">
-       <top-supplier></top-supplier>
-     </grid-item> 
-   </grid>
+      </v-flex>
+
+    </v-layout>
+  </v-container>
 </template>
 
 
