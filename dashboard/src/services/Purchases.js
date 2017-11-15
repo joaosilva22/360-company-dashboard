@@ -1,9 +1,11 @@
+import axios from 'axios';
 
 export default {
-  purchasesInvoices(initialDate, endDate) {
-    return this.$Primavera.get(`docCompra/VFA/${initialDate}/${endDate}`);
+  purchasesInvoices(fiscalYear) {
+    const endDate = fiscalYear + 1;
+    return axios.get(`compras/${fiscalYear}/${endDate}`);
   },
   accountsPayable(initialDate, endDate) {
-    return this.$Primavera.get(`docCompra/VFA/${initialDate}/${endDate}`);
+    return axios.get(`docCompra/VFA/${initialDate}/${endDate}`);
   },
 };

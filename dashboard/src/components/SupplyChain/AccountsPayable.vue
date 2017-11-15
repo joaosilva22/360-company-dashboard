@@ -1,20 +1,32 @@
 <template>
-  <div class="container">
-    <h1>Accounts Payable</h1>
-    <div class="table">
-      <v-data-table
+  <v-card>
+    <v-card-title>
+      <h3 class="headline">Accounts Payable</h3>
+      <v-spacer></v-spacer>
+      <v-text-field
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+        v-model="search"
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
         v-bind:headers="headers"
-        :items="items"
-        hide-actions
+        v-bind:items="items"
+        v-bind:search="search"
       >
-        <template slot="items" scope="props">
-          <td>{{ props.item.supplier }}</td>
-          <td class="text-xs-right">{{ props.item.date }}</td>
-          <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
-        </template>
-      </v-data-table>
-    </div>
-  </div>
+      <template slot="items" slot-scope="props">
+        <td>{{props.item.supplier/*supplier*/ }}</td>
+        <td class="text-xs-right">{{props.item.date/*date*/ }}</td>
+        <td class="text-xs-right">{{ formatVal(props.item.net/*net */) }}</td>
+        </td>
+      </template>
+      <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+        From {{ pageStart }} to {{ pageStop }}
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -34,9 +46,14 @@
          { text: 'Net Value (EUR)', value: 'net' },
        ],
        items: [],
+       max25chars: v => v.length <= 25 || 'Input too long!',
+       tmp: '',
+       search: '',
+       pagination: {},
      };
    },
-   methods: {
+   props: ['year'],
+   created: {
      async accountsPayable(initialDate, endDate) {
        try {
          const response = Purchases.accountsPayable(initialDate, endDate);

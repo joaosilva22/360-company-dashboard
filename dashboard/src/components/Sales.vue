@@ -18,45 +18,47 @@
         <top-customers year="2016"></top-customers>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex xs6>
         <total-sales year="2016"></total-sales>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex xs6 id="averageSaleValue">
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
+
 <script>
- import TotalSales from '@/components/TotalSales';
- import AverageSaleValue from '@/components/AverageSaleValue';
- import DatePicker from '@/components/DatePicker';
- import LatestSales from '@/components/LatestSales';
- import TopCustomers from '@/components/TopCustomers';
- 
- export default {
-   data() {
-     return {
-       year: 0,
-     };
-   },
-   components: {
-     TotalSales,
-     AverageSaleValue,
-     DatePicker,
-     LatestSales,
-     TopCustomers,
-   },
-   methods: {
-     updateYear(value) {
-       this.year = value;
-     },
-   },
- };
+import TotalSales from '@/components/TotalSales';
+import AverageSaleValue from '@/components/AverageSaleValue';
+import DatePicker from '@/components/DatePicker';
+import LatestSales from '@/components/LatestSales';
+import TopCustomers from '@/components/TopCustomers';
+
+export default {
+  data() {
+    return {
+      year: 0,
+    };
+  },
+  components: {
+    TotalSales,
+    AverageSaleValue,
+    DatePicker,
+    LatestSales,
+    TopCustomers,
+  },
+  methods: {
+    updateYear(value) {
+      this.year = value;
+    },
+  },
+};
 </script>
 
 <style scoped>
+
 </style>
 
