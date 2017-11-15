@@ -100,3 +100,7 @@ C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.dll
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.dll
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.xml
 C:\Users\user\Desktop\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.xml
+C:\SINF\360-company-dashboard\FirstREST\bin\EntityFramework.dll
+C:\SINF\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.dll
+C:\SINF\360-company-dashboard\FirstREST\bin\EntityFramework.xml
+C:\SINF\360-company-dashboard\FirstREST\bin\EntityFramework.SqlServer.xml
