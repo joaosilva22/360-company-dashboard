@@ -10,11 +10,11 @@
         </date-picker>
       </v-flex>
       
-      <v-flex xs6>
+      <v-flex xs5>
           <top-customers year="2016"></top-customers>
       </v-flex>
       
-      <v-flex xs6>
+      <v-flex xs7>
         <latest-sales year="2016"></latest-sales>
       </v-flex>
 
