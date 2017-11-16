@@ -19,7 +19,7 @@
       <template slot="items" slot-scope="props">
         <td>{{ props.item.supplier }}</td>
         <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
         </td>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">

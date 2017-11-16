@@ -22,7 +22,7 @@ export default {
         },
         {
           name: 'Total Value',
-          value: `${this.formatVal(res.data.TotalValor)} EUR`,
+          value: `${this.formatVal(res.data.TotalValor * -1)} EUR`,
         },
       ];
     });
