@@ -391,7 +391,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT TipoDoc, DataDoc,TotalMerc, TotalIva, TotalDesc,  TotalOutros, TotalDocumento,  Entidade  From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
+                objListCab = PriEngine.Engine.Consulta("SELECT TipoDoc, DataDoc,TotalMerc, TotalIva, TotalDesc,  TotalDespesasAdicionais,  Entidade  From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
                 while (!objListCab.NoFim())
                 {
                     dc = new Model.DocCompra();
@@ -400,8 +400,7 @@ namespace FirstREST.Lib_Primavera
                     dc.TotalMerc = objListCab.Valor("TotalMerc");
                     dc.TotalIva = objListCab.Valor("TotalIva");
                     dc.TotalDesc = objListCab.Valor("TotalDesc");
-                    dc.TotalOutros = objListCab.Valor("TotalOutros");
-                    dc.TotalDocumento = objListCab.Valor("TotalDocumento");
+                    dc.TotalOutros = objListCab.Valor("TotalDespesasAdicionais");
                     dc.Entidade = objListCab.Valor("Entidade");
 
                     listdc.Add(dc);
@@ -450,7 +449,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT  TipoDoc, DataDoc,TotalMerc, TotalIva,  Entidade, TipoDoc, TotalOutros, TotalDocumento From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe + "'AND DataDoc <=' " + dataAte + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT  Entidade, DataDoc,TotalMerc, TotalIva,  TotalDesc, TipoDoc, TotalDespesasAdicionais From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe + "'AND DataDoc <=' " + dataAte + "'");
 
                 while (!objListCab.NoFim())
                 {
@@ -460,8 +459,7 @@ namespace FirstREST.Lib_Primavera
                     dc.TotalMerc = objListCab.Valor("TotalMerc");
                     dc.TotalIva = objListCab.Valor("TotalIva");
                     dc.TotalDesc = objListCab.Valor("TotalDesc");
-                    dc.TotalOutros = objListCab.Valor("TotalOutros");
-                    dc.TotalDocumento = objListCab.Valor("TotalDocumento");
+                    dc.TotalOutros = objListCab.Valor("TotalDespesasAdicionais");
                     dc.Entidade = objListCab.Valor("Entidade");
 
                     listdc.Add(dc);
@@ -471,63 +469,7 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
-        public static Model.RespostaErro VGR_New(Model.DocCompra dc)
-        {
-            Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
-
-
-            GcpBEDocumentoCompra myGR = new GcpBEDocumentoCompra();
-            GcpBELinhaDocumentoCompra myLin = new GcpBELinhaDocumentoCompra();
-            GcpBELinhasDocumentoCompra myLinhas = new GcpBELinhasDocumentoCompra();
-
-            PreencheRelacaoCompras rl = new PreencheRelacaoCompras();
-            List<Model.LinhaDocCompra> lstlindv = new List<Model.LinhaDocCompra>();
-
-            try
-            {
-                if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
-                {
-                    // Atribui valores ao cabecalho do doc
-                    //myEnc.set_DataDoc(dv.Data);
-                    //myGR.set_Entidade(dc.Entidade);
-                    //myGR.set_NumDocExterno(dc.NumDocExterno);
-                    myGR.set_Tipodoc("VGR");
-                    myGR.set_TipoEntidade("F");
-                    // Linhas do documento para a lista de linhas
-                    //lstlindv = dc.LinhasDoc;
-                    //PriEngine.Engine.Comercial.Compras.PreencheDadosRelacionados(myGR,rl);
-                    PriEngine.Engine.Comercial.Compras.PreencheDadosRelacionados(myGR);
-                    foreach (Model.LinhaDocCompra lin in lstlindv)
-                    {
-                        PriEngine.Engine.Comercial.Compras.AdicionaLinha(myGR, lin.CodArtigo, lin.Quantidade, lin.Armazem, "", lin.PrecoUnitario, lin.TDescontoArtigo);
-                    }
-
-
-                    PriEngine.Engine.IniciaTransaccao();
-                    PriEngine.Engine.Comercial.Compras.Actualiza(myGR, "Teste");
-                    PriEngine.Engine.TerminaTransaccao();
-                    erro.Erro = 0;
-                    erro.Descricao = "Sucesso";
-                    return erro;
-                }
-                else
-                {
-                    erro.Erro = 1;
-                    erro.Descricao = "Erro ao abrir empresa";
-                    return erro;
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                PriEngine.Engine.DesfazTransaccao();
-                erro.Erro = 1;
-                erro.Descricao = ex.Message;
-                return erro;
-            }
-        }
-
+     
 
         #endregion DocCompra
 
@@ -747,21 +689,41 @@ namespace FirstREST.Lib_Primavera
         #region Fornecedor
         public static List<Model.Fornecedor> ListFornecedores()
         {
-            StdBELista objListCab;
+            StdBELista objListForne;
+            StdBELista fornecedor;
+
             Model.Fornecedor dc = new Model.Fornecedor();
             List<Model.Fornecedor> listdc = new List<Model.Fornecedor>();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT DISTINCT Entidade From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
-
-                while (!objListCab.NoFim())
+                objListForne = PriEngine.Engine.Consulta("SELECT distinct Entidade From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'"); // 
+                while (!objListForne.NoFim())
                 {
+                    String entidade = objListForne.Valor("Entidade");
+                    Double totalMerc = 0;
+                    Double totalDesc = 0;
+                    Double totalOutros = 0;
+                    fornecedor = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalDespesasAdicionais From CabecCompras where Entidade ='" + entidade + "'AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR')");
+
+                    while (!fornecedor.NoFim())
+                    {
+                        totalMerc += fornecedor.Valor("TotalMerc");
+                        totalDesc += fornecedor.Valor("TotalDesc");
+                        totalOutros += fornecedor.Valor("TotalDespesasAdicionais");
+
+                        fornecedor.Seguinte();
+                    }
+
                     dc = new Model.Fornecedor();
-                    dc.Entidade = objListCab.Valor("Entidade");
+                    dc.Entidade = objListForne.Valor("Entidade");
+                    dc.TotalOutros = totalOutros;
+                    dc.TotalMerc = totalMerc;
+                    dc.TotalDesc = totalDesc;
+
 
                     listdc.Add(dc);
-                    objListCab.Seguinte();
+                    objListForne.Seguinte();
                 }
             }
             return listdc;
@@ -778,14 +740,13 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT TotalMerc, TotalDesc,  TotalOutros, Entidade  From CabecCompras where Entidade='" + entidade + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR')");
+                objListCab = PriEngine.Engine.Consulta("SELECT TotalMerc, TotalDesc,  TotalDespesasAdicionais, Entidade  From CabecCompras where Entidade='" + entidade + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR')");
                 while (!objListCab.NoFim())
                 {
-
-
+                    
                     totalMerc += objListCab.Valor("TotalMerc");
                     totalDesc += objListCab.Valor("TotalDesc");
-                    totalOutros += objListCab.Valor("TotalOutros");
+                    totalOutros += objListCab.Valor("TotalDespesasAdicionais");
                     dc.Entidade = objListCab.Valor("Entidade");
 
                     objListCab.Seguinte();
@@ -803,36 +764,39 @@ namespace FirstREST.Lib_Primavera
         public static List<Model.Fornecedor> ListFornecedoresData(DateTime dataDe, DateTime dataAte)
         {
             StdBELista objListCab;
-            StdBELista objListForne;
-            Model.Fornecedor dc = new Model.Fornecedor();
+            StdBELista objListCab2;
+
+            StdBELista fornecedor;
             List<Model.Fornecedor> listdc = new List<Model.Fornecedor>();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT distinct Entidade From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR' AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'"); // 
+                objListCab = PriEngine.Engine.Consulta("SELECT distinct Entidade From CabecCompras where  DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG' or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP' or TipoDoc='VFR' )"); // 
+
                 while (!objListCab.NoFim())
                 {
+                    Model.Fornecedor dc = new Model.Fornecedor();
                     String entidade = objListCab.Valor("Entidade");
                     Double totalMerc = 0;
                     Double totalDesc = 0;
                     Double totalOutros = 0;
-                    objListForne = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalOutros From CabecCompras where Entidade ='" + entidade + "'AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "'AND DataDoc <='" + dataAte + "'");
+                    fornecedor = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalDespesasAdicionais From CabecCompras where Entidade ='" + entidade + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "'");
 
-                    while (!objListForne.NoFim())
+                    while (!fornecedor.NoFim())
                     {
-                        totalMerc += objListForne.Valor("TotalMerc");
-                        totalDesc += objListForne.Valor("TotalDesc");
-                        totalOutros += objListForne.Valor("TotalDesc");
+                        totalMerc += fornecedor.Valor("TotalMerc");
+                        totalDesc += fornecedor.Valor("TotalDesc");
+                        totalOutros += fornecedor.Valor("TotalDespesasAdicionais");
 
-                        objListForne.Seguinte();
+                        fornecedor.Seguinte();
                     }
 
-                    dc = new Model.Fornecedor();
-                    dc.Entidade = objListCab.Valor("Entidade");
+
+                    dc.Entidade = entidade;
                     dc.TotalOutros = totalOutros;
                     dc.TotalMerc = totalMerc;
                     dc.TotalDesc = totalDesc;
-
+                    
 
                     listdc.Add(dc);
                     objListCab.Seguinte();
@@ -856,19 +820,24 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT TotalMerc FROM CabecCompras");
-                Double totalValor = 0;
+                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalDespesasAdicionais From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
+                Double totalMerc = 0;
+                Double totalDesc = 0;
+                Double totalDespesas = 0;
 
 
                 while (!objList.NoFim())
                 {
-                    totalValor += objList.Valor("TotalMerc");
+                    totalMerc += objList.Valor("TotalMerc");
+                    totalDesc += objList.Valor("totalDesc");
+                    totalDespesas += objList.Valor("TotalDespesasAdicionais");
+
                     objList.Seguinte();
 
                 }
 
                 art.TotalCompras = objList.NumLinhas();
-                art.TotalValor = totalValor;
+                art.TotalValor = totalMerc - totalDesc + totalDespesas;
 
                 return art;
 
@@ -880,9 +849,8 @@ namespace FirstREST.Lib_Primavera
             }
 
         }
-
-
-        public static Lib_Primavera.Model.Compras TotalComprasTipoDoc(String tipoDoc)
+        
+        public static Lib_Primavera.Model.Compras TotalComprasData(DateTime dataDe, DateTime dataAte)
         {
             StdBELista objList;
 
@@ -892,20 +860,24 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT TotalMerc FROM CabecCompras where TipoDoc='" + tipoDoc + "'");
-                Double totalValor = 0;
+                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc, TotalDespesasAdicionais From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "'");
+                Double totalMerc = 0;
+                Double totalDesc = 0;
+                Double totalDespesas = 0;
 
 
                 while (!objList.NoFim())
                 {
-                    totalValor += objList.Valor("TotalMerc");
+                    totalMerc += objList.Valor("TotalMerc");
+                    totalDesc += objList.Valor("totalDesc");
+                    totalDespesas += objList.Valor("TotalDespesasAdicionais");
+
                     objList.Seguinte();
 
                 }
 
                 art.TotalCompras = objList.NumLinhas();
-                art.TotalValor = totalValor;
-                art.TipoCompras = tipoDoc;
+                art.TotalValor = totalMerc - totalDesc + totalDespesas;
 
                 return art;
 
@@ -919,6 +891,7 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion Compras
+
 
         #region Inventario
 

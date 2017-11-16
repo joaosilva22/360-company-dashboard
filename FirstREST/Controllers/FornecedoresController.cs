@@ -24,7 +24,7 @@ namespace FirstREST.Controllers
         {
             String nomeFornecedor = arg1;
 
-           Fornecedor fornecedore = Lib_Primavera.PriIntegration.ListFornecedor(nomeFornecedor);
+            Fornecedor fornecedore = Lib_Primavera.PriIntegration.ListFornecedor(nomeFornecedor);
             if (fornecedore == null)
             {
                 throw new HttpResponseException(
@@ -38,12 +38,12 @@ namespace FirstREST.Controllers
         }
 
         //get  api/Fornecedores/2015-03-12/2017-03-12
-        public IEnumerable<Lib_Primavera.Model.Fornecedor> Get( DateTime arg1, DateTime arg2)
+        public IEnumerable<Lib_Primavera.Model.Fornecedor> Get(DateTime arg1, DateTime arg2)
         {
             DateTime dataDe = arg1;
             DateTime dataAte = arg2;
 
-            IEnumerable<Lib_Primavera.Model.Fornecedor> fornecedores = Lib_Primavera.PriIntegration.ListFornecedoresData( dataDe, dataAte);
+            IEnumerable<Lib_Primavera.Model.Fornecedor> fornecedores = Lib_Primavera.PriIntegration.ListFornecedoresData(dataDe, dataAte);
             if (fornecedores == null)
             {
                 throw new HttpResponseException(
@@ -55,6 +55,7 @@ namespace FirstREST.Controllers
                 return fornecedores;
             }
         }
-
     }
+
+
 }

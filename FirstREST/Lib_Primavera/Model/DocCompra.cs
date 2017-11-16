@@ -45,11 +45,6 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double TotalDocumento
-        {
-            get;
-            set;
-        }
 
         public string Entidade
         {

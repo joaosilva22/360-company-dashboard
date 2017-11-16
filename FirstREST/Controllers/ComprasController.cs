@@ -21,10 +21,12 @@ namespace FirstREST.Controllers
 
         }
 
-        public Compras Get(String arg1)
+        public Compras Get(DateTime arg1, DateTime arg2)
         {
-            String tipoDoc = arg1;
-            return Lib_Primavera.PriIntegration.TotalComprasTipoDoc(tipoDoc);
+            DateTime dataDe = arg1;
+            DateTime dataAte = arg2;
+
+            return Lib_Primavera.PriIntegration.TotalComprasData(dataDe, dataAte);
 
         }
          

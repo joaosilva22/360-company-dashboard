@@ -8,12 +8,6 @@ namespace FirstREST.Lib_Primavera.Model
     public class Compras
     {
 
-        public string TipoCompras
-        {
-            get;
-            set;
-        }
-
         public double TotalCompras
         {
             get;

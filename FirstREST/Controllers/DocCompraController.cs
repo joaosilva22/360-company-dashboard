@@ -29,7 +29,25 @@ namespace FirstREST.Controllers
             }
         }
 
-    
+        //get  api/DocCompra/2015-12-12/2017-12-12
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(DateTime arg1, DateTime arg2)
+        {
+            DateTime dataDe = arg1;
+            DateTime dataAte = arg2;
+
+
+            IEnumerable<Lib_Primavera.Model.DocCompra> docCompra = Lib_Primavera.PriIntegration.ListDocCompraData(dataDe, dataAte);
+            if (docCompra == null)
+            {
+                throw new HttpResponseException(
+                        Request.CreateResponse(HttpStatusCode.NotFound));
+
+            }
+            else
+            {
+                return docCompra;
+            }
+        }
   
         //get  api/DocCompra/2015-03-12/2017-03-12
         /* public IEnumerable<Lib_Primavera.Model.DocCompra> Get(DateTime arg1, DateTime arg2)
