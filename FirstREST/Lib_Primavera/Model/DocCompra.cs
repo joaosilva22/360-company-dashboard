@@ -46,7 +46,7 @@ namespace FirstREST.Lib_Primavera.Model
         }
 
 
-        public string Entidade
+        public string NomeFornecedor
         {
             get;
             set;

@@ -14,9 +14,9 @@
          <top-supplier></top-supplier>
       </v-flex>
      
-      <v-flex xs12>
+      <!--<v-flex xs12>
         <accounts-payable></accounts-payable>
-      </v-flex>
+      </v-flex> -->
 
       <v-flex xs12>
         <latest-purchases></latest-purchases>
@@ -41,7 +41,7 @@ import GridItem from '@/components/GridItem';
 import DatePicker from '@/components/DatePicker';
 import LatestPurchases from '@/components/SupplyChain/LatestPurchases';
 import TopSupplier from '@/components/SupplyChain/TopSupplier';
-import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
+// import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import InventoryValue from '@/components/SupplyChain/InventoryValue';
 import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
 
@@ -57,7 +57,7 @@ export default {
     DatePicker,
     LatestPurchases,
     TopSupplier,
-    AccountsPayable,
+   //  AccountsPayable,
     InventoryValue,
     TotalPurchases,
   },

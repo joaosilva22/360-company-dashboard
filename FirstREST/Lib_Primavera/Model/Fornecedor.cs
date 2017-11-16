@@ -8,7 +8,7 @@ namespace FirstREST.Lib_Primavera.Model
     public class Fornecedor
     {
 
-        public String Entidade
+        public String Nome
         {
             get;
             set;

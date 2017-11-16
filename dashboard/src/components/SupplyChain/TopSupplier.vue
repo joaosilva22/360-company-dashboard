@@ -41,7 +41,6 @@ export default {
           sortable: false,
           value: 'supplier',
         },
-        
         { text: 'Net Value (EUR)', value: 'net' },
       ],
       items: [],
@@ -56,7 +55,7 @@ export default {
       const invoices = res.data;
       invoices.forEach((invoice) => {
         const net = invoice.TotalMerc;
-        const supplier = invoice.Entidade;
+        const supplier = invoice.Nome;
         this.items.push({
           supplier,
           net,
