@@ -55,7 +55,7 @@
          data: {
            labels,
            datasets: [{
-             label: '# of Votes',
+             label: 'Number of units sold',
              data,
              backgroundColor,
            }],
@@ -102,4 +102,5 @@
  };
 </script>
 
-<style scop
+<style scoped>
+</style>
