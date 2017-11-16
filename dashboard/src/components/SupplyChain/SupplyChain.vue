@@ -10,25 +10,29 @@
         </date-picker>
       </v-flex>
       
-      <v-flex xs12>
-         <top-supplier></top-supplier>
+      <v-flex xs6 d-flex>
+        <purchases-to-date></purchases-to-date>
       </v-flex>
-     
-      <!--<v-flex xs12>
-        <accounts-payable></accounts-payable>
-      </v-flex> -->
-
-      <v-flex xs12>
+      
+      <v-flex xs6 d-flex>
         <latest-purchases></latest-purchases>
       </v-flex>
- <v-flex d-flex>
+      
+      <v-flex xs6 d-flex>
         <inventory-value></inventory-value>
       </v-flex>
       
-      <v-flex d-flex>
+      <v-flex xs6 d-flex>
         <total-purchases></total-purchases>
       </v-flex>
       
+      <v-flex xs5 d-flex>
+         <top-supplier></top-supplier>
+      </v-flex>
+     
+      <v-flex xs7 d-flex>
+        <accounts-payable></accounts-payable>
+      </v-flex>
 
     </v-layout>
   </v-container>
@@ -36,14 +40,13 @@
 
 
 <script>
-import Grid from '@/components/Grid';
-import GridItem from '@/components/GridItem';
 import DatePicker from '@/components/DatePicker';
 import LatestPurchases from '@/components/SupplyChain/LatestPurchases';
 import TopSupplier from '@/components/SupplyChain/TopSupplier';
-// import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
+import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import InventoryValue from '@/components/SupplyChain/InventoryValue';
 import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
+import PurchasesToDate from '@/components/SupplyChain/PurchasesToDate';
 
 export default {
   data() {
@@ -52,14 +55,13 @@ export default {
     };
   },
   components: {
-    Grid,
-    GridItem,
     DatePicker,
     LatestPurchases,
     TopSupplier,
-   //  AccountsPayable,
+    AccountsPayable,
     InventoryValue,
     TotalPurchases,
+    PurchasesToDate,
   },
   methods: {
     updateYear(value) {
