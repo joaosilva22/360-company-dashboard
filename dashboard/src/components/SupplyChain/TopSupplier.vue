@@ -41,6 +41,7 @@ export default {
           sortable: false,
           value: 'supplier',
         },
+        
         { text: 'Net Value (EUR)', value: 'net' },
       ],
       items: [],
