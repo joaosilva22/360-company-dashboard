@@ -21,18 +21,18 @@
 	  <v-flex xs6>
         <sales-backlog></sales-backlog>
       </v-flex>
-	  
-      <v-flex xs3>
+	  <v-flex xs6>
+        <product-performance year="2016"></product-performance>
+      </v-flex xs6>
+      <v-flex d-flex>
         <total-sales year="2016"></total-sales>
       </v-flex>
 
-      <v-flex xs3>
+      <v-flex d-flex>
         <average-sale-value year="2016"></average-sale-value>
       </v-flex>
       
-      <v-flex xs6>
-        <product-performance year="2016"></product-performance>
-      </v-flex xs6>
+      
     </v-layout>
   </v-container>
 </template>

@@ -10,24 +10,24 @@
         </date-picker>
       </v-flex>
       
-      <v-flex xs6>
+      <v-flex xs12>
          <top-supplier></top-supplier>
       </v-flex>
 
-      <v-flex xs3>
-        <inventory-value></inventory-value>
-      </v-flex>
-      
-      <v-flex>
-        <total-purchases></total-purchases>
-      </v-flex>
-
-      <v-flex xs6>
+      <v-flex xs12>
         <accounts-payable></accounts-payable>
       </v-flex>
 
-      <v-flex xs6>
+      <v-flex xs12>
         <latest-purchases></latest-purchases>
+      </v-flex>
+
+      <v-flex d-flex>
+        <inventory-value></inventory-value>
+      </v-flex>
+      
+      <v-flex d-flex>
+        <total-purchases></total-purchases>
       </v-flex>
 
     </v-layout>
