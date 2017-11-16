@@ -59,7 +59,7 @@ export default {
       invoices.forEach((invoice) => {
         const net = invoice.TotalMerc;
         const date = invoice.DataDoc;
-        const supplier = invoice.NomeFornecedor;
+        const supplier = invoice.Entidade;
         this.items.push({
           supplier,
           date,

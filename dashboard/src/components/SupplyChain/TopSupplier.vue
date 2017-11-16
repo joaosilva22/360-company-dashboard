@@ -55,7 +55,7 @@ export default {
       const invoices = res.data;
       invoices.forEach((invoice) => {
         const net = invoice.TotalMerc;
-        const supplier = invoice.NomeFornecedor;
+        const supplier = invoice.Entidade;
         this.items.push({
           supplier,
           net,
