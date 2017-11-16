@@ -62,7 +62,7 @@ export default {
         const discount = invoice.TotalDesc;
         const others = invoice.TotalOutros;
         const net = (merchandise + others) - discount;
-        const supplier = invoice.Entidade;
+        const supplier = invoice.NomeFornecedor;
         this.items.push({
           supplier,
           date,
