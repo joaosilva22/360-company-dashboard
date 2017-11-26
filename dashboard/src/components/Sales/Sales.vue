@@ -46,14 +46,14 @@
 
 
 <script>
- import TotalSales from '@/components/TotalSales';
- import AverageSaleValue from '@/components/AverageSaleValue';
+ import TotalSales from '@/components/Sales/TotalSales';
+ import AverageSaleValue from '@/components/Sales/AverageSaleValue';
  import DatePicker from '@/components/DatePicker';
- import LatestSales from '@/components/LatestSales';
- import TopCustomers from '@/components/TopCustomers';
- import SalesBacklog from '@/components/SalesBacklog';
- import ProductPerformance from '@/components/ProductPerformance';
- import SalesToDate from '@/components/SalesToDate';
+ import LatestSales from '@/components/Sales/LatestSales';
+ import TopCustomers from '@/components/Sales/TopCustomers';
+ import SalesBacklog from '@/components/Sales/SalesBacklog';
+ import ProductPerformance from '@/components/Sales/ProductPerformance';
+ import SalesToDate from '@/components/Sales/SalesToDate';
  
  export default {
    data() {

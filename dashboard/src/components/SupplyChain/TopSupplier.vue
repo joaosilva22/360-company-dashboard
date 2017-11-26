@@ -54,7 +54,7 @@ export default {
     this.topSuppliers().then((res) => {
       const invoices = res.data;
       invoices.forEach((invoice) => {
-        const net = invoice.TotalMerc;
+        const net = invoice.TotalLiquido;
         const supplier = invoice.Nome;
         this.items.push({
           supplier,

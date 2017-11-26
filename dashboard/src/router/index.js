@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Financial from '@/components/Financial/Financial';
 import Overview from '@/components/Overview/Overview';
-import Sales from '@/components/Sales';
+import Sales from '@/components/Sales/Sales';
 import SupplyChain from '@/components/SupplyChain/SupplyChain';
 
 Vue.use(Router);

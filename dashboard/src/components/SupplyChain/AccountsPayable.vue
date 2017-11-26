@@ -57,7 +57,7 @@ export default {
     this.accountsPayable().then((res) => {
       const invoices = res.data;
       invoices.forEach((invoice) => {
-        const net = invoice.TotalMerc;
+        const net = invoice.TotalLiquido;
         const date = invoice.DataDoc;
         const supplier = invoice.NomeFornecedor;
         this.items.push({

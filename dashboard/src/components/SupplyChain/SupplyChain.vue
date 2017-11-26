@@ -34,6 +34,10 @@
         <accounts-payable></accounts-payable>
       </v-flex>
 
+      <v-flex xs5 d-flex>
+        <inventory-composition></inventory-composition>
+      </v-flex>
+
     </v-layout>
   </v-container>
 </template>
@@ -47,6 +51,8 @@ import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import InventoryValue from '@/components/SupplyChain/InventoryValue';
 import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
 import PurchasesToDate from '@/components/SupplyChain/PurchasesToDate';
+import InventoryComposition from '@/components/SupplyChain/InventoryComposition';
+
 
 export default {
   data() {
@@ -62,6 +68,7 @@ export default {
     InventoryValue,
     TotalPurchases,
     PurchasesToDate,
+    InventoryComposition,
   },
   methods: {
     updateYear(value) {
