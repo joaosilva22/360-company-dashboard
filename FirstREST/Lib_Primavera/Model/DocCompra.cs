@@ -21,30 +21,11 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double TotalMerc
+        public double TotalLiquido
         {
             get;
             set;
         }
-
-        public double TotalIva
-        {
-            get;
-            set;
-        }
-
-        public double TotalDesc
-        {
-            get;
-            set;
-        }
-
-        public double TotalOutros
-        {
-            get;
-            set;
-        }
-
 
         public string NomeFornecedor
         {

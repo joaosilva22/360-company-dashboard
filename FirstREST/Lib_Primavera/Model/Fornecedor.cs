@@ -14,24 +14,10 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public double TotalMerc
+        public double TotalLiquido
         {
             get;
             set;
-        }
-
-        public double TotalDesc
-        {
-
-            set;
-            get;
-        }
-
-        public double TotalOutros
-        {
-
-            set;
-            get;
         }
 
 
