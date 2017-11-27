@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export default {
-  topSuppliers() {
-    return axios.get('fornecedores');
+  topSuppliers(start, end) {
+    return axios.get(`fornecedores/${start}/${end}`);
   },
   inventoryValue() {
     return axios.get('inventario');

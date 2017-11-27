@@ -11,11 +11,11 @@
       </v-flex>
       
       <v-flex xs6 d-flex>
-        <purchases-to-date></purchases-to-date>
+        <purchases-to-date ></purchases-to-date>
       </v-flex>
       
       <v-flex xs6 d-flex>
-        <latest-purchases></latest-purchases>
+        <latest-purchases v-bind:start="startSuppply" :end="endSuppply" ></latest-purchases>
       </v-flex>
       
       <v-flex xs6 d-flex>
@@ -23,15 +23,15 @@
       </v-flex>
       
       <v-flex xs6 d-flex>
-        <total-purchases></total-purchases>
+        <total-purchases v-bind:start="startSuppply" :end="endSuppply"></total-purchases>
       </v-flex>
       
       <v-flex xs5 d-flex>
-         <top-supplier></top-supplier>
+         <top-supplier v-bind:start="startSuppply" :end="endSuppply"></top-supplier>
       </v-flex>
      
       <v-flex xs7 d-flex>
-        <accounts-payable></accounts-payable>
+        <accounts-payable v-bind:start="startSuppply" :end="endSuppply"></accounts-payable>
       </v-flex>
 
       <v-flex xs5 d-flex>
@@ -58,6 +58,8 @@ export default {
   data() {
     return {
       year: '0',
+      startSuppply: '2015-01-01',
+      endSuppply: '2015-12-12',
     };
   },
   components: {

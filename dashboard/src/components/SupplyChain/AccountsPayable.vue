@@ -52,9 +52,9 @@ export default {
       pagination: {},
     };
   },
-  props: ['year'],
+  props: ['start', 'end'],
   created() {
-    this.accountsPayable().then((res) => {
+    this.accountsPayable(this.start, this.end).then((res) => {
       const invoices = res.data;
       invoices.forEach((invoice) => {
         const net = invoice.TotalLiquido;
@@ -69,8 +69,8 @@ export default {
     });
   },
   methods: {
-    accountsPayable() {
-      return Purchases.accountsPayable();
+    accountsPayable(start, end) {
+      return Purchases.accountsPayable(start, end);
     },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');

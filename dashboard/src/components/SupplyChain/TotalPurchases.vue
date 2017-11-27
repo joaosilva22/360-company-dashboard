@@ -12,9 +12,9 @@ export default {
       items: [],
     };
   },
-  props: ['year'],
+  props: ['start', 'end'],
   created() {
-    this.totalPurchases().then((res) => {
+    this.totalPurchases(this.start, this.end).then((res) => {
       this.items = [
         {
           name: 'Total Number',
@@ -28,8 +28,8 @@ export default {
     });
   },
   methods: {
-    totalPurchases() {
-      return Purchases.totalPurchases();
+    totalPurchases(start, end) {
+      return Purchases.totalPurchases(start, end);
     },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
