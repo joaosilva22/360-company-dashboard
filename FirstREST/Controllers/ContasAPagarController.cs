@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,8 +13,8 @@ namespace FirstREST.Controllers
 {
     public class ContasAPagarController : ApiController
     {
-              //GET: api/ContasAPagar/2014-12-12/2017-12-12
-        public IEnumerable<Lib_Primavera.Model.DocCompra> Get( DateTime arg1, DateTime arg2)
+        //GET: api/ContasAPagar/2014-12-12/2017-12-12
+        public IEnumerable<Lib_Primavera.Model.DocCompra> Get(DateTime arg1, DateTime arg2)
         {
             DateTime dataDe = arg1;
             DateTime dataAte = arg2;
