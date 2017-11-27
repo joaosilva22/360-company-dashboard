@@ -12,8 +12,6 @@ namespace FirstREST.Lib_Primavera
 {
     public class PriIntegration
     {
-
-
         # region Cliente
 
         public static List<Model.Cliente> ListaClientes()
@@ -763,41 +761,32 @@ namespace FirstREST.Lib_Primavera
 
         #region Compras
 
-        public static Lib_Primavera.Model.Compras TotalCompras()
+        public static List<Model.DocCompra>  ListaContasAPagar(DateTime dataDe, DateTime dataAte)
         {
-            StdBELista objList;
-
-
-            Model.Compras art = new Model.Compras();
+           
+            StdBELista objListCab;
+            Model.DocCompra dc = new Model.DocCompra();
+            List<Model.DocCompra> listdc = new List<Model.DocCompra>();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-
-                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
-                Double totalMerc = 0;
-                Double totalDesc = 0;
-
-                while (!objList.NoFim())
+                objListCab = PriEngine.Engine.Consulta("SELECT TipoDoc, DataDoc,TotalMerc, TotalDesc, Nome  From CabecCompras where TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR'");
+                while (!objListCab.NoFim())
                 {
-                    totalMerc += objList.Valor("TotalMerc");
-                    totalDesc += objList.Valor("totalDesc");
+                    double totalMerc, totalDesc;
+                    dc = new Model.DocCompra();
+                    dc.TipoDoc = objListCab.Valor("TipoDoc");
+                    dc.DataDoc = objListCab.Valor("DataDoc");
+                    totalMerc = objListCab.Valor("TotalMerc");
+                    totalDesc = objListCab.Valor("TotalDesc");
+                    dc.NomeFornecedor = objListCab.Valor("Nome");
+                    dc.TotalLiquido = totalMerc - totalDesc;
 
-                    objList.Seguinte();
-
+                    listdc.Add(dc);
+                    objListCab.Seguinte();
                 }
-
-                art.TotalCompras = objList.NumLinhas();
-                art.TotalValor = totalMerc - totalDesc;
-
-                return art;
-
             }
-            else
-            {
-                return null;
-
-            }
-
+            return listdc;
         }
         
         public static Lib_Primavera.Model.Compras TotalComprasData(DateTime dataDe, DateTime dataAte)
@@ -839,6 +828,47 @@ namespace FirstREST.Lib_Primavera
         }
 
         #endregion Compras
+
+        #region ContasAPagar
+                  public static Lib_Primavera.Model.Compras TotalComprasData(DateTime dataDe, DateTime dataAte)
+        {
+            StdBELista objList;
+
+
+            Model.Compras art = new Model.Compras();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "'");
+                Double totalMerc = 0;
+                Double totalDesc = 0;
+
+
+                while (!objList.NoFim())
+                {
+                    totalMerc += objList.Valor("TotalMerc");
+                    totalDesc += objList.Valor("totalDesc");
+
+                    objList.Seguinte();
+
+                }
+
+                art.TotalCompras = objList.NumLinhas();
+                art.TotalValor = totalMerc - totalDesc;
+
+                return art;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+        #endregion ContasAPagar
 
 
         #region Inventario
