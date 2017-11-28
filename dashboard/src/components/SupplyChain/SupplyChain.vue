@@ -12,15 +12,15 @@
       
 
       <v-flex xs6 d-flex>
-        <latest-purchases v-bind:start="startSuppply" :end="endSuppply" ></latest-purchases>
+        <latest-purchases v-bind:start="startSupply" :end="endSupply" ></latest-purchases>
       </v-flex>
       
       <v-flex xs6 d-flex>
-        <total-purchases v-bind:start="startSuppply" :end="endSuppply"></total-purchases>
+        <total-purchases v-bind:start="startSupply" :end="endSupply"></total-purchases>
       </v-flex>
 
       <v-flex xs6 d-flex>
-         <top-supplier v-bind:start="startSuppply" :end="endSuppply"></top-supplier>
+         <top-supplier v-bind:start="startSupply" :end="endSupply"></top-supplier>
       </v-flex>
 
       <v-flex xs6 d-flex>
@@ -35,11 +35,11 @@
       </v-flex>
             
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:start="startSuppply" :end="endSuppply"></accounts-payable>
+        <accounts-payable v-bind:start="startSupply" :end="endSupply"></accounts-payable>
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <purchases-to-date ></purchases-to-date>
+      <purchases-to-date v-bind:start="startSupply" :end="endSupply"></purchases-to-date>
       </v-flex>
 
     </v-layout>
@@ -61,8 +61,8 @@ export default {
   data() {
     return {
       year: '0',
-      startSuppply: '2015-01-01',
-      endSuppply: '2015-12-12',
+      startSupply: '2015-01-01',
+      endSupply: '2015-12-12',
     };
   },
   components: {

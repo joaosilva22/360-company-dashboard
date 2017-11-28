@@ -20,9 +20,10 @@
        top: [],
      };
    },
+   props: ['start', 'end'],
    mounted() {
      const ctx = document.getElementById('chart1');
-     this.purchasesInvoices().then((res) => {
+     this.purchasesInvoices(this.start, this.end).then((res) => {
        const invoices = res.data;
        const quantities = new Array(12).fill(0);
        invoices.forEach((invoice) => {
@@ -55,8 +56,8 @@
      });
    },
    methods: {
-     purchasesInvoices() {
-       return Purchases.purchasesInvoices();
+     purchasesInvoices(start, end) {
+       return Purchases.purchasesInvoices(start, end);
      },
      randomRGBA() {
        const o = Math.round;
