@@ -872,6 +872,34 @@ namespace FirstREST.Lib_Primavera
         
         #endregion ContasAPagar
 
+        #region ContasAReceber
+
+        public static List<Model.DocVenda> ListaContasAReceber()
+        {
+
+            StdBELista objListCab;
+            List<Model.DocVenda> listdc = new List<Model.DocVenda>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                objListCab = PriEngine.Engine.Consulta("SELECT * From Pendentes WHERE ValorTotal > 0");
+                while (!objListCab.NoFim())
+                {
+                    double totalMerc, totalDesc;
+                    Model.DocVenda dv = new Model.DocVenda();
+                    dv.Data = objListCab.Valor("DataVenc");
+                    dv.Entidade = objListCab.Valor("Entidade");
+                    dv.TotalMerc = objListCab.Valor("ValorPendente");
+
+                    listdc.Add(dv);
+                    objListCab.Seguinte();
+                }
+            }
+            return listdc;
+        }
+
+        #endregion ContasAReceber
+
 
         #region Inventario
 
