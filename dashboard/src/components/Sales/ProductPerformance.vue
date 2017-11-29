@@ -4,7 +4,7 @@
       <h3 class="headline mb-0">Product Performance</h3>
     </v-card-title>
     <v-card-text>      
-      <canvas id="chart" width="400" heigth="400"></canvas>      
+      <canvas id="chartProductPerformance" width="400" heigth="400"></canvas>      
       <h5 class="subheading">Top Performers:</h5>      
       <p class="body-1 mb-0" v-for="(product, i) in top">
         {{ i+1 }}. {{ product.label }} ({{ product.quantity }} units)
@@ -25,7 +25,7 @@
    },
    props: ['year'],
    mounted() {
-     const ctx = document.getElementById('chart');
+     const ctx = document.getElementById('chartProductPerformance');
      this.invoiceLines(this.year).then((res) => {
        const invoices = res.data.Invoices;
        const map = {};

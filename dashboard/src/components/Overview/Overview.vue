@@ -1,5 +1,5 @@
 <template>
-<v-container fluid grid-list-md>
+   <v-container fluid grid-list-md>
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
@@ -9,32 +9,32 @@
         >
         </date-picker>
       </v-flex>
-            
-      <v-flex xs4 d-flex>
-        <v-layout row wrap>
-          <v-flex d-flex>
-            <inventory-composition></inventory-composition>
-          </v-flex>
-          <v-flex d-flex>
-            <inventory-value></inventory-value>
-          </v-flex>
-        </v-layout>
+      
+      <v-flex xs6>
+        <inventory-composition></inventory-composition>
+      </v-flex>
+      
+      <v-flex xs6 d-flex>
+        <product-performance year="2016"></product-performance>
+      </v-flex>
+      
+      <v-flex xs6 d-flex>
+        <inventory-value></inventory-value>
       </v-flex>
 
-      <v-flex xs4 d-flex>
-        <product-performance></product-performance>
+      <v-flex xs6 d-flex>
+        <total-sales year="2016"></total-sales>
       </v-flex>
-
     </v-layout>
   </v-container>
 </template>
-
 
 <script>
 import DatePicker from '@/components/DatePicker';
 import InventoryValue from '@/components/SupplyChain/InventoryValue';
 import InventoryComposition from '@/components/SupplyChain/InventoryComposition';
 import ProductPerformance from '@/components/Sales/ProductPerformance';
+import TotalSales from '@/components/Sales/TotalSales';
 
 export default {
   data() {
@@ -47,6 +47,7 @@ export default {
     InventoryValue,
     InventoryComposition,
     ProductPerformance,
+    TotalSales,
   },
   methods: {
     updateYear(value) {
