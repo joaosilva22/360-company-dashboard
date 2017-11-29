@@ -1,5 +1,5 @@
 <template>
-<v-container fluid grid-list-md>
+   <v-container fluid grid-list-md>
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
@@ -10,21 +10,21 @@
         </date-picker>
       </v-flex>
       
-      <v-flex xs6 d-flex>  
+      <v-flex xs6>
         <inventory-composition></inventory-composition>
       </v-flex>
-
+      
       <v-flex xs6 d-flex>
         <product-performance year="2016"></product-performance>
       </v-flex>
-    
+      
       <v-flex xs6 d-flex>
         <inventory-value></inventory-value>
       </v-flex>
+
       <v-flex xs6 d-flex>
         <total-sales year="2016"></total-sales>
       </v-flex>
-          
     </v-layout>
   </v-container>
 </template>
