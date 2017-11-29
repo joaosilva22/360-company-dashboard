@@ -14,9 +14,9 @@
       <v-flex xs6 d-flex>
         <latest-purchases v-bind:start="startSupply" :end="endSupply" ></latest-purchases>
       </v-flex>
-      
+
       <v-flex xs6 d-flex>
-        <total-purchases v-bind:start="startSupply" :end="endSupply"></total-purchases>
+      <purchases-to-date v-bind:start="startSupply" :end="endSupply"></purchases-to-date>
       </v-flex>
 
       <v-flex xs6 d-flex>
@@ -24,23 +24,23 @@
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <v-layout row wrap>
-          <v-flex d-flex>
-            <inventory-composition></inventory-composition>
-          </v-flex>
-          <v-flex d-flex>
-            <inventory-value></inventory-value>
-          </v-flex>
-        </v-layout>
+        <inventory-composition></inventory-composition>
       </v-flex>
-            
+
       <v-flex xs6 d-flex>
         <accounts-payable v-bind:start="startSupply" :end="endSupply"></accounts-payable>
       </v-flex>
 
-      <v-flex xs6 d-flex>
-      <purchases-to-date v-bind:start="startSupply" :end="endSupply"></purchases-to-date>
+      <v-flex xs6>
+          <v-flex xs12 d-flex>
+            <total-purchases v-bind:start="startSupply" :end="endSupply"></total-purchases>
+          </v-flex>
+          <v-flex xs12 d-flex>
+            <inventory-value></inventory-value>
+          </v-flex>
       </v-flex>
+
+      
 
     </v-layout>
   </v-container>
