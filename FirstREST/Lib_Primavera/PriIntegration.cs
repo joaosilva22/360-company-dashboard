@@ -882,7 +882,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT * From Pendentes WHERE ValorTotal > 0");
+                objListCab = PriEngine.Engine.Consulta("SELECT * From Pendentes WHERE ValorPendente > 0");
                 while (!objListCab.NoFim())
                 {
                     double totalMerc, totalDesc;

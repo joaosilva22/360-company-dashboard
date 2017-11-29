@@ -22,4 +22,7 @@ export default {
   invoiceLines(fiscalYear) {
     return axios.get(`AuditFile/InvoiceLines?FiscalYear=${fiscalYear}`);
   },
+  accountsReceivable() {
+    return axios.get('ContasAReceber');
+  },
 };

@@ -13,6 +13,9 @@
       <v-flex xs6 d-flex>
         <accounts-payable v-bind:start="startSuppply" :end="endSuppply"></accounts-payable>
       </v-flex>
+      <v-flex xs6 d-flex>
+        <accounts-receivable></accounts-receivable>
+      </v-flex>
 
     </v-layout>
   </v-container>
@@ -20,6 +23,7 @@
 <script>
 import DatePicker from '@/components/DatePicker';
 import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
+import AccountsReceivable from '@/components/SupplyChain/AccountsReceivable';
 
 export default {
   data() {
@@ -32,6 +36,7 @@ export default {
   components: {
     DatePicker,
     AccountsPayable,
+    AccountsReceivable,
   },
   methods: {
     updateYear(value) {
