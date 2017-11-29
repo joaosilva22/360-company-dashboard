@@ -39,12 +39,12 @@
          const description = article.DescArtigo;
          if (map[productCode]) {
            const index = map[productCode];
-           data[index] += quantity;
+           data[index] += Math.abs(quantity);
          } else {
            const index = data.length;
            map[productCode] = index;
            labels[index] = description;
-           data[index] = quantity;
+           data[index] = Math.abs(quantity);
            backgroundColor[index] = this.randomRGBA();
          }
        });
