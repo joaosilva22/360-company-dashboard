@@ -12,15 +12,15 @@
       
 
       <v-flex xs6 d-flex>
-        <latest-purchases v-bind:start="startSupply" :end="endSupply" ></latest-purchases>
+        <latest-purchases v-bind:start="startDate" :end="endDate" ></latest-purchases>
       </v-flex>
 
       <v-flex xs6 d-flex>
-      <purchases-to-date v-bind:start="startSupply" :end="endSupply"></purchases-to-date>
+      <purchases-to-date v-bind:start="startDate" :end="endDate"></purchases-to-date>
       </v-flex>
 
       <v-flex xs6 d-flex>
-         <top-supplier v-bind:start="startSupply" :end="endSupply"></top-supplier>
+         <top-supplier v-bind:start="startDate" :end="endDate"></top-supplier>
       </v-flex>
 
       <v-flex xs6 d-flex>
@@ -28,12 +28,12 @@
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:start="startSupply" :end="endSupply"></accounts-payable>
+        <accounts-payable v-bind:start="startDate" :end="endDate"></accounts-payable>
       </v-flex>
 
       <v-flex xs6>
           <v-flex xs12 d-flex>
-            <total-purchases v-bind:start="startSupply" :end="endSupply"></total-purchases>
+            <total-purchases v-bind:start="startDate" :end="endDate"></total-purchases>
           </v-flex>
           <v-flex xs12 d-flex>
             <inventory-value></inventory-value>
@@ -60,9 +60,11 @@ import InventoryComposition from '@/components/SupplyChain/InventoryComposition'
 export default {
   data() {
     return {
-      year: '0',
-      startSupply: '2015-01-01',
-      endSupply: '2015-12-12',
+      year: '',
+      startDate: '',
+      endDate: '',
+      monthDay: '-01-01',
+      nextyear: '',
     };
   },
   components: {
@@ -78,7 +80,16 @@ export default {
   methods: {
     updateYear(value) {
       this.year = value;
+      this.startDate = this.year + this.monthDay;
+      this.nextyear = Number(this.year) + Number(1);
+      this.endDate = this.nextyear + this.monthDay;
     },
+  },
+  amonted: {
+    startDate: this.year + this.monthDay,
+    nextyear: Number(this.year) + Number(1),
+    endDate: this.nextyear + this.monthDay,
+
   },
 };
 </script>

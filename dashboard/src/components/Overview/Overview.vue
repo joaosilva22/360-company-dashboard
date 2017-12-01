@@ -39,7 +39,11 @@ import TotalSales from '@/components/Sales/TotalSales';
 export default {
   data() {
     return {
-      year: '0',
+      year: '',
+      startDate: '',
+      endDate: '',
+      monthDay: '-01-01',
+      nextyear: '',
     };
   },
   components: {
@@ -52,7 +56,16 @@ export default {
   methods: {
     updateYear(value) {
       this.year = value;
+      this.startDate = this.year + this.monthDay;
+      this.nextyear = Number(this.year) + Number(1);
+      this.endDate = this.nextyear + this.monthDay;
     },
+  },
+  amonted: {
+    startDate: this.year + this.monthDay,
+    nextyear: Number(this.year) + Number(1),
+    endDate: this.nextyear + this.monthDay,
+
   },
 };
 </script>
