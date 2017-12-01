@@ -339,7 +339,7 @@ namespace FirstREST.Lib_Primavera
                 Console.Write(dataDe);
                 Console.Write(dataAte);
 
-                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO WHERE DataUltimaActualizacao >='" + dataDe + "'AND DataUltimaActualizacao <=' " + dataAte + "'");
+                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao, STKActual, PCMedio,Iva, DataUltimaActualizacao, Desconto, QtReservadaGPR FROM ARTIGO WHERE DataUltimaActualizacao >='" + dataDe.ToString("yyyyMMdd") + "'AND DataUltimaActualizacao <' " + dataAte.ToString("yyyyMMdd") + "'");
 
                 while (!objList.NoFim())
                 {
@@ -417,7 +417,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT  Nome, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe + "'AND DataDoc <=' " + dataAte + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT  Nome, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe.ToString("yyyyMMdd") + "'AND DataDoc <' " + dataAte.ToString("yyyyMMdd") + "'");
 
                 while (!objListCab.NoFim())
                 {
@@ -727,7 +727,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT distinct Nome From CabecCompras where  DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG' or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP' or TipoDoc='VFR' )"); // 
+                objListCab = PriEngine.Engine.Consulta("SELECT distinct Nome From CabecCompras where  DataDoc >='" + dataDe.ToString("yyyyMMdd") + "' AND DataDoc <'" + dataAte.ToString("yyyyMMdd") + "' AND (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG' or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP' or TipoDoc='VFR' )"); // 
 
                 while (!objListCab.NoFim())
                 {
@@ -809,7 +809,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "'");
+                objList = PriEngine.Engine.Consulta("SELECT  TotalDesc, TotalMerc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >='" + dataDe.ToString("yyyyMMdd") + "' AND DataDoc <'" + dataAte.ToString("yyyyMMdd") + "'");
                 Double totalMerc = 0;
                 Double totalDesc = 0;
 
@@ -851,7 +851,7 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT TipoDoc, DataDoc,TotalMerc, TotalDesc, Nome  From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR')  AND DataDoc >='" + dataDe + "' AND DataDoc <='" + dataAte + "' AND DataIntroducao >='" + dataAte + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT TipoDoc, DataDoc,TotalMerc, TotalDesc, Nome  From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR')  AND DataDoc >='" + dataDe.ToString("yyyyMMdd") + "' AND DataDoc <'" + dataAte.ToString("yyyyMMdd") + "' AND DataIntroducao >='" + dataAte.ToString("yyyyMMdd") + "'");
                 while (!objListCab.NoFim())
                 {
                     double totalMerc, totalDesc;
@@ -921,7 +921,7 @@ namespace FirstREST.Lib_Primavera
                     Double precoArt = objList.Valor("PCMedio");
                     Double stockActual = objList.Valor("STKActual");
 
-                    Double valorArt = precoArt* stockActual;
+                    Double valorArt = precoArt * stockActual;
 
                     totalValor += valorArt;
 
