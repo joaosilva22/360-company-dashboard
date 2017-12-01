@@ -10,32 +10,36 @@
         </date-picker>
       </v-flex>
       
+
       <v-flex xs6 d-flex>
-        <purchases-to-date></purchases-to-date>
+        <latest-purchases v-bind:start="startSuppply" :end="endSuppply" ></latest-purchases>
       </v-flex>
       
       <v-flex xs6 d-flex>
-        <latest-purchases></latest-purchases>
-      </v-flex>
-      
-      <v-flex xs6 d-flex>
-        <inventory-value></inventory-value>
-      </v-flex>
-      
-      <v-flex xs6 d-flex>
-        <total-purchases></total-purchases>
-      </v-flex>
-      
-      <v-flex xs5 d-flex>
-         <top-supplier></top-supplier>
-      </v-flex>
-     
-      <v-flex xs7 d-flex>
-        <accounts-payable></accounts-payable>
+        <total-purchases v-bind:start="startSuppply" :end="endSuppply"></total-purchases>
       </v-flex>
 
-      <v-flex xs5 d-flex>
-        <inventory-composition></inventory-composition>
+      <v-flex xs6 d-flex>
+         <top-supplier v-bind:start="startSuppply" :end="endSuppply"></top-supplier>
+      </v-flex>
+
+      <v-flex xs6 d-flex>
+        <v-layout row wrap>
+          <v-flex d-flex>
+            <inventory-composition></inventory-composition>
+          </v-flex>
+          <v-flex d-flex>
+            <inventory-value></inventory-value>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+            
+      <v-flex xs6 d-flex>
+        <accounts-payable v-bind:start="startSuppply" :end="endSuppply"></accounts-payable>
+      </v-flex>
+
+      <v-flex xs6 d-flex>
+        <purchases-to-date ></purchases-to-date>
       </v-flex>
 
     </v-layout>
@@ -53,11 +57,12 @@ import TotalPurchases from '@/components/SupplyChain/TotalPurchases';
 import PurchasesToDate from '@/components/SupplyChain/PurchasesToDate';
 import InventoryComposition from '@/components/SupplyChain/InventoryComposition';
 
-
 export default {
   data() {
     return {
       year: '0',
+      startSuppply: '2015-01-01',
+      endSuppply: '2015-12-12',
     };
   },
   components: {

@@ -52,9 +52,9 @@ export default {
       pagination: {},
     };
   },
-  props: ['year'],
+  props: ['start', 'end'],
   created() {
-    this.purchasesInvoices().then((res) => {
+    this.purchasesInvoices(this.start, this.end).then((res) => {
       const invoices = res.data;
       invoices.forEach((invoice) => {
         const date = invoice.DataDoc;
@@ -69,8 +69,8 @@ export default {
     });
   },
   methods: {
-    purchasesInvoices() {
-      return Purchases.purchasesInvoices();
+    purchasesInvoices(start, end) {
+      return Purchases.purchasesInvoices(start, end);
     },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');

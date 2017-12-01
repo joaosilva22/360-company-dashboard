@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export default {
-  purchasesInvoices() {
-    return axios.get('docCompra');
+  purchasesInvoices(start, end) {
+    return axios.get(`docCompra/${start}/${end}`);
   },
-  accountsPayable() {
-    return axios.get('docCompra');
+  accountsPayable(start, end) {
+    return axios.get(`ContasAPagar/${start}/${end}`);
   },
-  totalPurchases() {
-    return axios.get('compras');
+  totalPurchases(start, end) {
+    return axios.get(`compras/${start}/${end}`);
   },
 };

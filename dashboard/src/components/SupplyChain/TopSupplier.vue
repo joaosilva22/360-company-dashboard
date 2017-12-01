@@ -50,8 +50,9 @@ export default {
       pagination: {},
     };
   },
+  props: ['start', 'end'],
   created() {
-    this.topSuppliers().then((res) => {
+    this.topSuppliers(this.start, this.end).then((res) => {
       const invoices = res.data;
       invoices.forEach((invoice) => {
         const net = invoice.TotalLiquido;
@@ -64,8 +65,8 @@ export default {
     });
   },
   methods: {
-    topSuppliers() {
-      return Supplier.topSuppliers();
+    topSuppliers(start, end) {
+      return Supplier.topSuppliers(start, end);
     },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
