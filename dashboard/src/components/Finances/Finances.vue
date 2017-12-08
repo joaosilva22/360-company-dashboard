@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2014"
+        start="2015"
         end="2017"
         @year="updateYear"
         >
@@ -11,7 +11,7 @@
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:items="payable"></accounts-payable>
+        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
       </v-flex>
 
       <v-flex xs6 d-flex>
@@ -32,10 +32,10 @@ export default {
   data() {
     return {
       year: '',
-      startdate: '2016-01-01',
+      startdate: '2015-01-01',
       enddate: '2017-01-01',
       monthday: '-01-01',
-      payable: [],
+      accountspayable: [],
       receivable: [],
     };
   },
@@ -54,7 +54,7 @@ export default {
     async accountsPayable() {
       try {
         const response = await Purchases.accountsPayable(this.startdate, this.enddate);
-        this.payable = response.data;
+        this.accountspayable = response.data;
       } catch (error) {
         this.error = error;
       }

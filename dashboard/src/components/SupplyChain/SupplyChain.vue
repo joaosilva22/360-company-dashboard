@@ -3,40 +3,40 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2016"
-        end="2016"
+        start="2015"
+        end="2017"
         @year="updateYear"
         >
         </date-picker>
       </v-flex>
       
-
       <v-flex xs6 d-flex>
-        <latest-purchases v-bind:items="purchasesinvoices" ></latest-purchases>
+        <latest-purchases v-bind:purchasesinvoices="purchasesinvoices" ></latest-purchases>
       </v-flex>
 
       <v-flex xs6 d-flex>
-      <purchases-to-date v-bind:items="purchasesinvoices" ></purchases-to-date>
+      <purchases-to-date v-bind:purchasesinvoices="purchasesinvoices" ></purchases-to-date>
+      </v-flex> 
+     
+
+      <v-flex xs6 d-flex>
+         <top-supplier v-bind:suppliers="suppliers"></top-supplier>
       </v-flex>
 
       <v-flex xs6 d-flex>
-         <top-supplier v-bind:items="topsupplier"></top-supplier>
+        <inventory-composition v-bind:inventorycomposition="inventorycomposition"></inventory-composition>
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <inventory-composition v-bind:items="inventory"></inventory-composition>
-      </v-flex>
-
-      <v-flex xs6 d-flex>
-        <accounts-payable v-bind:items="payable"></accounts-payable>
+        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
       </v-flex>
 
       <v-flex xs6>
           <v-flex xs12 d-flex>
-            <total-purchases v-bind:items="totalpurchases"></total-purchases>
+            <total-purchases v-bind:totalpurchases="totalpurchases"></total-purchases>
           </v-flex>
           <v-flex xs12 d-flex>
-            <inventory-value v-bind:items="inventoryvalue"></inventory-value>
+            <inventory-value v-bind:inventoryvalue="inventoryvalue"></inventory-value>
           </v-flex>
       </v-flex>
 
@@ -63,15 +63,15 @@ export default {
   data() {
     return {
       year: '',
-      startdate: '2016-01-01',
+      startdate: '2015-01-01',
       enddate: '2017-01-01',
       monthday: '-01-01',
-      payable: [],
-      inventory: [],
-      inventoryalue: [],
+      accountspayable: [],
+      inventorycomposition: [],
+      inventoryvalue: [],
       purchasesinvoices: [],
       totalpurchases: [],
-      topsupplier: [],
+      suppliers: [],
 
     };
   },
@@ -91,11 +91,18 @@ export default {
       this.startdate = this.year + this.monthday;
       this.nextyear = Number(this.year) + Number(1);
       this.enddate = this.nextyear + this.monthday;
+      this.accountsPayable();
+      this.getInventory();
+      this.inventoryValue();
+      this.purchasesInvoices();
+      this.totalPurchases();
+      this.topSuppliers();
     },
     async accountsPayable() {
       try {
         const response = await Purchases.accountsPayable(this.startdate, this.enddate);
-        this.payable = response.data;
+        this.accountspayable = response.data;
+        console.log(this.accountspayable);
       } catch (error) {
         this.error = error;
       }
@@ -103,7 +110,7 @@ export default {
     async getInventory() {
       try {
         const response = await Inventory.getInventory();
-        this.inventory = response.data;
+        this.inventorycomposition = response.data;
       } catch (error) {
         this.error = error;
       }
@@ -112,6 +119,7 @@ export default {
       try {
         const response = await Supplier.inventoryValue();
         this.inventoryvalue = response.data;
+        console.log(this.inventoryvalue);
       } catch (error) {
         this.error = error;
       }
@@ -120,6 +128,8 @@ export default {
       try {
         const response = await Purchases.purchasesInvoices(this.startdate, this.enddate);
         this.purchasesinvoices = response.data;
+        console.log('------------');
+        console.log(this.purchasesinvoices);
       } catch (error) {
         this.error = error;
       }
@@ -128,6 +138,8 @@ export default {
       try {
         const response = await Purchases.totalPurchases(this.startdate, this.enddate);
         this.totalpurchases = response.data;
+        console.log('------------');
+        console.log(this.totalpurchases);
       } catch (error) {
         this.error = error;
       }
@@ -135,7 +147,9 @@ export default {
     async topSuppliers() {
       try {
         const response = await Supplier.topSuppliers(this.startdate, this.enddate);
-        this.topsupplier = response.data;
+        this.suppliers = response.data;
+        console.log('------------');
+        console.log(this.suppliers);
       } catch (error) {
         this.error = error;
       }

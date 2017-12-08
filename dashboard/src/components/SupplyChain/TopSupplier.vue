@@ -43,15 +43,29 @@ export default {
       ],
       max25chars: v => v.length <= 25 || 'Input too long!',
       tmp: '',
+      items: [],
       search: '',
       pagination: {},
     };
   },
-  props: ['items'],
+  props: ['suppliers'],
   created() {
-    this.topSuppliers(this.start, this.end).then((res) => {
-      const invoices = res.data;
-      invoices.forEach((invoice) => {
+    this.topSuppliers();
+  },
+  watch: {
+    suppliers() {
+      this.items = [];
+      this.topSuppliers();
+    },
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+    topSuppliers() {
+      console.log(this.suppliers);
+      this.suppliers.forEach((invoice) => {
         const net = invoice.TotalLiquido;
         const supplier = invoice.Nome;
         this.items.push({
@@ -59,12 +73,6 @@ export default {
           net,
         });
       });
-    });
-  },
-  methods: {
-    formatVal(value) {
-      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
   },
 };

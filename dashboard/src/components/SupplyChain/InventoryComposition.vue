@@ -17,15 +17,49 @@
  import Chart from 'chart.js';
  
  export default {
+   props: ['inventorycomposition'],
    data() {
      return {
        products: [],
      };
    },
-   mounted() {
-     const ctx = document.getElementById('chartinventoryComposition');
-     this.getInventory().then((res) => {
-       const articles = res.data;
+   create() {
+     this.getInventory();
+   },
+   watch: {
+     inventorycomposition() {
+       this.products = [];
+       this.getInventory();
+     },
+   },
+   methods: {
+     randomRGBA() {
+       const o = Math.round;
+       const r = Math.random;
+       const s = 255;
+       return `rgba(0,${o(r() * s)},${o(r() * s)},1)`;
+     },
+     top3(data, labels) {
+       const outp = [];
+       for (let i = 0; i < data.length; i += 1) {
+         outp.push(i);
+         if (outp.length > 3) {
+           outp.sort((a, b) => data[b] - data[a]);
+           outp.pop();
+         }
+       }
+       const ret = [];
+       outp.forEach((o) => {
+         ret.push({
+           label: labels[o],
+           quantity: data[o],
+         });
+       });
+       return ret;
+     },
+     getInventory() {
+       const ctx = document.getElementById('chartinventoryComposition');
+       const articles = this.inventorycomposition;
 
        const map = {};
        const labels = [];
@@ -64,33 +98,6 @@
          },
        });
        this.products = this.top3(data, labels);
-     });
-   },
-   props: ['items'],
-   methods: {
-     randomRGBA() {
-       const o = Math.round;
-       const r = Math.random;
-       const s = 255;
-       return `rgba(0,${o(r() * s)},${o(r() * s)},1)`;
-     },
-     top3(data, labels) {
-       const outp = [];
-       for (let i = 0; i < data.length; i += 1) {
-         outp.push(i);
-         if (outp.length > 3) {
-           outp.sort((a, b) => data[b] - data[a]);
-           outp.pop();
-         }
-       }
-       const ret = [];
-       outp.forEach((o) => {
-         ret.push({
-           label: labels[o],
-           quantity: data[o],
-         });
-       });
-       return ret;
      },
    },
  };

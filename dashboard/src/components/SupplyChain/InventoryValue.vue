@@ -6,21 +6,29 @@
  import Box from '@/components/Box';
 
  export default {
+   props: ['inventoryvalue'],
    data() {
      return {
+       items: [],
      };
    },
-   props: ['items'],
    created() {
-     this.inventoryValue().then((res) => {
-       const totalValue = res.data;
-       this.items = [{ name: 'Value', value: `${this.formatVal(totalValue)} EUR` }];
-     });
+     this.inventoryValueDraw();
+   },
+   watch: {
+     inventoryvalue() {
+       this.items = [];
+       this.inventoryValueDraw();
+     },
    },
    methods: {
      formatVal(value) {
        const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+     },
+     inventoryValueDraw() {
+       const totalValue = this.inventoryvalue;
+       this.items = [{ name: 'Value', value: `${this.formatVal(totalValue)} EUR` }];
      },
    },
    components: {

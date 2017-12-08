@@ -48,13 +48,27 @@ export default {
       tmp: '',
       search: '',
       pagination: {},
+      items: [],
     };
   },
-  props: ['items'],
+  props: ['purchasesinvoices'],
   created() {
-    this.purchasesInvoices(this.start, this.end).then((res) => {
-      const invoices = res.data;
-      invoices.forEach((invoice) => {
+    this.purchasesInvoicesDraw();
+  },
+  watch: {
+    purchasesinvoices() {
+      this.items = [];
+      this.purchasesInvoicesDraw();
+    },
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+    purchasesInvoicesDraw() {
+      console.log(this.purchasesinvoices);
+      this.purchasesinvoices.forEach((invoice) => {
         const date = invoice.DataDoc;
         const net = invoice.TotalLiquido;
         const supplier = invoice.NomeFornecedor;
@@ -64,12 +78,6 @@ export default {
           net,
         });
       });
-    });
-  },
-  methods: {
-    formatVal(value) {
-      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
   },
 };

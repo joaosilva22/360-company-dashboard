@@ -33,6 +33,7 @@
 export default {
   data() {
     return {
+      items: [],
       headers: [
         {
           text: 'Supplier',
@@ -49,11 +50,23 @@ export default {
       pagination: {},
     };
   },
-  props: ['items'],
+  props: ['accountspayable'],
   created() {
-    this.accountsPayable(this.start, this.end).then((res) => {
-      const invoices = res.data;
-      invoices.forEach((invoice) => {
+    this.accountsPayableDraw();
+  },
+  watch: {
+    accountspayable() {
+      this.items = [];
+      this.accountsPayableDraw();
+    },
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+    accountsPayableDraw() {
+      this.accountspayable.forEach((invoice) => {
         const net = invoice.TotalLiquido;
         const date = invoice.DataDoc;
         const supplier = invoice.NomeFornecedor;
@@ -63,12 +76,6 @@ export default {
           net,
         });
       });
-    });
-  },
-  methods: {
-    formatVal(value) {
-      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
   },
 };

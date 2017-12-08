@@ -14,15 +14,31 @@
  import moment from 'moment';
  
  export default {
+   props: ['purchasesinvoices'],
    data() {
      return {
        top: [],
      };
    },
    mounted() {
-     const ctx = document.getElementById('chart1');
-     this.purchasesInvoices(this.start, this.end).then((res) => {
-       const invoices = res.data;
+     this.purchasesInvoicesDraw();
+   },
+   watch: {
+     purchasesinvoices() {
+       this.top = [];
+       this.purchasesinvoicesDraw();
+     },
+   },
+   methods: {
+     randomRGBA() {
+       const o = Math.round;
+       const r = Math.random;
+       const s = 255;
+       return `rgba(0,${o(r() * s)},${o(r() * s)},1)`;
+     },
+     purchasesInvoicesDraw() {
+       const ctx = document.getElementById('chart1');
+       const invoices = this.purchasesinvoices;
        const quantities = new Array(12).fill(0);
        invoices.forEach((invoice) => {
          const date = moment(invoice.DataDoc, 'YYYY-MM-DDThh:mm:ss');
@@ -51,15 +67,6 @@
            responsive: true,
          },
        });
-     });
-   },
-   props: ['items'],
-   methods: {
-     randomRGBA() {
-       const o = Math.round;
-       const r = Math.random;
-       const s = 255;
-       return `rgba(0,${o(r() * s)},${o(r() * s)},1)`;
      },
    },
  };

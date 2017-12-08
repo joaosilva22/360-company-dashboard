@@ -3,23 +3,23 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2014"
+        start="2015"
         end="2017"
         @year="updateYear"
         >
         </date-picker>
       </v-flex>
       
-      <v-flex xs6>
-        <inventory-composition v-bind:items="inventory" ></inventory-composition>
+      <v-flex xs6 d-flex>
+        <inventory-composition v-bind:inventorycomposition="inventorycomposition"></inventory-composition>
       </v-flex>
       
       <v-flex xs6 d-flex>
         <product-performance year="2016"></product-performance>
       </v-flex>
       
-      <v-flex xs6 d-flex>
-        <inventory-value v-bind:items="inventoryvalue" ></inventory-value>
+      <v-flex xs12 d-flex>
+        <inventory-value v-bind:inventoryvalue="inventoryvalue"></inventory-value>
       </v-flex>
 
     </v-layout>
@@ -39,11 +39,10 @@ export default {
   data() {
     return {
       year: '',
-      startDate: '',
-      endDate: '',
-      monthDay: '-01-01',
-      nextyear: '',
-      inventory: [],
+      startdate: '2015-01-01',
+      enddate: '2017-01-01',
+      monthday: '-01-01',
+      inventorycomposition: [],
       inventoryvalue: [],
     };
   },
@@ -64,7 +63,7 @@ export default {
     async getInventory() {
       try {
         const response = await Inventory.getInventory();
-        this.inventory = response.data;
+        this.inventorycomposition = response.data;
       } catch (error) {
         this.error = error;
       }
