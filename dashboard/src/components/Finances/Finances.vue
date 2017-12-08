@@ -3,18 +3,19 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2016"
-        end="2016"
+        start="2014"
+        end="2017"
         @year="updateYear"
         >
         </date-picker>
       </v-flex>
-                  
+
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:start="startDate" :end="endDate"></accounts-payable>
+        <accounts-payable v-bind:items="payable"></accounts-payable>
       </v-flex>
+
       <v-flex xs6 d-flex>
-        <accounts-receivable></accounts-receivable>
+        <accounts-receivable v-bind:items="receivable" ></accounts-receivable>
       </v-flex>
 
     </v-layout>
@@ -23,16 +24,19 @@
 <script>
 import DatePicker from '@/components/DatePicker';
 import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
-import AccountsReceivable from '@/components/SupplyChain/AccountsReceivable';
+import AccountsReceivable from '@/components/Sales/AccountsReceivable';
+import Purchases from '@/services/Purchases';
+import Sales from '@/services/Sales';
 
 export default {
   data() {
     return {
       year: '',
-      startDate: '',
-      endDate: '',
-      monthDay: '-01-01',
-      nextyear: '',
+      startdate: '2016-01-01',
+      enddate: '2017-01-01',
+      monthday: '-01-01',
+      payable: [],
+      receivable: [],
     };
   },
   components: {
@@ -43,19 +47,32 @@ export default {
   methods: {
     updateYear(value) {
       this.year = value;
-      this.startDate = this.year + this.monthDay;
+      this.startdate = this.year + this.monthday;
       this.nextyear = Number(this.year) + Number(1);
-      this.endDate = this.nextyear + this.monthDay;
+      this.enddate = this.nextyear + this.monthday;
+    },
+    async accountsPayable() {
+      try {
+        const response = await Purchases.accountsPayable(this.startdate, this.enddate);
+        this.payable = response.data;
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    async accountsReceivable() {
+      try {
+        const response = await Sales.accountsReceivable();
+        this.receivable = response.data;
+      } catch (error) {
+        this.error = error;
+      }
     },
   },
-  amonted: {
-    startDate: this.year + this.monthDay,
-    nextyear: Number(this.year) + Number(1),
-    endDate: this.nextyear + this.monthDay,
-
+  mounted: async function () {
+    await this.accountsPayable();
+    await this.accountsReceivable();
   },
 };
 </script>
-
 <style scoped>
 </style>

@@ -10,7 +10,6 @@
 </template>
 
 <script>
- import Purchases from '@/services/Purchases';
  import Chart from 'chart.js';
  import moment from 'moment';
  
@@ -20,7 +19,6 @@
        top: [],
      };
    },
-   props: ['start', 'end'],
    mounted() {
      const ctx = document.getElementById('chart1');
      this.purchasesInvoices(this.start, this.end).then((res) => {
@@ -55,10 +53,8 @@
        });
      });
    },
+   props: ['items'],
    methods: {
-     purchasesInvoices(start, end) {
-       return Purchases.purchasesInvoices(start, end);
-     },
      randomRGBA() {
        const o = Math.round;
        const r = Math.random;

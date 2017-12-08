@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import Purchases from '@/services/Purchases';
 
 export default {
   data() {
@@ -45,14 +44,13 @@ export default {
         { text: 'Date', value: 'date' },
         { text: 'Net Value (EUR)', value: 'net' },
       ],
-      items: [],
       max25chars: v => v.length <= 25 || 'Input too long!',
       tmp: '',
       search: '',
       pagination: {},
     };
   },
-  props: ['start', 'end'],
+  props: ['items'],
   created() {
     this.purchasesInvoices(this.start, this.end).then((res) => {
       const invoices = res.data;
@@ -69,9 +67,6 @@ export default {
     });
   },
   methods: {
-    purchasesInvoices(start, end) {
-      return Purchases.purchasesInvoices(start, end);
-    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

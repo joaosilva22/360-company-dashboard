@@ -3,16 +3,14 @@
 </template>
 
 <script>
- import Supplier from '@/services/Supplier';
  import Box from '@/components/Box';
 
  export default {
    data() {
      return {
-       items: [],
      };
    },
-   props: ['year'],
+   props: ['items'],
    created() {
      this.inventoryValue().then((res) => {
        const totalValue = res.data;
@@ -20,9 +18,6 @@
      });
    },
    methods: {
-     inventoryValue() {
-       return Supplier.inventoryValue();
-     },
      formatVal(value) {
        const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

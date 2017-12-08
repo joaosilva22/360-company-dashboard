@@ -76,6 +76,11 @@
        this.year = value;
      },
    },
+   /*
+       async accountsReceivable() {
+      this.receivable = await Sales.accountsReceivable();
+    },
+    */
  };
 </script>
 

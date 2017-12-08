@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import Sales from '@/services/Sales';
-
 export default {
   data() {
     return {
@@ -52,7 +50,7 @@ export default {
       pagination: {},
     };
   },
-  props: ['start', 'end'],
+  props: ['items'],
   created() {
     this.accountsReceivable().then((res) => { // TODO inside of this function
       const invoices = res.data;
@@ -69,9 +67,6 @@ export default {
     });
   },
   methods: {
-    accountsReceivable() {
-      return Sales.accountsReceivable();
-    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

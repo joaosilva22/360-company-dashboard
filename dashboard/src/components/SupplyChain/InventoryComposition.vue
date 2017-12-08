@@ -14,7 +14,6 @@
 </template>
 
 <script>
- import Inventory from '@/services/Inventory';
  import Chart from 'chart.js';
  
  export default {
@@ -23,7 +22,6 @@
        products: [],
      };
    },
-   props: ['year'],
    mounted() {
      const ctx = document.getElementById('chartinventoryComposition');
      this.getInventory().then((res) => {
@@ -68,10 +66,8 @@
        this.products = this.top3(data, labels);
      });
    },
+   props: ['items'],
    methods: {
-     getInventory() {
-       return Inventory.getInventory();
-     },
      randomRGBA() {
        const o = Math.round;
        const r = Math.random;

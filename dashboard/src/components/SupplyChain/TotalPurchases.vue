@@ -3,16 +3,14 @@
 </template>
 
 <script>
-import Purchases from '@/services/Purchases';
 import Box from '@/components/Box';
 
 export default {
   data() {
     return {
-      items: [],
     };
   },
-  props: ['start', 'end'],
+  props: ['items'],
   created() {
     this.totalPurchases(this.start, this.end).then((res) => {
       this.items = [
@@ -28,9 +26,6 @@ export default {
     });
   },
   methods: {
-    totalPurchases(start, end) {
-      return Purchases.totalPurchases(start, end);
-    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');

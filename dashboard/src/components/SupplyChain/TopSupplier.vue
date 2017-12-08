@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import Supplier from '@/services/Supplier';
-
 export default {
   data() {
     return {
@@ -43,14 +41,13 @@ export default {
         },
         { text: 'Net Value (EUR)', value: 'net' },
       ],
-      items: [],
       max25chars: v => v.length <= 25 || 'Input too long!',
       tmp: '',
       search: '',
       pagination: {},
     };
   },
-  props: ['start', 'end'],
+  props: ['items'],
   created() {
     this.topSuppliers(this.start, this.end).then((res) => {
       const invoices = res.data;
@@ -65,9 +62,6 @@ export default {
     });
   },
   methods: {
-    topSuppliers(start, end) {
-      return Supplier.topSuppliers(start, end);
-    },
     formatVal(value) {
       const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
