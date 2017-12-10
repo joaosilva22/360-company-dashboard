@@ -27,7 +27,6 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
     totalPurchases() {
-      console.log(this.totalpurchases);
       this.items = [
         {
           name: 'Total Number',

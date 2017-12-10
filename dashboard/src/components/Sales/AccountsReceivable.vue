@@ -50,10 +50,23 @@ export default {
       pagination: {},
     };
   },
-  props: ['items'],
+  props: ['receivable'],
+  watch: {
+    receivable() {
+      this.items = [];
+      this.accountsReceivable();
+    },
+  },
   created() {
-    this.accountsReceivable().then((res) => { // TODO inside of this function
-      const invoices = res.data;
+    this.accountsReceivable();
+  },
+  methods: {
+    formatVal(value) {
+      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+    accountsReceivable() {
+      const invoices = this.receivable;
       invoices.forEach((invoice) => {
         const net = invoice.TotalMerc;
         const date = invoice.Data;
@@ -64,12 +77,6 @@ export default {
           net,
         });
       });
-    });
-  },
-  methods: {
-    formatVal(value) {
-      const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
   },
 };

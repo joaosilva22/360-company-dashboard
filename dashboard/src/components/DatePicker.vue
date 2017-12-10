@@ -10,7 +10,7 @@
             <v-select
               v-bind:items="range(start, end)"
               v-model="year"
-              label="Select"
+              :label="start"
               single-line
               bottom
             ></v-select>

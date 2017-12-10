@@ -3,13 +3,14 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2015"
-        end="2017"
+        :start='startYear'
+        :end='endYear'
         @year="updateYear"
         >
         </date-picker>
       </v-flex>
       
+
       <v-flex xs6 d-flex>
         <latest-purchases v-bind:purchasesinvoices="purchasesinvoices" ></latest-purchases>
       </v-flex>
@@ -62,10 +63,11 @@ import Purchases from '@/services/Purchases';
 export default {
   data() {
     return {
-      year: '',
-      startdate: '2015-01-01',
-      enddate: '2017-01-01',
-      monthday: '-01-01',
+      year: this.startYear,
+      startYear: '2015',
+      endYear: '2017',
+      startdate: '',
+      enddate: '',
       accountspayable: [],
       inventorycomposition: [],
       inventoryvalue: [],
@@ -88,9 +90,9 @@ export default {
   methods: {
     updateYear(value) {
       this.year = value;
-      this.startdate = this.year + this.monthday;
-      this.nextyear = Number(this.year) + Number(1);
-      this.enddate = this.nextyear + this.monthday;
+      this.startdate = `${this.year}-01-01`;
+      const nextyear = Number(this.year) + Number(1);
+      this.enddate = `${nextyear}-01-01`;
       this.accountsPayable();
       this.getInventory();
       this.inventoryValue();
@@ -155,7 +157,15 @@ export default {
       }
     },
   },
+  computer: {
+    endYear() {
+      return this.$route.params.endYear;
+    },
+  },
   mounted: async function () {
+    this.startdate = `${this.year}-01-01`;
+    const nextyear = Number(this.year) + Number(1);
+    this.enddate = `${nextyear}-01-01`;
     await this.accountsPayable();
     await this.getInventory();
     await this.inventoryValue();

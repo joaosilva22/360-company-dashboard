@@ -15,7 +15,7 @@
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <accounts-receivable v-bind:items="receivable" ></accounts-receivable>
+        <accounts-receivable v-bind:receivable="receivable" ></accounts-receivable>
       </v-flex>
 
     </v-layout>
