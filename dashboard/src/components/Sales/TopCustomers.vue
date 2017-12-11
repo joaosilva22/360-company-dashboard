@@ -17,9 +17,10 @@
         v-bind:search="search"
       >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.customer }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
-        </td>
+        <router-link to="/" tag="tr">                                                                                               
+            <td>{{ props.item.customer }}</td>
+            <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </router-link>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}

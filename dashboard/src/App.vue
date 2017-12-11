@@ -55,6 +55,9 @@
 
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn icon>
+        <v-icon>arrow_back</v-icon>
+      </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-toolbar>
 
