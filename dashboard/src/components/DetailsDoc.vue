@@ -51,6 +51,8 @@ export default {
       tmp: '',
       search: '',
       pagination: {},
+      detailsDoc: [],
+
     };
   },
   props: ['doc'],
@@ -81,6 +83,14 @@ export default {
           total,
         });
       });
+    },
+    async detailsDocFunction(id) {
+      try {
+        const response = await ServiceDetailsDoc.details(id);
+        this.detailsDoc = response.data;
+      } catch (error) {
+        this.error = error;
+      }
     },
   },
 };

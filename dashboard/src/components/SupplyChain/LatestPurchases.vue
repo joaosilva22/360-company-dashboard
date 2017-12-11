@@ -12,7 +12,6 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-      v-model="selected"
         :headers="headers"
         :items="items"
         :search="search"
@@ -40,7 +39,6 @@ import ServiceDetailsDoc from '@/services/DetailsDoc';
 export default {
   data() {
     return {
-      selected: [],
       headers: [
         {
           text: 'Supplier',
@@ -56,8 +54,6 @@ export default {
       search: '',
       pagination: {},
       items: [],
-      detailsDoc: [],
-      id: [],
     };
   },
   components: {
@@ -92,14 +88,7 @@ export default {
         });
       });
     },
-    async detailsDocFunction(id) {
-      try {
-        const response = await ServiceDetailsDoc.details(id);
-        this.detailsDoc = response.data;
-      } catch (error) {
-        this.error = error;
-      }
-    },
+
   },
 };
 </script>
