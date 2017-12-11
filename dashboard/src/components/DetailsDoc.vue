@@ -21,8 +21,6 @@
         <td class="text-xs-right">{{ props.item.quantity}}</td>
         <td class="text-xs-right">{{ props.item.unitPrice}}</td>
         <td class="text-xs-right">{{ formatVal(props.item.total)}}</td>
-        
-        </td>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -32,6 +30,8 @@
 </template>
 
 <script>
+import ServiceDetailsDoc from '@/services/DetailsDoc';
+
 export default {
   data() {
     return {
@@ -87,7 +87,7 @@ export default {
     async detailsDocFunction(id) {
       try {
         const response = await ServiceDetailsDoc.details(id);
-        this.detailsDoc = response.data;
+        this.doc = response.data;
       } catch (error) {
         this.error = error;
       }

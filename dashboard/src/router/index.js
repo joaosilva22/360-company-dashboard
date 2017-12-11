@@ -31,7 +31,7 @@ export default new Router({
       component: SupplyChain,
     },
     {
-      path: '/detailsDoc/:idDoc',
+      path: '/docVenda/:idDoc',
       name: 'detailsDoc',
       component: DetailsDoc,
     },

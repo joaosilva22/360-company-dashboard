@@ -18,7 +18,7 @@ export default {
   watch: {
     totalpurchases() {
       this.items = [];
-      this.totalpurchases();
+      this.totalPurchases();
     },
   },
   methods: {

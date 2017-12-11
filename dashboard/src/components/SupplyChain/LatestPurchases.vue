@@ -1,7 +1,7 @@
 <template>
  <v-card>
     <v-card-title>
-      <h3 class="headline">All Purchases {{id}} </h3>
+      <h3 class="headline">All Purchases</h3>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -15,15 +15,13 @@
         :headers="headers"
         :items="items"
         :search="search"
-        :item-key="id"
       >
       <template slot="items" slot-scope="props" >
-         <tr @click="detailsDocFunction(props.item.id)">
-        <td>{{ props.item.supplier }}</td>
-        <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
-        </td>
-         </tr>
+        <router-link :to="'/DocVenda/' + props.item.id" tag="tr">
+          <td>{{ props.item.supplier }}</td>
+          <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
+          <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
+        </router-link>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -33,9 +31,6 @@
 </template>
 
 <script>
-import DetailsDoc from '@/components/DetailsDoc';
-import ServiceDetailsDoc from '@/services/DetailsDoc';
-
 export default {
   data() {
     return {
@@ -56,9 +51,6 @@ export default {
       items: [],
     };
   },
-  components: {
-    DetailsDoc,
-  },
   props: ['purchasesinvoices'],
   created() {
     this.purchasesInvoicesDraw();
@@ -75,7 +67,10 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
     purchasesInvoicesDraw() {
+      console.log('Am here');
+      console.log(this.purchasesinvoices);
       this.purchasesinvoices.forEach((invoice) => {
+        console.log(invoice);
         const date = invoice.DataDoc;
         const net = invoice.TotalLiquido;
         const supplier = invoice.NomeFornecedor;
@@ -88,7 +83,6 @@ export default {
         });
       });
     },
-
   },
 };
 </script>
