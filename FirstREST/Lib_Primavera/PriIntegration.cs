@@ -394,6 +394,7 @@ namespace FirstREST.Lib_Primavera
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
@@ -448,6 +449,7 @@ namespace FirstREST.Lib_Primavera
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
@@ -881,6 +883,7 @@ namespace FirstREST.Lib_Primavera
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
@@ -910,7 +913,6 @@ namespace FirstREST.Lib_Primavera
                 objListCab = PriEngine.Engine.Consulta("SELECT * From Pendentes WHERE ValorPendente > 0");
                 while (!objListCab.NoFim())
                 {
-                    double totalMerc, totalDesc;
                     Model.DocVenda dv = new Model.DocVenda();
                     dv.Data = objListCab.Valor("DataVenc");
                     dv.Entidade = objListCab.Valor("Entidade");
