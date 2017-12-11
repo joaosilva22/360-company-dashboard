@@ -408,6 +408,31 @@ namespace FirstREST.Lib_Primavera
             return listdc;
         }
 
+        public static List<Model.LinhaDocVenda> ListlinhasDoc(Guid idCabecCompras)
+        {
+
+            StdBELista objListCab;
+            Model.LinhaDocVenda dc = new Model.LinhaDocVenda();
+            List<Model.LinhaDocVenda> listdc = new List<Model.LinhaDocVenda>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                objListCab = PriEngine.Engine.Consulta("SELECT Artigo, Quantidade, PrecUnit, PrecoLiquido From LinhasCompras where IdCabecCompras = '"+ idCabecCompras + " '");
+                while (!objListCab.NoFim())
+                {
+                    dc = new Model.LinhaDocVenda();
+                    dc.CodArtigo = objListCab.Valor("Artigo");
+                    dc.Quantidade = objListCab.Valor("Quantidade");
+                    dc.PrecoUnitario = objListCab.Valor("PrecUnit");
+                    dc.TotalLiquido = objListCab.Valor("PrecoLiquido");
+
+                    listdc.Add(dc);
+                    objListCab.Seguinte();
+                }
+            }
+            return listdc;
+        }
+
         public static List<Model.DocCompra> ListDocCompraData(DateTime dataDe, DateTime dataAte)
         {
 
