@@ -200,7 +200,30 @@ namespace FirstREST.Controllers
                 AuditFile.MasterFiles = new MasterFiles
                 {
                     Customers = new List<Customer>(),
+                    GeneralLedgerAccounts = new GeneralLedgerAccounts(),
                 };
+
+                XElement GeneralLedgerAccountsElement = MasterFilesElement.Element(ns + "GeneralLedgerAccounts"); 
+                AuditFile.MasterFiles.GeneralLedgerAccounts = new GeneralLedgerAccounts
+                {
+                    Accounts = new List<Account>(),
+                };
+                IEnumerable<XElement> AccountElements = GeneralLedgerAccountsElement.Elements(ns + "Account");
+                foreach(var AccountElement in AccountElements)
+                {
+                    Account Account = new Account
+                    {
+                        AccountID = int.Parse(AccountElement.Element(ns + "AccountID").Value),
+                        AccountDescription = AccountElement.Element(ns + "AccountDescription").Value,
+                        OpeningDebitBalance = float.Parse(AccountElement.Element(ns + "OpeningDebitBalance").Value),
+                        OpeningCreditBalance = float.Parse(AccountElement.Element(ns + "OpeningCreditBalance").Value),
+                        ClosingDebitBalance = float.Parse(AccountElement.Element(ns + "ClosingDebitBalance").Value),
+                        ClosingCreditBalance = float.Parse(AccountElement.Element(ns + "ClosingCreditBalance").Value),
+                        GroupingCategory = AccountElement.Element(ns + "GroupingCategory").Value,
+                    };
+
+                    AuditFile.MasterFiles.GeneralLedgerAccounts.Accounts.Add(Account);
+                }
 
                 IEnumerable<XElement> CustomerElements = MasterFilesElement.Elements(ns + "Customer");
                 foreach (var CustomerElement in CustomerElements)
@@ -416,6 +439,79 @@ namespace FirstREST.Controllers
 
                 var RelevantInvoices = (from i in SalesInvoices.Invoices where i.CustomerID == CustomerID select i.DocumentTotals.NetTotal);                
                 return Request.CreateResponse(HttpStatusCode.OK, RelevantInvoices.Sum());
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage CurrentAssets([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.GeneralLedgerAccounts.Accounts");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var GeneralLedgerAccounts = MasterFiles.GeneralLedgerAccounts;
+                if (GeneralLedgerAccounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "General ledger accounts not found.");
+                }
+
+                var Accounts = MasterFiles.GeneralLedgerAccounts.Accounts;
+                if (Accounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Accounts not found.");
+                }
+
+                float currentAssets = 0;
+                float currentLiabilities = 0; // TODO use in further call enhancement
+                foreach(var account in Accounts)
+                {
+                    switch (account.AccountID)
+                    {
+                        case 11: //Caixa
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 12: //Depositos a Ordem 
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 21: //Clientes
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 22: //Fornecedores
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 24: //Estado e outros Publicos
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 36: //Matérias-Primas, Subs. e de Consumo  --HEEEELP
+                            break;
+
+
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, currentAssets);
+
             }
         }
     }

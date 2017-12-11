@@ -242,12 +242,14 @@
     <Compile Include="Lib_Primavera\Model\LinhaDocVenda.cs" />
     <Compile Include="Lib_Primavera\Model\RespostaErro.cs" />
     <Compile Include="Lib_Primavera\PriEngine.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AuditFile.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\CompanyAddress.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentTotals.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\GeneralLedgerAccounts.cs" />
     <Compile Include="Models\Header.cs" />
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\InvoiceLine.cs" />
