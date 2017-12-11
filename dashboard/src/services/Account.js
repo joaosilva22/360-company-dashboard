@@ -2,11 +2,10 @@ import axios from 'axios';
 
 export default {
   receivable() {
-    return this.$axios.get('accountReceivable');
-    console.log(this.currentAssets(2016));
+    return axios.get('accountReceivable');
   },
 
-  currentRatio(int fiscalYear) {
-  	return this.$axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
-  }
+  currentRatio(fiscalYear) {
+    return axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
+  },
 };
