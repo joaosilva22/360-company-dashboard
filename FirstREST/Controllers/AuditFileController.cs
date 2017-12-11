@@ -234,7 +234,7 @@ namespace FirstREST.Controllers
                         CompanyName = CustomerElement.Element(ns + "CompanyName").Value,
                         CustomerID = CustomerElement.Element(ns + "CustomerID").Value,
                         CustomerTaxID = CustomerElement.Element(ns + "CustomerTaxID").Value,
-                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,                                               
+                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,
                     };
 
                     XElement BillingAddressElement = CustomerElement.Element(ns + "BillingAddress");
@@ -268,7 +268,7 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage DocumentTotals([FromUri] int FiscalYear)
+        public HttpResponseMessage DocumentTotals2([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())
             {
@@ -443,7 +443,7 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage CurrentAssets([FromUri] int FiscalYear)
+        public HttpResponseMessage CurrentRatio([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())
             {
@@ -503,14 +503,15 @@ namespace FirstREST.Controllers
                             currentLiabilities += account.ClosingCreditBalance;
                             break;
 
-                        case 36: //Matérias-Primas, Subs. e de Consumo  --HEEEELP
+                        case 36: //Matérias-Primas, Subs. e de Consumo
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
                             break;
-
 
                     }
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, currentAssets);
+                return Request.CreateResponse(HttpStatusCode.OK, currentAssets/currentLiabilities);
 
             }
         }
