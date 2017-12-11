@@ -1,7 +1,7 @@
 <template>
  <v-card>
     <v-card-title>
-      <h3 class="headline">All Purchases {{id}} </h3>
+      <h3 class="headline">All Purchases </h3>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -18,7 +18,6 @@
         :item-key="id"
       >
       <template slot="items" slot-scope="props" >
-         <tr @click="detailsDocFunction(props.item.id)">
         <td>{{ props.item.supplier }}</td>
         <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
         <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
@@ -34,7 +33,7 @@
 
 <script>
 import DetailsDoc from '@/components/DetailsDoc';
-import ServiceDetailsDoc from '@/services/DetailsDoc';
+
 
 export default {
   data() {
