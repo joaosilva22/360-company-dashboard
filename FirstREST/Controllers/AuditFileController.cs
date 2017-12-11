@@ -268,7 +268,7 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage DocumentTotals2([FromUri] int FiscalYear)
+        public HttpResponseMessage DocumentTotals([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())
             {
@@ -512,6 +512,80 @@ namespace FirstREST.Controllers
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, currentAssets/currentLiabilities);
+
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage ProfitAndLossReport([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.GeneralLedgerAccounts.Accounts");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var GeneralLedgerAccounts = MasterFiles.GeneralLedgerAccounts;
+                if (GeneralLedgerAccounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "General ledger accounts not found.");
+                }
+
+                var Accounts = MasterFiles.GeneralLedgerAccounts.Accounts;
+                if (Accounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Accounts not found.");
+                }
+
+                float currentAssets = 0;
+                float currentLiabilities = 0; // TODO use in further call enhancement
+                foreach (var account in Accounts)
+                {
+                    switch (account.AccountID)
+                    {
+                        case 11: //Caixa
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 12: //Depositos a Ordem 
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 21: //Clientes
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 22: //Fornecedores
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 24: //Estado e outros Publicos
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 36: //Matérias-Primas, Subs. e de Consumo
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, currentAssets / currentLiabilities);
 
             }
         }
