@@ -157,11 +157,6 @@ export default {
       }
     },
   },
-  computer: {
-    endYear() {
-      return this.$route.params.endYear;
-    },
-  },
   mounted: async function () {
     this.startdate = `${this.year}-01-01`;
     const nextyear = Number(this.year) + Number(1);

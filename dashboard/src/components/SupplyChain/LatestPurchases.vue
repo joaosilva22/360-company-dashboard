@@ -1,7 +1,7 @@
 <template>
  <v-card>
     <v-card-title>
-      <h3 class="headline">All Purchases</h3>
+      <h3 class="headline">All Purchases {{id}} </h3>
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -12,15 +12,19 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-        v-bind:headers="headers"
-        v-bind:items="items"
-        v-bind:search="search"
+      v-model="selected"
+        :headers="headers"
+        :items="items"
+        :search="search"
+        :item-key="id"
       >
-      <template slot="items" slot-scope="props">
+      <template slot="items" slot-scope="props" >
+         <tr @click="detailsDocFunction(props.item.id)">
         <td>{{ props.item.supplier }}</td>
         <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
         <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
         </td>
+         </tr>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -30,10 +34,13 @@
 </template>
 
 <script>
+import DetailsDoc from '@/components/DetailsDoc';
+import ServiceDetailsDoc from '@/services/DetailsDoc';
 
 export default {
   data() {
     return {
+      selected: [],
       headers: [
         {
           text: 'Supplier',
@@ -49,7 +56,12 @@ export default {
       search: '',
       pagination: {},
       items: [],
+      detailsDoc: [],
+      id: [],
     };
+  },
+  components: {
+    DetailsDoc,
   },
   props: ['purchasesinvoices'],
   created() {
@@ -67,17 +79,26 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
     purchasesInvoicesDraw() {
-      console.log(this.purchasesinvoices);
       this.purchasesinvoices.forEach((invoice) => {
         const date = invoice.DataDoc;
         const net = invoice.TotalLiquido;
         const supplier = invoice.NomeFornecedor;
+        const id = invoice.id;
         this.items.push({
           supplier,
           date,
           net,
+          id,
         });
       });
+    },
+    async detailsDocFunction(id) {
+      try {
+        const response = await ServiceDetailsDoc.details(id);
+        this.detailsDoc = response.data;
+      } catch (error) {
+        this.error = error;
+      }
     },
   },
 };

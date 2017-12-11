@@ -1,6 +1,7 @@
+import axios from 'axios';
 
 export default {
   receivable() {
-    return this.$axios.get('accountReceivable');
+    return axios.get('accountReceivable');
   },
 };
