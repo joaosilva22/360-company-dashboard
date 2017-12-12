@@ -473,7 +473,7 @@ namespace FirstREST.Controllers
                 }
 
                 float currentAssets = 0;
-                float currentLiabilities = 0; // TODO use in further call enhancement
+                float currentLiabilities = 0;
                 foreach(var account in Accounts)
                 {
                     switch (account.AccountID)
@@ -517,7 +517,7 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage ProfitAndLossReport([FromUri] int FiscalYear)
+        public HttpResponseMessage IncomeAndExpenses([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())
             {
@@ -546,46 +546,42 @@ namespace FirstREST.Controllers
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Accounts not found.");
                 }
 
-                float currentAssets = 0;
-                float currentLiabilities = 0; // TODO use in further call enhancement
+                float income = 0;
+                float expenses = 0;
                 foreach (var account in Accounts)
                 {
                     switch (account.AccountID)
                     {
-                        case 11: //Caixa
-                            currentAssets += account.ClosingCreditBalance;
-                            currentLiabilities += account.ClosingDebitBalance;
+                        case 24: //Estados e Outros Entes Públicos
+                            expenses += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
                             break;
 
-                        case 12: //Depositos a Ordem 
-                            currentAssets += account.ClosingCreditBalance;
-                            currentLiabilities += account.ClosingDebitBalance;
+                        case 31: //Compras
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
                             break;
 
-                        case 21: //Clientes
-                            currentAssets += account.ClosingDebitBalance;
-                            currentLiabilities += account.ClosingCreditBalance;
+                        case 61: //Custo das Merc. Vend. e Mat. Cons.
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
                             break;
 
-                        case 22: //Fornecedores
-                            currentAssets += account.ClosingDebitBalance;
-                            currentLiabilities += account.ClosingCreditBalance;
+                        case 62: //Fornecimentos e Serviços Externos
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
                             break;
 
-                        case 24: //Estado e outros Publicos
-                            currentAssets += account.ClosingDebitBalance;
-                            currentLiabilities += account.ClosingCreditBalance;
+                        case 71: //Vendas
+                            income += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
                             break;
 
-                        case 36: //Matérias-Primas, Subs. e de Consumo
-                            currentAssets += account.ClosingCreditBalance;
-                            currentLiabilities += account.ClosingDebitBalance;
+                        case 72: //Prestações de Serviços
+                            income += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
                             break;
 
                     }
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, currentAssets / currentLiabilities);
+
+                var ret = new { incomeMoney = income, expensesMoney = expenses };
+                return Request.CreateResponse(HttpStatusCode.OK, ret);
 
             }
         }

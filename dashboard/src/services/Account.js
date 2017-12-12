@@ -8,4 +8,8 @@ export default {
   currentRatio(fiscalYear) {
     return axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
   },
+
+  incomeAndExpenses(fiscalYear) {
+  	return axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
+  },
 };
