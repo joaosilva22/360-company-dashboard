@@ -5,6 +5,7 @@ import Overview from '@/components/Overview/Overview';
 import Sales from '@/components/Sales/Sales';
 import SupplyChain from '@/components/SupplyChain/SupplyChain';
 import DetailsDoc from '@/components/DetailsDoc';
+import Customer from '@/components/Customer';
 
 Vue.use(Router);
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/docVenda/:idDoc',
       name: 'detailsDoc',
       component: DetailsDoc,
+    },
+    {
+      path: '/Customer/:year/:id',
+      name: 'customer',
+      component: Customer,
     },
   ],
 });
