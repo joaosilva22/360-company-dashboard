@@ -18,6 +18,10 @@
         <accounts-receivable v-bind:receivable="receivable" ></accounts-receivable>
       </v-flex>
 
+      <v-flex xs6 d-flex>
+        <current-ratio v-bind:currentratio="currentratio" ></current-ratio>
+      </v-flex>
+
     </v-layout>
   </v-container>
 </template>
@@ -27,6 +31,8 @@ import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import AccountsReceivable from '@/components/Sales/AccountsReceivable';
 import Purchases from '@/services/Purchases';
 import Sales from '@/services/Sales';
+import Account from '@/services/Account';
+import CurrentRatio from '@/components/Finances/CurrentRatio';
 
 export default {
   data() {
@@ -37,12 +43,14 @@ export default {
       monthday: '-01-01',
       accountspayable: [],
       receivable: [],
+      currentratio: [],
     };
   },
   components: {
     DatePicker,
     AccountsPayable,
     AccountsReceivable,
+    CurrentRatio,
   },
   methods: {
     updateYear(value) {
@@ -67,10 +75,20 @@ export default {
         this.error = error;
       }
     },
+    async currentRatio() {
+      try {
+        const response = await Account.currentRatio(this.year);
+        this.currentratio = response.data;
+        console.log(this.currentratio);
+      } catch (error) {
+        this.error = error;
+      }
+    },
   },
   mounted: async function () {
     await this.accountsPayable();
     await this.accountsReceivable();
+    await this.currentRatio();
   },
 };
 </script>
