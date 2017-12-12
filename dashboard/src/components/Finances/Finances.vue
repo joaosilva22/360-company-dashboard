@@ -9,17 +9,21 @@
         >
         </date-picker>
       </v-flex>
-
+      
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
+        <income-and-expenses year="2016"></income-and-expenses>
       </v-flex>
-
-      <v-flex xs6 d-flex>
-        <accounts-receivable v-bind:receivable="receivable" ></accounts-receivable>
-      </v-flex>
-
+      
       <v-flex xs6 d-flex>
         <current-ratio v-bind:currentratio="currentratio" ></current-ratio>
+      </v-flex>
+
+      <v-flex xs12 d-flex>
+        <accounts-receivable v-bind:receivable="receivable" ></accounts-receivable>
+      </v-flex>
+      
+      <v-flex xs12 d-flex>
+        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
       </v-flex>
 
     </v-layout>
@@ -33,12 +37,13 @@ import Purchases from '@/services/Purchases';
 import Sales from '@/services/Sales';
 import Account from '@/services/Account';
 import CurrentRatio from '@/components/Finances/CurrentRatio';
+import IncomeAndExpenses from '@/components/Finances/IncomeAndExpenses';
 
 export default {
   data() {
     return {
       year: this.startYear,
-      startYear: '2015',
+      startYear: '2016',
       endYear: '2017',
       startdate: '',
       enddate: '',
@@ -52,6 +57,7 @@ export default {
     AccountsPayable,
     AccountsReceivable,
     CurrentRatio,
+    IncomeAndExpenses,
   },
   methods: {
     updateYear(value) {
@@ -92,9 +98,12 @@ export default {
     this.startdate = `${this.year}-01-01`;
     const nextyear = Number(this.year) + Number(1);
     this.enddate = `${nextyear}-01-01`;
-    await this.accountsPayable();
-    await this.accountsReceivable();
-    await this.currentRatio();
+
+    setTimeout(() => {
+      this.currentRatio();
+      this.accountsPayable();
+      this.accountsReceivable();
+    }, 500);
   },
 };
 </script>

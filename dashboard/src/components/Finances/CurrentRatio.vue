@@ -28,7 +28,7 @@
      },
      currentRatioDraw() {
        const totalValue = this.currentratio;
-       this.items = [{ name: 'Value', value: `${this.formatVal(totalValue)} EUR` }];
+       this.items = [{ name: 'Value', value: `${this.formatVal(totalValue)}` }];
      },
    },
    components: {
