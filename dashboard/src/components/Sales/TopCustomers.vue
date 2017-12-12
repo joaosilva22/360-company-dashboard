@@ -17,7 +17,7 @@
         v-bind:search="search"
       >
       <template slot="items" slot-scope="props">
-        <router-link to="/" tag="tr">                                                                                               
+        <router-link :to="'/Customer/' + props.item.year + '/' + props.item.id" tag="tr">                                                                                           
             <td>{{ props.item.customer }}</td>
             <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
         </router-link>
@@ -61,6 +61,8 @@
          this.customerNetTotal(this.year, customerId).then((res1) => {
            const net = res1.data;
            this.items.push({
+             year: this.year,
+             id: customerId,
              customer,
              net,
            });
