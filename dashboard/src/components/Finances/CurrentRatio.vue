@@ -15,8 +15,7 @@
    props: ['year'],
    created() {
      this.currentRatio(this.year).then((res) => {
-       console.log(this.formatVal(res.data));
-       this.items = [{ name: 'Value', value: `${this.formatVal(res.data)} EUR` }];
+       this.items = [{ name: 'Value', value: `${this.formatVal(res.data)}` }];
      });
    },
    methods: {
