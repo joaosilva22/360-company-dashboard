@@ -57,7 +57,7 @@ export default {
   },
   props: ['doc'],
   created() {
-    this.docDraw();
+    this.detailsDocFunction();
   },
   watch: {
     doc() {
@@ -84,9 +84,9 @@ export default {
         });
       });
     },
-    async detailsDocFunction(id) {
+    async detailsDocFunction() {
       try {
-        const response = await ServiceDetailsDoc.details(id);
+        const response = await ServiceDetailsDoc.details(this.$route.params.idDoc);
         this.doc = response.data;
       } catch (error) {
         this.error = error;
