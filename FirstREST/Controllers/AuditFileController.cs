@@ -200,7 +200,30 @@ namespace FirstREST.Controllers
                 AuditFile.MasterFiles = new MasterFiles
                 {
                     Customers = new List<Customer>(),
+                    GeneralLedgerAccounts = new GeneralLedgerAccounts(),
                 };
+
+                XElement GeneralLedgerAccountsElement = MasterFilesElement.Element(ns + "GeneralLedgerAccounts"); 
+                AuditFile.MasterFiles.GeneralLedgerAccounts = new GeneralLedgerAccounts
+                {
+                    Accounts = new List<Account>(),
+                };
+                IEnumerable<XElement> AccountElements = GeneralLedgerAccountsElement.Elements(ns + "Account");
+                foreach(var AccountElement in AccountElements)
+                {
+                    Account Account = new Account
+                    {
+                        AccountID = long.Parse(AccountElement.Element(ns + "AccountID").Value),
+                        AccountDescription = AccountElement.Element(ns + "AccountDescription").Value,
+                        OpeningDebitBalance = float.Parse(AccountElement.Element(ns + "OpeningDebitBalance").Value),
+                        OpeningCreditBalance = float.Parse(AccountElement.Element(ns + "OpeningCreditBalance").Value),
+                        ClosingDebitBalance = float.Parse(AccountElement.Element(ns + "ClosingDebitBalance").Value),
+                        ClosingCreditBalance = float.Parse(AccountElement.Element(ns + "ClosingCreditBalance").Value),
+                        GroupingCategory = AccountElement.Element(ns + "GroupingCategory").Value,
+                    };
+
+                    AuditFile.MasterFiles.GeneralLedgerAccounts.Accounts.Add(Account);
+                }
 
                 IEnumerable<XElement> CustomerElements = MasterFilesElement.Elements(ns + "Customer");
                 foreach (var CustomerElement in CustomerElements)
@@ -211,7 +234,7 @@ namespace FirstREST.Controllers
                         CompanyName = CustomerElement.Element(ns + "CompanyName").Value,
                         CustomerID = CustomerElement.Element(ns + "CustomerID").Value,
                         CustomerTaxID = CustomerElement.Element(ns + "CustomerTaxID").Value,
-                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,                                               
+                        SelfBillingIndicator = CustomerElement.Element(ns + "SelfBillingIndicator").Value,
                     };
 
                     XElement BillingAddressElement = CustomerElement.Element(ns + "BillingAddress");
@@ -329,6 +352,40 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage Invoice([FromUri] int FiscalYear, [FromUri] string InvoiceNo)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.Lines");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                var Invoice = (from i in SalesInvoices.Invoices where i.InvoiceNo == InvoiceNo select i).FirstOrDefault();
+                if (Invoice == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Invoice not found.");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, Invoice);
+            }
+        }
+
+        [HttpGet]
         public HttpResponseMessage Customers([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())
@@ -416,6 +473,150 @@ namespace FirstREST.Controllers
 
                 var RelevantInvoices = (from i in SalesInvoices.Invoices where i.CustomerID == CustomerID select i.DocumentTotals.NetTotal);                
                 return Request.CreateResponse(HttpStatusCode.OK, RelevantInvoices.Sum());
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage CurrentRatio([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.GeneralLedgerAccounts.Accounts");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var GeneralLedgerAccounts = MasterFiles.GeneralLedgerAccounts;
+                if (GeneralLedgerAccounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "General ledger accounts not found.");
+                }
+
+                var Accounts = MasterFiles.GeneralLedgerAccounts.Accounts;
+                if (Accounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Accounts not found.");
+                }
+
+                float currentAssets = 0;
+                float currentLiabilities = 0;
+                foreach(var account in Accounts)
+                {
+                    switch (account.AccountID)
+                    {
+                        case 11: //Caixa
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 12: //Depositos a Ordem 
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                        case 21: //Clientes
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 22: //Fornecedores
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 24: //Estado e outros Publicos
+                            currentAssets += account.ClosingDebitBalance;
+                            currentLiabilities += account.ClosingCreditBalance;
+                            break;
+
+                        case 36: //Matérias-Primas, Subs. e de Consumo
+                            currentAssets += account.ClosingCreditBalance;
+                            currentLiabilities += account.ClosingDebitBalance;
+                            break;
+
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, currentAssets/currentLiabilities);
+
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage IncomeAndExpenses([FromUri] int FiscalYear)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("MasterFiles.GeneralLedgerAccounts.Accounts");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var MasterFiles = AuditFile.MasterFiles;
+                if (MasterFiles == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Master files not found.");
+                }
+
+                var GeneralLedgerAccounts = MasterFiles.GeneralLedgerAccounts;
+                if (GeneralLedgerAccounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "General ledger accounts not found.");
+                }
+
+                var Accounts = MasterFiles.GeneralLedgerAccounts.Accounts;
+                if (Accounts == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Accounts not found.");
+                }
+
+                float income = 0;
+                float expenses = 0;
+                foreach (var account in Accounts)
+                {
+                    switch (account.AccountID)
+                    {
+                        case 24: //Estados e Outros Entes Públicos
+                            expenses += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
+                            break;
+
+                        case 31: //Compras
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
+                            break;
+
+                        case 61: //Custo das Merc. Vend. e Mat. Cons.
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
+                            break;
+
+                        case 62: //Fornecimentos e Serviços Externos
+                            expenses += (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance);
+                            break;
+
+                        case 71: //Vendas
+                            income += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
+                            break;
+
+                        case 72: //Prestações de Serviços
+                            income += (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance);
+                            break;
+
+                    }
+                }
+
+
+                var ret = new { incomeMoney = income, expensesMoney = expenses };
+                return Request.CreateResponse(HttpStatusCode.OK, ret);
+
             }
         }
     }

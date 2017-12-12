@@ -11,15 +11,31 @@
       </v-flex>
       
       <v-flex xs6 d-flex>
+        <sales-to-date year="2016"></sales-to-date>
+      </v-flex>
+      
+      <v-flex xs6 d-flex>
+        <income-and-expenses year="2016"></income-and-expenses>
+      </v-flex>
+      
+      <v-flex xs4 d-flex>
+        <inventory-value v-bind:inventoryvalue="inventoryvalue"></inventory-value>
+      </v-flex>
+      
+      <v-flex xs4 d-flex>
+        <total-sales year="2016"></total-sales>
+      </v-flex>
+
+      <v-flex xs4 d-flex>
+        <average-sale-value year="2016"></average-sale-value>
+      </v-flex>
+      
+      <v-flex xs6 d-flex>
         <inventory-composition v-bind:inventorycomposition="inventorycomposition"></inventory-composition>
       </v-flex>
       
       <v-flex xs6 d-flex>
         <product-performance year="2016"></product-performance>
-      </v-flex>
-      
-      <v-flex xs12 d-flex>
-        <inventory-value v-bind:inventoryvalue="inventoryvalue"></inventory-value>
       </v-flex>
 
     </v-layout>
@@ -34,6 +50,9 @@ import ProductPerformance from '@/components/Sales/ProductPerformance';
 import TotalSales from '@/components/Sales/TotalSales';
 import Inventory from '@/services/Inventory';
 import Supplier from '@/services/Supplier';
+import AverageSaleValue from '@/components/Sales/AverageSaleValue';
+import SalesToDate from '@/components/Sales/SalesToDate';
+import IncomeAndExpenses from '@/components/Finances/IncomeAndExpenses';
 
 export default {
   data() {
@@ -52,6 +71,9 @@ export default {
     InventoryComposition,
     ProductPerformance,
     TotalSales,
+    AverageSaleValue,
+    SalesToDate,
+    IncomeAndExpenses,
   },
   methods: {
     updateYear(value) {

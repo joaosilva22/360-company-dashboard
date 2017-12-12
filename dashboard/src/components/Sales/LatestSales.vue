@@ -17,10 +17,11 @@
         v-bind:search="search"
       >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.customer }}</td>
-        <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
-        </td>
+        <router-link :to="'/Sale/' + props.item.year + '/' + encodeURIComponent(props.item.invoiceNo)" tag="tr">
+          <td>{{ props.item.customer }}</td>
+          <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
+          <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </router-link>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -63,6 +64,8 @@
          this.customer(this.year, customerId).then((res1) => {
            const customer = res1.data.CompanyName;
            this.items.push({
+             year: this.year,
+             invoiceNo: invoice.InvoiceNo,
              customer,
              date,
              net,

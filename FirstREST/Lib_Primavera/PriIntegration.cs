@@ -443,7 +443,11 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
+<<<<<<< HEAD
                 objListCab = PriEngine.Engine.Consulta("SELECT  Nome, Id, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe.ToString("yyyyMMdd") + "'AND DataDoc <' " + dataAte.ToString("yyyyMMdd") + "'");
+=======
+                objListCab = PriEngine.Engine.Consulta("SELECT Id,  Nome, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe.ToString("yyyyMMdd") + "'AND DataDoc <' " + dataAte.ToString("yyyyMMdd") + "'");
+>>>>>>> 1cc02612bba18739688084107265e453634d84f7
 
                 while (!objListCab.NoFim())
                 {

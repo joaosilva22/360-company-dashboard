@@ -25,4 +25,7 @@ export default {
   accountsReceivable() {
     return axios.get('ContasAReceber');
   },
+  invoice(fiscalYear, invoiceNo) {
+    return axios.get(`AuditFile/Invoice?FiscalYear=${fiscalYear}&InvoiceNo=${invoiceNo}`);
+  },
 };

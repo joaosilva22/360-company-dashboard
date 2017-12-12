@@ -12,15 +12,16 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-        v-bind:headers="headers"
-        v-bind:items="items"
-        v-bind:search="search"
+        :headers="headers"
+        :items="items"
+        :search="search"
       >
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.supplier }}</td>
-        <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
-        </td>
+      <template slot="items" slot-scope="props" >
+        <router-link :to="'/DocVenda/' + props.item.id" tag="tr">
+          <td>{{ props.item.supplier }}</td>
+          <td class="text-xs-right">{{ props.item.date | formatDate }}</td>
+          <td class="text-xs-right">{{ formatVal(props.item.net * -1) }}</td>
+        </router-link>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -30,7 +31,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -67,15 +67,19 @@ export default {
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
     purchasesInvoicesDraw() {
+      console.log('Am here');
       console.log(this.purchasesinvoices);
       this.purchasesinvoices.forEach((invoice) => {
+        console.log(invoice);
         const date = invoice.DataDoc;
         const net = invoice.TotalLiquido;
         const supplier = invoice.NomeFornecedor;
+        const id = invoice.id;
         this.items.push({
           supplier,
           date,
           net,
+          id,
         });
       });
     },

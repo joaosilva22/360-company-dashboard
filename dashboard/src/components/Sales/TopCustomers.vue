@@ -17,9 +17,10 @@
         v-bind:search="search"
       >
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.customer }}</td>
-        <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
-        </td>
+        <router-link :to="'/Customer/' + props.item.year + '/' + props.item.id" tag="tr">                                                                                           
+            <td>{{ props.item.customer }}</td>
+            <td class="text-xs-right">{{ formatVal(props.item.net) }}</td>
+        </router-link>
       </template>
       <template slot="pageText" slot-scope="{ pageStart, pageStop }">
         From {{ pageStart }} to {{ pageStop }}
@@ -60,6 +61,8 @@
          this.customerNetTotal(this.year, customerId).then((res1) => {
            const net = res1.data;
            this.items.push({
+             year: this.year,
+             id: customerId,
              customer,
              net,
            });

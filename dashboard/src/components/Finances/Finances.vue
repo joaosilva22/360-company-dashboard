@@ -3,19 +3,27 @@
     <v-layout row wrap>
       <v-flex xs12>
         <date-picker
-        start="2015"
-        end="2017"
+        :start='startYear'
+        :end='endYear'
         @year="updateYear"
         >
         </date-picker>
       </v-flex>
-
+      
       <v-flex xs6 d-flex>
-        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
+        <income-and-expenses year="2016"></income-and-expenses>
+      </v-flex>
+      
+      <v-flex xs6 d-flex>
+        <current-ratio v-bind:currentratio="currentratio" year="2016"></current-ratio>
       </v-flex>
 
-      <v-flex xs6 d-flex>
+      <v-flex xs12 d-flex>
         <accounts-receivable v-bind:receivable="receivable" ></accounts-receivable>
+      </v-flex>
+      
+      <v-flex xs12 d-flex>
+        <accounts-payable v-bind:accountspayable="accountspayable"></accounts-payable>
       </v-flex>
 
     </v-layout>
@@ -27,29 +35,38 @@ import AccountsPayable from '@/components/SupplyChain/AccountsPayable';
 import AccountsReceivable from '@/components/Sales/AccountsReceivable';
 import Purchases from '@/services/Purchases';
 import Sales from '@/services/Sales';
+import Account from '@/services/Account';
+import CurrentRatio from '@/components/Finances/CurrentRatio';
+import IncomeAndExpenses from '@/components/Finances/IncomeAndExpenses';
 
 export default {
   data() {
     return {
-      year: '',
-      startdate: '2015-01-01',
-      enddate: '2017-01-01',
-      monthday: '-01-01',
+      year: this.startYear,
+      startYear: '2016',
+      endYear: '2017',
+      startdate: '',
+      enddate: '',
       accountspayable: [],
       receivable: [],
+      currentratio: [],
     };
   },
   components: {
     DatePicker,
     AccountsPayable,
     AccountsReceivable,
+    CurrentRatio,
+    IncomeAndExpenses,
   },
   methods: {
     updateYear(value) {
       this.year = value;
-      this.startdate = this.year + this.monthday;
-      this.nextyear = Number(this.year) + Number(1);
-      this.enddate = this.nextyear + this.monthday;
+      this.startdate = `${this.year}-01-01`;
+      const nextyear = Number(this.year) + Number(1);
+      this.enddate = `${nextyear}-01-01`;
+      this.accountsPayable();
+      this.accountsReceivable();
     },
     async accountsPayable() {
       try {
@@ -67,10 +84,26 @@ export default {
         this.error = error;
       }
     },
+    async currentRatio() {
+      try {
+        const response = await Account.currentRatio(this.year);
+        this.currentratio = response.data;
+        console.log(this.currentratio);
+      } catch (error) {
+        this.error = error;
+      }
+    },
   },
   mounted: async function () {
-    await this.accountsPayable();
-    await this.accountsReceivable();
+    this.startdate = `${this.year}-01-01`;
+    const nextyear = Number(this.year) + Number(1);
+    this.enddate = `${nextyear}-01-01`;
+
+    setTimeout(() => {
+      this.currentRatio();
+      this.accountsPayable();
+      this.accountsReceivable();
+    }, 500);
   },
 };
 </script>
