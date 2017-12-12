@@ -48,6 +48,27 @@ namespace FirstREST.Controllers
                 return docCompra;
             }
         }
+
+        //get  api/DocCompra/2015-12-12/2017-12-12
+        public IEnumerable<Lib_Primavera.Model.LinhaDocVenda> Get(Guid arg1)
+        {
+            Guid idCabecCompras = arg1;
+
+
+            IEnumerable<Lib_Primavera.Model.LinhaDocVenda> linhasDoc = Lib_Primavera.PriIntegration.ListlinhasDoc(idCabecCompras);
+            if (linhasDoc == null)
+            {
+                throw new HttpResponseException(
+                        Request.CreateResponse(HttpStatusCode.NotFound));
+
+            }
+            else
+            {
+                return linhasDoc;
+            }
+        }
+
+
   
         //get  api/DocCompra/2015-03-12/2017-03-12
         /* public IEnumerable<Lib_Primavera.Model.DocCompra> Get(DateTime arg1, DateTime arg2)

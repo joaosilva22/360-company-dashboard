@@ -26,7 +26,7 @@
    watch: {
      purchasesinvoices() {
        this.top = [];
-       this.purchasesinvoicesDraw();
+       this.purchasesInvoicesDraw();
      },
    },
    methods: {

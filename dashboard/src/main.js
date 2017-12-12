@@ -14,6 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify);
 
 axios.defaults.baseURL = 'http://localhost:49822/api/';
+// axios.defaults.baseURL = 'http://192.168.1.65:49822/api/';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 Vue.filter('formatDate', (value) => {

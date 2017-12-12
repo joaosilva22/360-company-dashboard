@@ -157,21 +157,16 @@ export default {
       }
     },
   },
-  computer: {
-    endYear() {
-      return this.$route.params.endYear;
-    },
-  },
   mounted: async function () {
     this.startdate = `${this.year}-01-01`;
     const nextyear = Number(this.year) + Number(1);
     this.enddate = `${nextyear}-01-01`;
-    await this.accountsPayable();
     await this.getInventory();
     await this.inventoryValue();
     await this.purchasesInvoices();
     await this.totalPurchases();
     await this.topSuppliers();
+    await this.accountsPayable();
   },
 };
 </script>

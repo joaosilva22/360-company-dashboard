@@ -394,12 +394,38 @@ namespace FirstREST.Lib_Primavera
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
                     totalDesc = objListCab.Valor("TotalDesc");
                     dc.NomeFornecedor = objListCab.Valor("Nome");
                     dc.TotalLiquido = totalMerc - totalDesc;
+
+                    listdc.Add(dc);
+                    objListCab.Seguinte();
+                }
+            }
+            return listdc;
+        }
+
+        public static List<Model.LinhaDocVenda> ListlinhasDoc(Guid idCabecCompras)
+        {
+
+            StdBELista objListCab;
+            Model.LinhaDocVenda dc = new Model.LinhaDocVenda();
+            List<Model.LinhaDocVenda> listdc = new List<Model.LinhaDocVenda>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                objListCab = PriEngine.Engine.Consulta("SELECT Artigo, Quantidade, PrecUnit, PrecoLiquido From LinhasCompras where IdCabecCompras = '"+ idCabecCompras + " '");
+                while (!objListCab.NoFim())
+                {
+                    dc = new Model.LinhaDocVenda();
+                    dc.CodArtigo = objListCab.Valor("Artigo");
+                    dc.Quantidade = objListCab.Valor("Quantidade");
+                    dc.PrecoUnitario = objListCab.Valor("PrecUnit");
+                    dc.TotalLiquido = objListCab.Valor("PrecoLiquido");
 
                     listdc.Add(dc);
                     objListCab.Seguinte();
@@ -417,12 +443,13 @@ namespace FirstREST.Lib_Primavera
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                objListCab = PriEngine.Engine.Consulta("SELECT  Nome, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe.ToString("yyyyMMdd") + "'AND DataDoc <' " + dataAte.ToString("yyyyMMdd") + "'");
+                objListCab = PriEngine.Engine.Consulta("SELECT Id,  Nome, DataDoc, TotalMerc,   TotalDesc, TipoDoc From CabecCompras where (TipoDoc='VNC'or TipoDoc='VND' or TipoDoc='VVD'or TipoDoc='VFA' or TipoDoc='VFG'or TipoDoc='VFI' or TipoDoc='VFM'or TipoDoc='VFO' or TipoDoc='VFP'or TipoDoc='VFR') AND DataDoc >=' " + dataDe.ToString("yyyyMMdd") + "'AND DataDoc <' " + dataAte.ToString("yyyyMMdd") + "'");
 
                 while (!objListCab.NoFim())
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
@@ -856,6 +883,7 @@ namespace FirstREST.Lib_Primavera
                 {
                     double totalMerc, totalDesc;
                     dc = new Model.DocCompra();
+                    dc.id = objListCab.Valor("Id");
                     dc.TipoDoc = objListCab.Valor("TipoDoc");
                     dc.DataDoc = objListCab.Valor("DataDoc");
                     totalMerc = objListCab.Valor("TotalMerc");
@@ -885,7 +913,6 @@ namespace FirstREST.Lib_Primavera
                 objListCab = PriEngine.Engine.Consulta("SELECT * From Pendentes WHERE ValorPendente > 0");
                 while (!objListCab.NoFim())
                 {
-                    double totalMerc, totalDesc;
                     Model.DocVenda dv = new Model.DocVenda();
                     dv.Data = objListCab.Valor("DataVenc");
                     dv.Entidade = objListCab.Valor("Entidade");

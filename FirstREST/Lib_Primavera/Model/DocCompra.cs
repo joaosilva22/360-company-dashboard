@@ -8,6 +8,11 @@ namespace FirstREST.Lib_Primavera.Model
     public class DocCompra
     {
 
+        public string id
+        {
+            get;
+            set;
+        }
 
         public String TipoDoc
         {
