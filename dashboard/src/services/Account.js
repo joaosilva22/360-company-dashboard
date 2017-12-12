@@ -10,6 +10,6 @@ export default {
   },
 
   incomeAndExpenses(fiscalYear) {
-  	return axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
+    return axios.get(`AuditFile/CurrentRatio?FiscalYear=${fiscalYear}`);
   },
 };
