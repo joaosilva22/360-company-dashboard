@@ -17,7 +17,7 @@ namespace FirstREST.Models
             set;
         }
 
-        public int AccountID
+        public long AccountID
         {
             get;
             set;

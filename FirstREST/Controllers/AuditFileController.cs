@@ -213,7 +213,7 @@ namespace FirstREST.Controllers
                 {
                     Account Account = new Account
                     {
-                        AccountID = int.Parse(AccountElement.Element(ns + "AccountID").Value),
+                        AccountID = long.Parse(AccountElement.Element(ns + "AccountID").Value),
                         AccountDescription = AccountElement.Element(ns + "AccountDescription").Value,
                         OpeningDebitBalance = float.Parse(AccountElement.Element(ns + "OpeningDebitBalance").Value),
                         OpeningCreditBalance = float.Parse(AccountElement.Element(ns + "OpeningCreditBalance").Value),
