@@ -329,6 +329,40 @@ namespace FirstREST.Controllers
         }
 
         [HttpGet]
+        public HttpResponseMessage Invoice([FromUri] int FiscalYear, [FromUri] string InvoiceNo)
+        {
+            using (var Context = new DatabaseContext())
+            {
+                var QuerySet = Context.AuditFile.Include("SourceDocuments.SalesInvoices.Invoices.Lines");
+                var AuditFile = (from a in QuerySet where a.FiscalYear == FiscalYear select a).FirstOrDefault();
+                if (AuditFile == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Audit file not found.");
+                }
+
+                var SourceDocuments = AuditFile.SourceDocuments;
+                if (SourceDocuments == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Source documents not found.");
+                }
+
+                var SalesInvoices = SourceDocuments.SalesInvoices;
+                if (SalesInvoices == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Sales invoices not found.");
+                }
+
+                var Invoice = (from i in SalesInvoices.Invoices where i.InvoiceNo == InvoiceNo select i).FirstOrDefault();
+                if (Invoice == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Invoice not found.");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, Invoice);
+            }
+        }
+
+        [HttpGet]
         public HttpResponseMessage Customers([FromUri] int FiscalYear)
         {
             using (var Context = new DatabaseContext())

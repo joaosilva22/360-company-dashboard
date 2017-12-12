@@ -6,6 +6,7 @@ import Sales from '@/components/Sales/Sales';
 import SupplyChain from '@/components/SupplyChain/SupplyChain';
 import DetailsDoc from '@/components/DetailsDoc';
 import Customer from '@/components/Customer';
+import Sale from '@/components/Sale';
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/Customer/:year/:id',
       name: 'customer',
       component: Customer,
+    },
+    {
+      path: '/Sale/:year/:invoiceNo',
+      name: 'sale',
+      component: Sale,
     },
   ],
 });
