@@ -19,7 +19,7 @@
       </v-flex>
 
       <v-flex xs6 d-flex>
-        <current-ratio v-bind:currentratio="currentratio" ></current-ratio>
+        <current-ratio v-bind:year="2016" ></current-ratio>
       </v-flex>
 
     </v-layout>
