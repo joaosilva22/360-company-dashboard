@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
+using System.Web;
 
 namespace FirstREST.Models
 {
-    public class MasterFiles
+    public class GeneralLedgerAccounts
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,16 +17,11 @@ namespace FirstREST.Models
             set;
         }
 
-        public List<Customer> Customers
+        public List<Account> Accounts
         {
             get;
             set;
         }
 
-        public GeneralLedgerAccounts GeneralLedgerAccounts
-        {
-            get;
-            set;
-        }
     }
 }
