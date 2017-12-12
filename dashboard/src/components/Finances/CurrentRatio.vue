@@ -3,32 +3,29 @@
 </template>
 
 <script>
+ import Account from '@/services/Account';
  import Box from '@/components/Box';
 
  export default {
-   props: ['currentratio'],
    data() {
      return {
        items: [],
      };
    },
+   props: ['year'],
    created() {
-     this.currentRatioDraw();
-   },
-   watch: {
-     currentratio() {
-       this.items = [];
-       this.currentRatioDraw();
-     },
+     this.currentRatio(this.year).then((res) => {
+       console.log(this.formatVal(res.data));
+       this.items = [{ name: 'Value', value: `${this.formatVal(res.data)} EUR` }];
+     });
    },
    methods: {
+     currentRatio(fiscalYear) {
+       return Account.currentRatio(fiscalYear);
+     },
      formatVal(value) {
        const val = (parseFloat(value) / 1).toFixed(2).replace('.', ',');
        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-     },
-     currentRatioDraw() {
-       const totalValue = this.currentratio;
-       this.items = [{ name: 'Value', value: `${this.formatVal(totalValue)} EUR` }];
      },
    },
    components: {
