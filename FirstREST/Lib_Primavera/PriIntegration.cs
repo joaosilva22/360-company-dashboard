@@ -423,9 +423,9 @@ namespace FirstREST.Lib_Primavera
                 {
                     dc = new Model.LinhaDocVenda();
                     dc.CodArtigo = objListCab.Valor("Artigo");
-                    dc.Quantidade = objListCab.Valor("Quantidade");
-                    dc.PrecoUnitario = objListCab.Valor("PrecUnit");
-                    dc.TotalLiquido = objListCab.Valor("PrecoLiquido");
+                    dc.Quantidade = -objListCab.Valor("Quantidade");
+                    dc.PrecoUnitario = -objListCab.Valor("PrecUnit");
+                    dc.TotalLiquido = -objListCab.Valor("PrecoLiquido");
 
                     listdc.Add(dc);
                     objListCab.Seguinte();
